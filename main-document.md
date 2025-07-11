@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This document explores the different API's that are relevant in the context of EHDS. The purpose of this document is to create a shared terminology and architecture related to those APIs, and provide initial options and background for elements related to these API's and allow linkage of EHDS requirements defined by XtEHR to the corresponding API. 
+This document explores the different API's that are relevant in the context of European Health Data Space [(EHDS)](https://health.ec.europa.eu/ehealth-digital-health-and-care/european-health-data-space-regulation-ehds_en). The purpose of this document is to create a shared terminology and architecture related to those APIs, and provide initial options and background for elements related to these API's and allow linkage of EHDS requirements defined by [XtEHR](https://www.xt-ehr.eu/) to the corresponding API. 
 EHDS overview
 The figure below shows an architectural view of the different API’s that are relevant in the context of EHDS.
  
@@ -25,7 +25,7 @@ These business actors are connected by networks. Access to these networks is gov
 * **National Infrastructure API**, the API/protocol defined by member states that is used to connect the National Contact Points with Healthcare Providers and Proxy Services.
 * **EHR System API**, the API that EHR systems have to implement in order to satisfy the requirements as specified in EHDS.
 * Wellness API, the API used by Wellness applications to communicate with an EHR system capable of receiving data from that Wellness Application.
-* **Patient Access API**, the API Patient Apps use to communicate with eh national infrastructure.
+* **Patient Access API**, the API Patient Apps use to communicate with the national infrastructure.
 
 ## API definitions
 
@@ -38,7 +38,7 @@ The definition of an interface can be conceptually described as consisting of tw
 1.	The protocols/API used to set up the communication
 2.	The data format that is used to communicate the content.
 
-For most interfaces in EHDS, this data format is the European Electronic Health Record exchange Format (EEHRxF) (EHDS Arcticle 15). These specifications are developed by HL7eu and IHEeu:
+For most interfaces in EHDS, this data format is the European Electronic Health Record exchange Format (EEHRxF) (EHDS Article 15). These specifications are developed by HL7eu and IHEeu:
 
 * European Patient Summary (  [HL7 Europe Patient Summary](https://build.fhir.org/ig/hl7-eu/eps/) )
 * Europe Medication Prescription and Dispense ([HL7 Europe Medication Prescription and Dispense](https://build.fhir.org/ig/hl7-eu/mpd/))
@@ -50,7 +50,7 @@ For most interfaces in EHDS, this data format is the European Electronic Health 
 The interface definitions introduced in this document describe in what way the information expressed in these specifications are communicated. Most of these specifications (exception is EPS) are documents that are the result of clinical practice.
 
 ## Initial specification directions for each interface
-This section addresses specification directions for each interface based on the current understanding of the EHDS legislation and the initial WP5 results. Later versions of this document will include a more formal requirements flow-down to WP5 deliverables.
+This section addresses specification directions for each interface based on the current understanding of the EHDS legislation and the initial [WP5](https://www.xt-ehr.eu/work-packages/#:~:text=WP5%20General%20requirements%20for%20EHRs%20and%20system%20interfaces) results. Later versions of this document will include a more formal requirements flow-down to WP5 deliverables.
 
 ### Cross Border API
 
@@ -110,10 +110,12 @@ Initial technology choices for the EHR system API are:
 
 * FHIR (initially support of [FHIR v4.0.1](https://hl7.org/fhir/R4/) as well as [FHIR v5.0.0](https://hl7.org/fhir/R5/))
 * [SMART App Launch v2.2.0](https://build.fhir.org/ig/HL7/smart-app-launch/index.html)  for user authorization and authentication
-* [IHE-MHD](https://profiles.ihe.net/ITI/MHD/index.html) - Mobile access to Health Documents (MHD) for document exchange
+* [IHE MHD](https://profiles.ihe.net/ITI/MHD/index.html) - Mobile access to Health Documents (MHD) for document exchange
+* [IHE mXDE](https://profiles.ihe.net/ITI/mXDE/index.html) - Mobile Cross-Enterprise Document Data Element Extraction
+* [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Query for Existing Data for Mobile (QEDm)
 * FHIR bulk data access ([FHIR R5 async-bulk](https://hl7.org/fhir/R5/async-bulk.html) and [FHIR R4  Bulk Data IG](https://hl7.org/fhir/uv/bulkdata/)) for data export
 * Manual import of FHIR bulk data export files for import
-* [IHE-ATNA](https://wiki.ihe.net/index.php/Add_RESTful_Query_and_Feed_to_ATNA) for logging
+* [IHE ATNA](https://wiki.ihe.net/index.php/Add_RESTful_Query_and_Feed_to_ATNA) for logging
 
 ### Patient Access API
 
