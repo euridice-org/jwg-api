@@ -1,4 +1,9 @@
+**European Interoperability Specifications for Digital Solutions in Healthcare (EURIDICE )**
+
+An inititaive by HL7 Europe and IHE Europe
+
 # jwg-api – Joint Working Group "API"
+
 ## Introduction
 
 Joint Working Group "API for EHDS"
