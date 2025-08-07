@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="Y86ME5r39prPMLShu3kK" name="Page-1">
-        <mxGraphModel dx="1054" dy="607" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="904" dy="614" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -113,7 +113,7 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="35" value="&lt;font color=&quot;#ffffff&quot;&gt;Patient&lt;/font&gt;&lt;div&gt;&lt;font color=&quot;#ffffff&quot;&gt;App&lt;/font&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;strokeColor=#FFFFFF;fillColor=#000000;verticalAlign=middle;" parent="1" vertex="1">
-                    <mxGeometry x="500" y="402" width="100" height="58" as="geometry"/>
+                    <mxGeometry x="500" y="390" width="100" height="58" as="geometry"/>
                 </mxCell>
                 <mxCell id="36" value="&lt;font color=&quot;#ffffff&quot;&gt;Proxy Services&lt;/font&gt;" style="whiteSpace=wrap;html=1;strokeColor=#FFFFFF;fillColor=#000000;verticalAlign=middle;" parent="1" vertex="1">
                     <mxGeometry x="500" y="266" width="100" height="58" as="geometry"/>

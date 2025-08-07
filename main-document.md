@@ -10,7 +10,7 @@ The figure shows the flow of data within and between different member states. It
 
 <img src="./images/EHDS-overview.svg">
 
-The different business actors are:
+The different business actors (black boxes) are:
 
 * **EHR System**, means any system whereby the software, or a combination of the hardware and the software of that system, allows personal electronic health data that belong to the priority categories of personal electronic health data established under this Regulation to be stored, intermediated, exported, imported, converted, edited or viewed, and intended by the manufacturer to be used by healthcare providers when providing patient care or by patients when accessing their electronic health data; (EHDS Article 2 (2) k).
 * **Proxy Service**, implements the electronic health access service (EHDS Article 4 (2)) and allows natural persons or their legal representatives to access personal electronic health data.
@@ -19,7 +19,7 @@ The different business actors are:
 * **National Contact Point**, systems operated by member states that allow flow of electronic health data between member states utilizing MyHealth@EU.
 * **Healthcare Provider** means any natural or legal person or any other entity legally providing healthcare on the territory of a Member Staten (Directive 2011/24/EU, Article 3 (g)).
 
-These business actors are connected by networks. Access to these networks is governed by interfaces. The interfaces as defined in the document are:
+These business actors are connected by networks. Access to these networks is governed by interfaces (blue boxes in the figure). The interfaces as defined in the document are:
 
 * **Cross-border API**, the API/protocol as defined by MyHealth@EU that is used to communicate electronic health data between member states.
 * **National Infrastructure API**, the API/protocol defined by member states that is used to connect the National Contact Points with Healthcare Providers and Proxy Services.
@@ -101,7 +101,9 @@ This part of the specification will define what priority categories that are to 
 #### EHR system deployment options
 
 Different vendors and healthcare providers may choose to implement the EHR system API requirements in different ways. Some of the imagined deployment options are indicated in the figure below.
- 
+  
+<img src="./images/deployment-options.svg">
+
 The standard/default implementation is where the EHR system implements the EHR system API directly. An alternative approach would be that a Façade is used to provide interface. Note that from the point of the EHDS, in the case where a Façade is used, the Façade is considered to be part of the tested EHR system. Some of these Façades are more capable and will be used to provide the required EHR system API for more than one EHR system, which will likely require specific testing. Another common pattern that can be used is using a Registry. When a Registry is used, the EHR system API is implemented by a Registry system that also offers standardized interfaces for EHR systems to provide and receive information.
 
 #### Initial technology choices
