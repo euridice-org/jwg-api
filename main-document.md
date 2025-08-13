@@ -101,8 +101,12 @@ This part of the specification will define what priority categories that are to 
 #### EHR system deployment options
 
 Different vendors and healthcare providers may choose to implement the EHR system API requirements in different ways. Some of the imagined deployment options are indicated in the figure below.
- 
+
+<img src="./images/deployment-options.svg">
+
 The standard/default implementation is where the EHR system implements the EHR system API directly. An alternative approach would be that a Façade is used to provide interface. Note that from the point of the EHDS, in the case where a Façade is used, the Façade is considered to be part of the tested EHR system. Some of these Façades are more capable and will be used to provide the required EHR system API for more than one EHR system, which will likely require specific testing. Another common pattern that can be used is using a Registry. When a Registry is used, the EHR system API is implemented by a Registry system that also offers standardized interfaces for EHR systems to provide and receive information.
+
+Additionally, a choice should be made on the requirements related to what FHIR versions that is to be supported.
 
 #### Initial technology choices
 
