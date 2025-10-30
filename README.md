@@ -6,11 +6,11 @@ An inititaive by HL7 Europe and IHE Europe
 
 ## Introduction
 
-Joint Working Group "API for EHDS"
+Joint Working Group "API for HDS in Europe"
 
 According to the talks of the core team on 2015-06-24, we started the Joint Working Group here called "API for the EHDS".
 
-In this repository a **co-branded HL7 Europe / IHE Europe explorative Projekt** resides which evaluates the requirements and specifies the deliverables for an **API for the European Health Data Space (EHDS)**.
+In this repository a **co-branded HL7 Europe / IHE Europe explorative Projekt** resides which evaluates the requirements and specifies the deliverables for an **API for Health Data Spaces (HDS) in Europe**.
 
 # Content
 
