@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<specification xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ciUrl="" defaultVersion="current" defaultWorkgroup="eu" url="http://hl7.eu/fhir/euridice-api">
+<version code="current" url=""/>
+<artifactPageExtension value="-definitions"/>
+<artifactPageExtension value="-examples"/>
+<artifactPageExtension value="-mappings"/>
+<artifact id="CapabilityStatement/EERxF-Provider" key="CapabilityStatement-EERxF-Provider" name="EERxF Provider Capability Statement"/>
+<artifact id="StructureDefinition/MyPatient" key="StructureDefinition-MyPatient" name="MyPatient"/>
+<artifact id="Patient/PatientExample" key="Patient-PatientExample" name="PatientExample"/>
+<page key="NA" name="(NA)"/>
+<page key="many" name="(many)"/>
+<page key="api-specification" name="API Specification"/>
+<page key="context" name="API context"/>
+<page key="adapting" name="Adapting Guidelines for Country use"/>
+<page key="artifacts" name="Artifacts Summary"/>
+<page key="contributors" name="Authors and contributors"/>
+<page key="changes" name="Changes"/>
+<page key="copyright" name="Copyright"/>
+<page key="dependencies" name="Dependencies"/>
+<page key="transaction-T5" name="Export EEHRxF data [T5]"/>
+<page key="content-FHIR-file" name="FHIR File Format"/>
+<page key="transaction-T2" name="Find Patient [T2]"/>
+<page key="functional" name="Functional"/>
+<page key="index" name="Home"/>
+<page key="transaction-T4" name="Import EEHRxF data [T4]"/>
+<page key="transaction-T1" name="Inspect [T1]"/>
+<page key="main-usecases" name="Main Use Cases"/>
+<page key="transaction-T3" name="Query Existing Data [T3]"/>
+<page key="references" name="References"/>
+<page key="specification" name="Specification"/>
+<page key="toc" name="Table of Contents"/>
+</specification>
