@@ -27,8 +27,8 @@ The EEHRxF Provider is REQUIRED to support one of these options.
 
 ### UI Element
 
-In this case the functionality is not implemented by an API but by a REQUIRED UI element of the EEHRxF Provider. Using this UI, the administrator can export all or part of the EEHRxF formatted content made available by the EEHRxF Provider into FHIR files  (see [FHIR files](content-FHIR-file.html)). 
+In this case the functionality is not implemented by an API but by a REQUIRED UI element of the EEHRxF Provider. Using this UI, the administrator can export all or part of the EEHRxF formatted content made available by the EEHRxF Provider into FHIR files  (see [FHIR files](content-FHIR-file.html)). This capability is defined in and [Ui export CapabilityStatement](CapabilityStatement-T5-EERxF-UiExport.html).
 
 ### Bulkdata export
 
-In this case the export is implemented by supporting the FHIR bulk data export specification (see {{FhirBulkData}}).
+In this case the export is implemented by supporting the FHIR bulk data export specification (see {{FhirBulkData}}) and [Bulk data Export CapabilityStatement](CapabilityStatement-T5-EERxF-BulkDataExport.html).

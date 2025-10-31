@@ -4,9 +4,20 @@
 <artifactPageExtension value="-definitions"/>
 <artifactPageExtension value="-examples"/>
 <artifactPageExtension value="-mappings"/>
-<artifact id="CapabilityStatement/EERxF-Provider" key="CapabilityStatement-EERxF-Provider" name="EERxF Provider Capability Statement"/>
+<artifact id="CapabilityStatement/EEHRxF-EPS-Provider-CapabilityStatement" key="CapabilityStatement-EEHRxF-EPS-Provider-CapabilityStatement" name="EEHRxF EPS Resource Provider Actor"/>
+<artifact id="CapabilityStatement/T5-EERxF-BulkDataExport" key="CapabilityStatement-T5-EERxF-BulkDataExport" name="EERxF BulkDate Export Capability Statement"/>
+<artifact id="ActorDefinition/EERxF-Consumer" key="ActorDefinition-EERxF-Consumer" name="EERxF Consumer Actor Definition"/>
+<artifact id="ActorDefinition/EERxF-Document-Consumer" key="ActorDefinition-EERxF-Document-Consumer" name="EERxF Document Consumer Actor Definition"/>
+<artifact id="ActorDefinition/EERxF-Document-Provider" key="ActorDefinition-EERxF-Document-Provider" name="EERxF Document Provider Actor Definition"/>
+<artifact id="ActorDefinition/EERxF-Provider" key="ActorDefinition-EERxF-Provider" name="EERxF Provider Actor Definition"/>
+<artifact id="ActorDefinition/EERxF-Resource-Consumer" key="ActorDefinition-EERxF-Resource-Consumer" name="EERxF Resource Consumer Actor Definition"/>
+<artifact id="ActorDefinition/EERxF-Resource-Provider" key="ActorDefinition-EERxF-Resource-Provider" name="EERxF Resource Provider Actor Definition"/>
+<artifact id="CapabilityStatement/T5-EERxF-UiExport" key="CapabilityStatement-T5-EERxF-UiExport" name="EERxF UI Export Capability Statement"/>
+<artifact id="StructureDefinition/SupportedIdentifier" key="StructureDefinition-SupportedIdentifier" name="Extension: SupportedIdentifier"/>
+<artifact id="CapabilityStatement/IHE.QEDm.Clinical-Data-Source" key="CapabilityStatement-IHE.QEDm.Clinical-Data-Source" name="IHE QEDm Clinical Data Source Actor"/>
 <artifact id="StructureDefinition/MyPatient" key="StructureDefinition-MyPatient" name="MyPatient"/>
 <artifact id="Patient/PatientExample" key="Patient-PatientExample" name="PatientExample"/>
+<page key="priority-area-laboratory" name="(Laboratory) Test Results"/>
 <page key="NA" name="(NA)"/>
 <page key="many" name="(many)"/>
 <page key="api-specification" name="API Specification"/>
@@ -22,11 +33,17 @@
 <page key="transaction-T2" name="Find Patient [T2]"/>
 <page key="functional" name="Functional"/>
 <page key="index" name="Home"/>
+<page key="priority-area-hdr" name="Hospital Discharge Reports"/>
+<page key="priority-area-imaging-manifest" name="Imaging Manifests"/>
+<page key="priority-area-imaging-report" name="Imaging Reports"/>
 <page key="transaction-T4" name="Import EEHRxF data [T4]"/>
 <page key="transaction-T1" name="Inspect [T1]"/>
 <page key="main-usecases" name="Main Use Cases"/>
-<page key="transaction-T3" name="Query Existing Data [T3]"/>
+<page key="priority-area-mpd" name="Medication Prescription and Dispense"/>
+<page key="priority-area-eps" name="Patient Summary"/>
+<page key="priority-areas" name="Priority Areas"/>
 <page key="references" name="References"/>
 <page key="specification" name="Specification"/>
 <page key="toc" name="Table of Contents"/>
+<page key="xtehr-mapping" name="Xt-EHR mapping"/>
 </specification>

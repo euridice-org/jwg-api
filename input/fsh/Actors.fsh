@@ -1,5 +1,5 @@
 Instance: EERxF-Provider
-InstanceOf: ArctorDefinition
+InstanceOf: ActorDefinition
 Title: "EERxF Provider Actor Definition"
 Description: """
 The EERxF Provider Actor Definition describes the capabilities and interactions of the EERxF Provider within the EERxF ecosystem.
@@ -11,8 +11,9 @@ The EERxF Provider Actor Definition describes the capabilities and interactions 
 * experimental = false
 * type = #system
 
+
 Instance: EERxF-Consumer
-InstanceOf: ArctorDefinition
+InstanceOf: ActorDefinition
 Title: "EERxF Consumer Actor Definition"
 Description: """
 The EERxF Consumer Actor Definition describes the capabilities and interactions of the EERxF Consumer within the EERxF ecosystem.
@@ -22,10 +23,10 @@ The EERxF Consumer Actor Definition describes the capabilities and interactions 
 * description = "The EERxF Consumer Actor Definition describes the capabilities and interactions of the EERxF Consumer within the EERxF ecosystem."
 * status = #active
 * experimental = false
-* type = #system\
+* type = #system
 
 Instance: EERxF-Resource-Provider
-InstanceOf: ArctorDefinition
+InstanceOf: ActorDefinition
 Title: "EERxF Resource Provider Actor Definition"
 Description: """
 The EERxF Resource Provider Actor Definition describes the capabilities and interactions of the EERxF Resource Provider within the EERxF ecosystem.
@@ -43,7 +44,7 @@ The EERxF Resource Provider Actor Definition describes the capabilities and inte
 * type = #system      
 
 Instance: EERxF-Resource-Consumer
-InstanceOf: ArctorDefinition
+InstanceOf: ActorDefinition
 Title: "EERxF Resource Consumer Actor Definition"
 Description: """
 The EERxF Resource Consumer Actor Definition describes the capabilities and interactions of the EERxF Resource Consumer within the EERxF ecosystem.
@@ -56,7 +57,7 @@ The EERxF Resource Consumer Actor Definition describes the capabilities and inte
 * type = #system 
 
 Instance: EERxF-Document-Provider
-InstanceOf: ArctorDefinition
+InstanceOf: ActorDefinition
 Title: "EERxF Document Provider Actor Definition"
 Description: """
 The EERxF Document Provider Actor Definition describes the capabilities and interactions of the EERxF Document Provider within the EERxF ecosystem.
@@ -74,7 +75,7 @@ The EERxF Document Provider Actor Definition describes the capabilities and inte
 * type = #system      
 
 Instance: EERxF-Document-Consumer
-InstanceOf: ArctorDefinition
+InstanceOf: ActorDefinition
 Title: "EERxF Document Consumer Actor Definition"
 Description: """
 The EERxF Document Consumer Actor Definition describes the capabilities and interactions of the EERxF Document Consumer within the EERxF ecosystem.

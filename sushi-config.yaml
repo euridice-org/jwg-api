@@ -28,7 +28,11 @@ license: CC0-1.0 # https://www.hl7.org/fhir/valueset-spdx-license.html
 # package id and the value is the version (or dev/current). For advanced
 # use cases, the value can be an object with keys for id, uri, and version.
 #
-# dependencies:
+dependencies:
+  hl7.fhir.uv.bulkdata: current
+  hl7.fhir.eu.base: current
+  ihe.iti.pdqm: 3.1.0
+  ihe.iti.mhd: 4.2.2
 #   hl7.fhir.us.core: 3.1.0
 #   hl7.fhir.us.mcode:
 #     id: mcode
@@ -64,6 +68,8 @@ pages:
       title: Copyright
   functional.md:
     title: Functional
+    xtehr-mapping.md:
+      title: Xt-EHR mapping
     context.md:
       title: API context
     main-usecases.md:
@@ -76,14 +82,27 @@ pages:
       title: Inspect [T1]
     transaction-T2.md:
       title: Find Patient [T2]
-    transaction-T3.md:
-      title: Query Existing Data [T3]
     transaction-T4.md:
       title: Import EEHRxF data [T4]
     transaction-T5.md:
       title: Export EEHRxF data [T5]
     content-FHIR-file.md:
       title: FHIR File Format
+  priority-areas.md:
+    title: Priority Areas
+    priority-area-eps.md:
+      title: Patient Summary
+    priority-area-laboratory.md:
+      title: (Laboratory) Test Results
+    priority-area-hdr.md:
+      title: Hospital Discharge Reports
+    priority-area-imaging-manifest.md:
+      title: Imaging Manifests
+    priority-area-imaging-report.md:
+      title: Imaging Reports
+    priority-area-mpd.md:
+      title: Medication Prescription and Dispense
+
 
   # actors-and-transactions.md:
   #   title: System actors
@@ -131,10 +150,16 @@ menu:
     API Specification: api-specification.html
     T1 Inspect: transaction-T1.html
     T2 Find Patient: transaction-T2.html
-    T3 Query Existing Data: transaction-T3.html
     T4 Import EEHRxF data: transaction-T4.html
     T5 Export EEHRxF data: transaction-T5.html
     FHIR File Format: content-FHIR-file.html
+  Priority Areas:
+    Patient Summary: priority-area-eps.html
+    (Laboratory) Test Results: priority-area-laboratory.html
+    Hospital Discharge Reports: priority-area-hdr.html
+    Imaging Manifests: priority-area-imaging-manifest.html
+    Imaging Reports: priority-area-imaging-report.html
+    Medication Prescription and Dispense: priority-area-mpd.html
   Artifacts: artifacts.html
 #   Functional:
 #     Xt-EHR model: https://build.fhir.org/ig/Xt-EHR/xt-ehr-common/useCaseMedicalImages.html

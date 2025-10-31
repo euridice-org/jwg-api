@@ -14,7 +14,6 @@ This transaction allows a user (administrator) to import data into the EEHRxF Pr
 ### Referenced Standards
 
 * {{FHIR}}
-* {{FhirBulkData}}
 
 ### Messages
 

@@ -7,9 +7,18 @@
 {% assign iheRad            = "[IHE-RAD](https://profiles.ihe.net/RAD/)" %}
 {% assign iheIid            = "[IHE-IID](https://www.ihe.net/uploadedFiles/Documents/Radiology/IHE_RAD_Suppl_IID.pdf)" %}
 {% assign iheIDR            = "[IHE-IDR](https://build.fhir.org/ig/IHE/RAD.IDR/)" %}
+{% assign ihePDQm           = "[IHE-PDQm](https://profiles.ihe.net/ITI/PDQm/)" %}
+{% assign iheQEDm           = "[IHE-QEDm](https://profiles.ihe.net/ITI/QEDm/)" %}
+{% assign iheQEDm-PCC44     = "[PCC-44](https://profiles.ihe.net/PCC/QEDm/3.0.0-comment1/PCC-44.html)" %}
+{% assign iheITI-1          = "[ITI-1](https://profiles.ihe.net/ITI/TF/Volume2/ITI-1.html)" %}
+{% assign iheITI-67         = "[ITI-1](https://profiles.ihe.net/ITI/TF/Volume2/ITI-67.html)" %}
+{% assign iheITI-66         = "[ITI-1](https://profiles.ihe.net/ITI/TF/Volume2/ITI-66.html)" %}
+
+{% assign iheXDEm           = "[IHE-mXDE](https://profiles.ihe.net/ITI/mXDE/)" %}
 
 {% assign hl7EuBase         = "[HL7 EU Base](https://build.fhir.org/ig/hl7-eu/base-r5/)" %}
 {% assign hl7EuExtensions   = "[HL7 Europe Extensions](https://build.fhir.org/ig/hl7-eu/extensions-r5/)" %}
+{% assign hl7EuEps          = "[HL7 EU Patient Summary](https://build.fhir.org/ig/hl7-eu/eps/branches/master/index.html)" %}
 {% assign hl7EuLabs         = "[HL7 EU Laboratory Reports](https://build.fhir.org/ig/hl7-eu/laboratory/branches/master/index.html)" %}
 {% assign hl7EuHdr          = "[HL7 EU Hospital Discharge Reports](https://build.fhir.org/ig/hl7-eu/hdr/index.html)" %}
 {% assign hl7EuEps          = "[HL7 Europe Patient Summary](https://build.fhir.org/ig/hl7-eu/eps/)" %}

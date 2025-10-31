@@ -1,3 +1,4 @@
+{% include variable-definitions.md %}
 This section specifies how to inspect implement the use cases in an EHR system. 
 
 The central HIE infrastructure defined in this profile might be a single FHIR Server implementing all the defined central service actors or may be virtual cloud of the systems implementing the defined profile actors. These deployment models allow for modularity where each service function could be provided by different vendors, leveraging as much as possible from a reference implementation of a FHIR Server, and also leverage as much as possible of modularity enabled by defined profiles.
@@ -29,25 +30,25 @@ The following table list these transactions and indicates the optionality for ea
 {:.grid}
 | Actor | Transaction | Optionality | Reference |
 |-------|-------------|-------------|-----------|
-| EEHRxF Resource Consumer | ITI-1 Maintain time | R | |
+| EEHRxF Resource Consumer | ITI-1 Maintain time | R | {{ITI-1}} |
 |                          | T1-Inspect | O | |
 |                          | T2 Find Patient | R | |
 |                          | T4 Query Existing Data | R | |
 ||||
-| EEHRxF Resource Provider | ITI-1 Maintain time | R | |
+| EEHRxF Resource Provider | ITI-1 Maintain time | R | {{ITI-1}} |
 |                          | T1-Inspect | R | |
 |                          | T2 Find Patient | R | |
-|                          | T4 Query Existing Data | R | |
+|                          | PCC-44 Mobile Query Existing Data | R | {{iheQEDm-PCC44}} |
 |                          | T5 import EEHRxF data | R | |
 |                          | T6 export EEHRxF data | R | |
 ||||
-| EEHRxF Document Consumer | ITI-1 Maintain time | R | |
+| EEHRxF Document Consumer | ITI-1 Maintain time | R | {{ITI-1}} |
 |                          | T1-Inspect | O | |
 |                          | T2 Find Patient | R | |
-|                          | ITI-67 Find Document References | R | |
-|                          | ITI-66 Retrieve Documents | R | |
+|                          | ITI-67 Find Document References | R | {{ITI-66}} |
+|                          | ITI-66 Retrieve Documents | R | {{ITI-67}} |
 ||||
-| EEHRxF Document Provider | ITI-1 Maintain time | R | |
+| EEHRxF Document Provider | ITI-1 Maintain time | R | {{ITI-1}} |
 |                          | T1-Inspect | R | |
 |                          | T2 Find Patient | R | |
 |                          | T4 Find Document References | R | |
