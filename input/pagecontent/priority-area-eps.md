@@ -1,7 +1,7 @@
 {% include variable-definitions.md %}
 This section defines the API requirements for EHR systems that provide EEHRxF data that follows the {{hl7EuEps}}.
 
-The transactions required by the EEHRxF EPS API are indicated in the figure below. 
+The transactions required by the EEHRxF EPS API are indicated in the figure below.
 
 ```mermaid
 flowchart TD
@@ -20,91 +20,25 @@ flowchart TD
 
 As {{hl7EuEps}} is document based, the normal set of transactions as defined in the base API specification apply. This part of the specification introduces the EPS variants of the base actors.
 
-Options:
-Basic Resource (ITI-1, T2( Basic | match | search), T3 - Resources )
-Basic Document (ITI-1, T2( Basic | match | search), ITI-66, ITI-67 )
+### Actor definitions
 
-QEDm options
+The following actors are defined:
 
-| Actor | Option Name | Reference |
-|=======|=============|===========|
-| EEHRxF EPS Resource Consumer | |
-|| Simple Observations | [IHE QEDm Section 1:18.2.1.1](https://profiles.ihe.net/PCC/QEDm/3.0.0-comment1/PCC-44.html#234441211-simple-observations-option-search-parameters) |
-|| Allergies and Tolerances | [IHE QEDm Section 1:18.2.1.2](https://profiles.ihe.net/PCC/QEDm/3.0.0-comment1/PCC-44.html#234441212-allergies-and-intolerances-option-search-parameters) |
-|| Conditions | [IHE QEDmSection 1:18.2.1.3](https://profiles.ihe.net/PCC/QEDm/3.0.0-comment1/PCC-44.html#234441213-conditions-option-search-parameters) |
-|| Diagnostic Results | [IHE QEDmSection 1:18.2.1.4](https://profiles.ihe.net/PCC/QEDm/3.0.0-comment1/PCC-44.html#234441214-diagnostic-reports-option-search-parameters) |
-|| Medications | [IHE QEDmSection 1:18.2.1.5](https://profiles.ihe.net/PCC/QEDm/3.0.0-comment1/PCC-44.html#234441215-medications-option-search-parameters) |
-|| Immunizations | [IHE QEDmSection 1:18.2.1.6](https://profiles.ihe.net/PCC/QEDm/3.0.0-comment1/PCC-44.html#234441216-immunizations-option-search-parameters) |
-|| Procedures | [IHE QEDmSection 1:18.2.1.7](https://profiles.ihe.net/PCC/QEDm/3.0.0-comment1/PCC-44.html#234441217-procedures-option-search-parameters) |
-|| Encounters | [IHE QEDmSection 1:18.2.1.8](https://profiles.ihe.net/PCC/QEDm/3.0.0-comment1/PCC-44.html#234441218-encounters-option-search-parameters) |
-|| Provenance | [IHE QEDmSection 1:18.2.1.9](https://profiles.ihe.net/PCC/QEDm/3.0.0-comment1/PCC-44.html#234441219-provenance-option-search-parameters) |
+| Actor | Description | Optionality | Link |
+|=======|=============|=============|======|
+| EPS Resource Consumer | Consumes/accesses resource based EPS data | R | EEHRxF Consumer |
+||| R | [EPS Resource Consumer CapabilityStatement](CapabilityStatement-EEHRxF-EPS-Consumer-CapabilityStatement.html) |
+|||||
+| EPS Resource Provider | Provides resource based EPS data | R | EEHRxF Provider |
+||| R | [EPS Resource Provider CapabilityStatement](CapabilityStatement-EEHRxF-EPS-Provider-CapabilityStatement.html) |
 
-EPS resources:
-* Composition (EPS)
-* Practitioner (EUcore)
-* PractitionerRole (EUcore)
-* Device
-* Organization (EU)
-* Patient
-* RelatedPerson
-* AllergyIntolerance (EPS)
-* DocumentReference
-* MedicationStatement (EPS)
-* MedicationRequest (EPS)
-* Immunization (EPS)
-* Observation 
-* DiagnosticReport
-* Procedure
-* DeviceUseStatement
-* Consent (Advanced Directives EPS)
-* Flag
-* Condition
-* ClinicalImpression
-* DocumentReference
-* CarePlan
-* ImmunizationRecommendation
+|||||
+| EPS Document Consumer | Consumes/accesses document based EPS data | R | EEHRxF Consumer |
+||| R | [IHE-MHD Document Consumer](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentConsumer.html) |
+|||||
+| EPS Document Provider | Provides document based EPS data | R | EEHRxF Provider |
+||| R | [IHE-MHD Document Responder](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentResponder.html) |
 
+Note: EPS Document Consumer and Providers SHALL use the [EPS MHD DocumentReference](StructureDefinition-EpsMhdDocumentReference.html) profile to represent EPS documents.
 
-</tr>
-<tr class="odd">
-<td rowspan="10">Clinical Data Consumer](  ) |
-<td>Simple Observations | [IHE QEDmSection 1:18.2.2.1](  ) |
-|| Allergies and Intolerances | [IHE QEDmSection 1:18.2.2.2](  ) |
-||Conditions | [IHE QEDmSection 1:18.2.2.3](  ) |
-|| Diagnostic Results | [IHE QEDmSection 1:18.2.2.4](  ) |
-||Medications | [IHE QEDmSection 1:18.2.2.5](  ) |
-|| Immunizations | [IHE QEDmSection 1:18.2.2.6](  ) |
-||Procedures | [IHE QEDmSection 1:18.2.2.7](  ) |
-|| Encounters | [IHE QEDmSection 1:18.2.2.8](  ) |
-||Provenance | [IHE QEDmSection 1:18.2.2.9](  ) |
-|| Occupational Data for Health | [IHE QEDmSection 1:18.2.2.10](  ) |
-</tr>
-</tbody>
-</table>
-
-EPS resources:
-* Composition (EPS)
-* Practitioner (EUcore)
-* PractitionerRole (EUcore)
-* Device
-* Organization (EU)
-* Patient
-* RelatedPerson
-* Condition (EPS)
-* AllergyIntolerance (EPS)
-* DocumentReference
-* MedicationStatement (EPS)
-* MedicationRequest (EPS)
-* Immunization (EPS)
-* Observation 
-* DiagnosticReport
-* Procedure
-* DeviceUseStatement
-* Consent (Advanced Directives EPS)
-* Flag
-* Condition
-* ClinicalImpression
-* DocumentReference
-* CarePlan
-* ImmunizationRecommendation
-* 
+**TODO:** How to best reflect this is in CapabilityStatement. All the combinations of options make this difficult to express without generating a massive amount of CapabilityStatements. Would a CapabilityStatement profile be an option?

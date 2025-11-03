@@ -54,9 +54,9 @@ EEHRxF Provider are RECOMMENDED to implement either the Demographics or Match op
 
 ### Basic Demographics Query
 
-EEHRxF Producers implementing this transaction SHALL indicate the main identifiers used as the preferred way to identity certain patients (e.g. MRN for Patient), it SHALL indicate so by including one or more [`supported-identifer`](Extension-SupportedIdentifier.html) extensions to the {{CapabilityStatement}}
+EEHRxF Producers implementing this transaction SHALL indicate the main identifiers used as the preferred way to identity certain patients (e.g. MRN for Patient), it SHALL indicate so by including one or more [`supported-identifier`](Extension-SupportedIdentifier.html) extensions to the {{CapabilityStatement}}
 
-When the EEHRxF producer has one or more identifier types that are used as the preferred way to identity non-patient resources, it SHOULD indicate so by including one or more [`supported-identifer`](Extension-SupportedIdentifier.html) extensions to the {{CapabilityStatement}}.
+When the EEHRxF producer has one or more identifier types that are used as the preferred way to identity non-patient resources, it SHOULD indicate so by including one or more [`supported-identifier`](Extension-SupportedIdentifier.html) extensions to the {{CapabilityStatement}}.
 
 ### Messages
 
@@ -85,7 +85,7 @@ The EEHRxF Consumer MAY supply, and the EEHRxF Provider SHALL be capable of proc
 {:.grid}
 | Parameter	| definitions |
 |===========|=============|
-| identifier | This repeating parameter of type token, when supplied, specifies an identifier associated with the patient whose information is being queried (e.g., a local identifier, account identifier, etc.). It is RECOMMENDED that identifier based searches are preformed using one of the identifier systems provided in the [`supported-identifer`](Extension-SupportedIdentifier.html) extension. |
+| identifier | This repeating parameter of type token, when supplied, specifies an identifier associated with the patient whose information is being queried (e.g., a local identifier, account identifier, etc.). It is RECOMMENDED that identifier based searches are preformed using one of the identifier systems provided in the [`supported-identifier`](Extension-SupportedIdentifier.html) extension. |
 
 #### Security Considerations
 

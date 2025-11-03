@@ -9,3 +9,4 @@ Description: "Profile for DocumentReference resources used in the EEHRxF EPS con
     * insert SliceElement( #value, coding )
   * coding contains documentType 1..1
   * coding[documentType] = $loinc#60591-5  "Patient summary Document"  
+  
