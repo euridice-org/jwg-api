@@ -26,7 +26,7 @@
 {% assign FHIR              = "[HL7 FHIR Release 4.0](http://www.hl7.org/FHIR/R4)" %}
 {% assign FhirBulkData      = "[FHIR bulk data access](https://build.fhir.org/ig/HL7/bulk-data/)" %}
 {% assign fhirBulkDataNdjson = "[FHIR bulk data ndjson file](https://build.fhir.org/ig/HL7/bulk-data/en/export.html#bulk-data-output-file-organization)" %}
-
+{% assign SMARTonFHIR       = [FHIR SMART App Launch](https://build.fhir.org/ig/HL7/smart-app-launch/app-launch.html) %}
 {% assign R-code            = "R4" %}
 
 {% include fhir-resources.md %}
