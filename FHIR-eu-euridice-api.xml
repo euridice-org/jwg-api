@@ -5,6 +5,8 @@
 <artifactPageExtension value="-examples"/>
 <artifactPageExtension value="-mappings"/>
 <artifact id="CapabilityStatement/EEHRxF-EPS-Provider-CapabilityStatement" key="CapabilityStatement-EEHRxF-EPS-Provider-CapabilityStatement" name="EEHRxF EPS Resource Provider Actor"/>
+<artifact id="ValueSet/EehrxfMhdDocumentReferenceTypeVs" key="ValueSet-EehrxfMhdDocumentReferenceTypeVs" name="EEHRxF MHD Category Code System"/>
+<artifact id="StructureDefinition/EehrxfMhdDocumentReference" key="StructureDefinition-EehrxfMhdDocumentReference" name="EEHRxF MHD DocumentReference Profile"/>
 <artifact id="CapabilityStatement/T5-EERxF-BulkDataExport" key="CapabilityStatement-T5-EERxF-BulkDataExport" name="EERxF BulkDate Export Capability Statement"/>
 <artifact id="ActorDefinition/EERxF-Consumer" key="ActorDefinition-EERxF-Consumer" name="EERxF Consumer Actor Definition"/>
 <artifact id="ActorDefinition/EERxF-Document-Consumer" key="ActorDefinition-EERxF-Document-Consumer" name="EERxF Document Consumer Actor Definition"/>
@@ -13,10 +15,10 @@
 <artifact id="ActorDefinition/EERxF-Resource-Consumer" key="ActorDefinition-EERxF-Resource-Consumer" name="EERxF Resource Consumer Actor Definition"/>
 <artifact id="ActorDefinition/EERxF-Resource-Provider" key="ActorDefinition-EERxF-Resource-Provider" name="EERxF Resource Provider Actor Definition"/>
 <artifact id="CapabilityStatement/T5-EERxF-UiExport" key="CapabilityStatement-T5-EERxF-UiExport" name="EERxF UI Export Capability Statement"/>
+<artifact id="StructureDefinition/EpsMhdDocumentReference" key="StructureDefinition-EpsMhdDocumentReference" name="EPS MHD DocumentReference Profile"/>
 <artifact id="StructureDefinition/SupportedIdentifier" key="StructureDefinition-SupportedIdentifier" name="Extension: SupportedIdentifier"/>
 <artifact id="CapabilityStatement/IHE.QEDm.Clinical-Data-Source" key="CapabilityStatement-IHE.QEDm.Clinical-Data-Source" name="IHE QEDm Clinical Data Source Actor"/>
-<artifact id="StructureDefinition/MyPatient" key="StructureDefinition-MyPatient" name="MyPatient"/>
-<artifact id="Patient/PatientExample" key="Patient-PatientExample" name="PatientExample"/>
+<artifact id="ValueSet/im-xds-class-code-valueset" key="ValueSet-im-xds-class-code-valueset" name="XDS Class Codes"/>
 <page key="priority-area-laboratory" name="(Laboratory) Test Results"/>
 <page key="NA" name="(NA)"/>
 <page key="many" name="(many)"/>
