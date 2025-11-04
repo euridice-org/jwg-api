@@ -28,10 +28,10 @@ The following actors are defined:
 | Actor | Description | Optionality | Link |
 |=======|=============|=============|======|
 | EPS Resource Consumer | Consumes/accesses resource based EPS data | R | EEHRxF Consumer |
-||| R | [EPS Resource Consumer CapabilityStatement](CapabilityStatement-EEHRxF-EPS-Consumer-CapabilityStatement.html) |
+||| R | [EPS Resource Consumer CapabilityStatement](CapabilityStatement-EEHRxF-EPS-Resource-Consumer-CapabilityStatement.html) |
 |||||
 | EPS Resource Provider | Provides resource based EPS data | R | EEHRxF Provider |
-||| R | [EPS Resource Provider CapabilityStatement](CapabilityStatement-EEHRxF-EPS-Provider-CapabilityStatement.html) |
+||| R | [EPS Resource Provider CapabilityStatement](CapabilityStatement-EEHRxF-EPS-Resource-Provider-CapabilityStatement.html) |
 |||||
 | EPS Document Consumer | Consumes/accesses document based EPS data | R | EEHRxF Consumer |
 ||| R | [IHE-MHD Document Consumer](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentConsumer.html) |

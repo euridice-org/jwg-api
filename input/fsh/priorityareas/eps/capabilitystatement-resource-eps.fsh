@@ -60,7 +60,7 @@ The actor in this profile provides FHIR-based queries for one or more fine-grain
   * insert CapabilityStatement-Procedure( #SHOULD )
   * insert CapabilityStatement-RelatedPerson( #SHOULD )
 
-Instance: EEHRxF-EPS-Provider-CapabilityStatement
+Instance: EEHRxF-EPS-Resource-Provider-CapabilityStatement
 InstanceOf: CapabilityStatement
 Title: "EEHRxF EPS Resource Provider Actor"
 Usage: #definition

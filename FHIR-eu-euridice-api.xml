@@ -5,7 +5,7 @@
 <artifactPageExtension value="-examples"/>
 <artifactPageExtension value="-mappings"/>
 <artifact id="CapabilityStatement/EEHRxF-EPS-Resource-Consumer-CapabilityStatement" key="CapabilityStatement-EEHRxF-EPS-Resource-Consumer-CapabilityStatement" name="EEHRxF EPS Resource Consumer Actor"/>
-<artifact id="CapabilityStatement/EEHRxF-EPS-Provider-CapabilityStatement" key="CapabilityStatement-EEHRxF-EPS-Provider-CapabilityStatement" name="EEHRxF EPS Resource Provider Actor"/>
+<artifact id="CapabilityStatement/EEHRxF-EPS-Resource-Provider-CapabilityStatement" key="CapabilityStatement-EEHRxF-EPS-Resource-Provider-CapabilityStatement" name="EEHRxF EPS Resource Provider Actor"/>
 <artifact id="ValueSet/EehrxfMhdDocumentReferenceTypeVs" key="ValueSet-EehrxfMhdDocumentReferenceTypeVs" name="EEHRxF MHD Category Code System"/>
 <artifact id="StructureDefinition/EehrxfMhdDocumentReference" key="StructureDefinition-EehrxfMhdDocumentReference" name="EEHRxF MHD DocumentReference Profile"/>
 <artifact id="CapabilityStatement/T5-EERxF-BulkDataExport" key="CapabilityStatement-T5-EERxF-BulkDataExport" name="EERxF BulkDate Export Capability Statement"/>
