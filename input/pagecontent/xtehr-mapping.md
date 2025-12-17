@@ -1,0 +1,1 @@
+TBD: map this specification on the XtEHR WP5.1 requirements.
