@@ -1,32 +1,32 @@
-**European Interoperability Specifications for Digital Solutions in Healthcare (EURIDICE )**
+**European Interoperability Specifications for Digital Solutions in Healthcare (EURIDICE)**
 
-An inititaive by HL7 Europe and IHE Europe
+An inititaive by HL7 Europe and IHE Europe. 
 
-# jwg-api – Joint Working Group "API"
+# jwg-api – EU Access
 
 ## Introduction
 
-Joint Working Group "API for HDS in Europe"
+In this repository a **co-branded HL7 Europe / IHE Europe Project** resides which specifies API definitions for accessing and exchanging European Electronic Health Record exchange Format (EEHRxF) (EHDS Arcticle 15) data between systems.
 
-According to the talks of the core team on 2015-06-24, we started the Joint Working Group here called "API for the EHDS".
+We inherit HL7 EU Content Profiles below, which define the format of the data to be exchanged:
 
-In this repository a **co-branded HL7 Europe / IHE Europe Explorative Project** resides which evaluates the requirements and specifies the deliverables for an **API for the European Health Data Space (EHDS)**.
+* European Patient Summary (  [HL7 Europe Patient Summary](https://build.fhir.org/ig/hl7-eu/eps/) )
+* Europe Medication Prescription and Dispense ([HL7 Europe Medication Prescription and Dispense](https://build.fhir.org/ig/hl7-eu/mpd/))
+* Europe Laboratory Report ([HL7 Europe Laboratory Report v0.2.0-ci](https://build.fhir.org/ig/hl7-eu/laboratory/))
+* Europe Hospital Discharge Report ([Europe Hospital Discharge Report](https://build.fhir.org/ig/hl7-eu/hdr/))
+* Europe Imaging Study Report ([HL7 Europe Imaging Report](https://build.fhir.org/ig/hl7-eu/imaging/))
+* Europe Imaging Study Manifest ([HL7 Europe Imaging Study Manifest R5](https://build.fhir.org/ig/hl7-eu/imaging-manifest/))
 
-# Content
+In this Implementation Guide, we define how existing IHE profiles can be used to provide secure access to this data and enable the secure exchange of EEHRxF data between systems. This include inheriting and defining system actors, transactions, and exchange patterns. 
 
-[Executive Summary](EXECUTIVESUMMARY.md) 
+## Regulatory Basis
 
-[Goals and Objectives](GOALSOBJECTIVE.md) 
+The aim is also to provide technical capabilities that satisfy the EHDS Interoperability requirements (EHDS ANNEX II) placed on EHR systems, specifically the obligation on systems to **provide access to data** and **receive data** formatted in EEHRxF.
 
-[Scope](SCOPE.md) 
+We focus here on technical implementation of these requirements - The requirements themseleves and how they are applied are not defined in this IG. These are ultimately owned by the European Commission to be defined in the EHDS Implementing Acts. We inherit the work of the Xt-EHR Joint Action, which has created deliverables drafting these requirements. 
 
-[Requirement List](REQUIREMENTS.md) 
 
-[Standards Map](STANDARDS.md) 
-
-[Deliverables](DELIVERABLES.md) 
-
-## Authors
+## Author
 
 Josh Priebe, Epic
 
