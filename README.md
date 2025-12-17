@@ -2,11 +2,11 @@
 
 An inititaive by HL7 Europe and IHE Europe. 
 
-# jwg-api – EU Access
+# EU Access
 
 ## Introduction
 
-In this repository a **co-branded HL7 Europe / IHE Europe Project** resides which specifies API definitions for accessing and exchanging European Electronic Health Record exchange Format (EEHRxF) (EHDS Arcticle 15) data between systems.
+In this repository a **co-branded HL7 Europe / IHE Europe Project** resides which specifies API definitions for accessing and exchanging European Electronic Health Record exchange Format (EEHRxF) (EHDS Article 15) data between systems.
 
 We inherit HL7 EU Content Profiles below, which define the format of the data to be exchanged:
 
@@ -17,13 +17,13 @@ We inherit HL7 EU Content Profiles below, which define the format of the data to
 * Europe Imaging Study Report ([HL7 Europe Imaging Report](https://build.fhir.org/ig/hl7-eu/imaging/))
 * Europe Imaging Study Manifest ([HL7 Europe Imaging Study Manifest R5](https://build.fhir.org/ig/hl7-eu/imaging-manifest/))
 
-In this Implementation Guide, we define how existing IHE profiles can be used to provide secure access to this data and enable the secure exchange of EEHRxF data between systems. This include inheriting and defining system actors, transactions, and exchange patterns. 
+The **EU Access** Implementation Guide defines how existing IHE profiles can be used to **provide secure access to this data**, enable the secure exchange of EEHRxF data between systems. This include inheriting and defining system actors, transactions, and exchange patterns. 
 
 ## Regulatory Basis
 
 The aim is also to provide technical capabilities that satisfy the EHDS Interoperability requirements (EHDS ANNEX II) placed on EHR systems, specifically the obligation on systems to **provide access to data** and **receive data** formatted in EEHRxF.
 
-We focus here on technical implementation of these requirements - The requirements themseleves and how they are applied are not defined in this IG. These are ultimately owned by the European Commission to be defined in the EHDS Implementing Acts. We inherit the work of the Xt-EHR Joint Action, which has created deliverables drafting these requirements. 
+We focus here on technical implementation of these requirements - The requirements themseleves and how they are applied are not defined in this IG. These are ultimately owned by the European Commission to be defined in the EHDS Implementing Acts. We inherit the work of the Xt-EHR Joint Action, which has created deliverables drafting these requirements - and focus here on providing a technical implementation of these requirements using the standards developed by the IHE and HL7 Community.
 
 
 ## Author
