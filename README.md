@@ -23,6 +23,10 @@ In this repository a **co-branded HL7 Europe / IHE Europe explorative Projekt** 
 
 ## Authors
 
+Josh Priebe, Epic
+
+Bas van den Heuvel, Philips
+
 Giorgio Cangioli, HL7 Europe
 
 dr Kai Heitmann, HL7 Europe
@@ -30,7 +34,3 @@ dr Kai Heitmann, HL7 Europe
 Andreas Klingler, IHE Europe
 
 Janos Vincze, IHE Europe
-
-Bas van den Heuvel, Philips
-
-(more)
