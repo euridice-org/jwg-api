@@ -592,13 +592,14 @@ RuleSet: CapabilityStatement-Encounter( high )
 
 RuleSet: CapabilityStatement-Provenance( high )
 * resource[+]
-  * extension[0].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-  * extension[=].valueCode = {high}  
+  * extension[+]
+    * url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+    * valueCode = {high}  
   * type = #Provenance
    //* supportedProfile[+] = "https://profiles.ihe.net/ITI/mXDE/StructureDefinition/IHE.ITI.mXDE.Provenance"
    //* supportedProfile[=].extension.url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
    //* supportedProfile[=].extension.valueCode = {high}
-  * interaction[0].extension.url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+  * interaction[+].extension.url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
   * interaction[=].extension.valueCode = {high}
   * interaction[=].code = #read
   * interaction[+].extension.url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"

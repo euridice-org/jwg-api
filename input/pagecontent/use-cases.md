@@ -14,4 +14,5 @@ Use cases related to EHDS API specification:
    4. Patient suggesting corrections on its healthcare data
 4. Cross border exchange
    1. Healthcare provider accessing information from healthcare provider in a different EU country
+      1. Includes translation of the document.
 

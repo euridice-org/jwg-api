@@ -59,6 +59,7 @@ The actor in this profile provides FHIR-based queries for one or more fine-grain
   * insert CapabilityStatement-PractitionerRole( #SHOULD )
   * insert CapabilityStatement-Procedure( #SHOULD )
   * insert CapabilityStatement-RelatedPerson( #SHOULD )
+  * insert CapabilityStatement-Provenance( #SHOULD )
 
 Instance: EEHRxF-EPS-Resource-Provider-CapabilityStatement
 InstanceOf: CapabilityStatement
@@ -117,4 +118,5 @@ The actor in this profile responds to FHIR-based queries for one or more fine-gr
   * insert CapabilityStatement-Practitioner( #SHALL )
   * insert CapabilityStatement-PractitionerRole( #SHALL )
   * insert CapabilityStatement-Procedure( #SHALL )
+  * insert CapabilityStatement-Provenance( #SHALL )
   * insert CapabilityStatement-RelatedPerson( #SHALL )

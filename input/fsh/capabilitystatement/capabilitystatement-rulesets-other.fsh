@@ -3,6 +3,7 @@ RuleSet: CapabilityStatement-ClinicalImpression( high )
   * type = #ClinicalImpression
   * insert CapabilityStatement-Expectation( {high} )
   * insert RequireReadAndSearch
+  * searchRevInclude = "Provenance:target"
   * searchParam[+]
     * insert CapabilityStatement-Expectation( {high} )
     * name = "patient"
@@ -29,6 +30,7 @@ RuleSet: CapabilityStatement-Composition( high )
     * name = "type"
     * definition = "http://hl7.org/fhir/SearchParameter/clinical-type"
     * type = #reference
+  * searchRevInclude = "Provenance:target"
   * searchParam[+]
     * insert CapabilityStatement-Expectation( {high} )
     * name = "patient"
@@ -40,6 +42,7 @@ RuleSet: CapabilityStatement-CarePlan( high )
   * type = #CarePlan 
   * insert CapabilityStatement-Expectation( {high} )
   * insert RequireReadAndSearch
+  * searchRevInclude = "Provenance:target"
   * searchParam[+]
     * insert CapabilityStatement-Expectation( {high} )
     * name = "patient"
@@ -51,6 +54,7 @@ RuleSet: CapabilityStatement-Consent( high )
   * type = #Consent
   * insert CapabilityStatement-Expectation( {high} )
   * insert RequireReadAndSearch
+  * searchRevInclude = "Provenance:target"
   * searchParam[+]
     * insert CapabilityStatement-Expectation( {high} )
     * name = "patient"
@@ -69,12 +73,14 @@ RuleSet: CapabilityStatement-Device( high )
   * conditionalUpdate = false
   * conditionalDelete = #not-supported
   * referencePolicy = #resolves // change identifier references to logical references
+  * searchRevInclude = "Provenance:target"
 
 RuleSet: CapabilityStatement-DeviceUseStatement( high )
 * resource[+]
   * type = #DeviceUseStatement
   * insert CapabilityStatement-Expectation( {high} )
   * insert RequireReadAndSearch
+  * searchRevInclude = "Provenance:target"
   * searchParam[+]
     * insert CapabilityStatement-Expectation( {high} )
     * name = "patient"
@@ -128,6 +134,7 @@ RuleSet: CapabilityStatement-IncludedDocumentReference( high )
   * conditionalCreate = false
   * conditionalUpdate = false
   * conditionalDelete = #not-supported
+  * searchRevInclude = "Provenance:target"
   * referencePolicy = #resolves // change identifier references to logical references
 
 RuleSet: CapabilityStatement-Organization( high )
@@ -142,6 +149,7 @@ RuleSet: CapabilityStatement-Organization( high )
   * conditionalCreate = false
   * conditionalUpdate = false
   * conditionalDelete = #not-supported
+  * searchRevInclude = "Provenance:target"
   * referencePolicy = #resolves // change identifier references to logical references
 
 RuleSet: CapabilityStatement-Practitioner( high )
@@ -156,6 +164,7 @@ RuleSet: CapabilityStatement-Practitioner( high )
   * conditionalCreate = false
   * conditionalUpdate = false
   * conditionalDelete = #not-supported
+  * searchRevInclude = "Provenance:target"
   * referencePolicy = #resolves // change identifier references to logical references
 
 
@@ -172,6 +181,7 @@ RuleSet: CapabilityStatement-PractitionerRole( high )
   * conditionalUpdate = false
   * conditionalDelete = #not-supported
   * referencePolicy = #resolves // change identifier references to logical references
+  * searchRevInclude = "Provenance:target"
 
 RuleSet: CapabilityStatement-RelatedPerson( high )
 * resource[+]
@@ -186,4 +196,4 @@ RuleSet: CapabilityStatement-RelatedPerson( high )
   * conditionalUpdate = false
   * conditionalDelete = #not-supported
   * referencePolicy = #resolves // change identifier references to logical references
-
+  * searchRevInclude = "Provenance:target"
