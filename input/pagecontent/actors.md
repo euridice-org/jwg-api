@@ -16,7 +16,9 @@ This is similar to the approach taken in the MHDS specification, but with a more
 
 Document exchange is defined with 3 actors:
 
-![Document Exchange Diagram 1](../images/docExchange_1.png)
+<p align="center">
+  <img src="../images/docExchange_1.png" alt="Document Exchange Diagram 1">
+</p>
 
 1. **Document Producer (client)** - Produces EEHRxF FHIR Documents, publishes those documents to a Document Access Provider. Can be grouped with Access Provider, in which case the publishing transactions are internalized.
 
@@ -26,7 +28,9 @@ Document exchange is defined with 3 actors:
 
 These composite actors inherit existing actors from the IUA, PDQm, and MHD specifications:
 
-![Document Exchange Diagram 2](../images/docExchange_2.png)
+<p align="center">
+  <img src="../images/docExchange_2.png" alt="Document Exchange Diagram 2">
+</p>
 
 **Document Producer**
 - [IUA Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client)
@@ -47,7 +51,9 @@ These composite actors inherit existing actors from the IUA, PDQm, and MHD speci
 
 This leads to the following required transactions between these actors:
 
-![Document Exchange Diagram 3](../images/docExchange_3.png)
+<p align="center">
+  <img src="../images/docExchange_3.png" alt="Document Exchange Diagram 3">
+</p>
 
 TODO: Table.
 
@@ -60,7 +66,9 @@ This can be combined with content profiles define by each EHDS Priority Category
 
 It is also useful in many cases to transact with individual FHIR resources (note: ref other page). For this purpose, two resource-based actors are defined:
 
-![Resource Exchange Diagram 1](../images/resExchange_1.png)
+<p align="center">
+  <img src="../images/resExchange_1.png" alt="Resource Exchange Diagram 1">
+</p>
 
 
 4. **Resource Access Provider (server)** - A FHIR server providing access to FHIR resources by hosting search + read query API's.
@@ -76,7 +84,9 @@ Resource exchange is more complex than document publication, and in many cases h
 
 These composite actors inherit existing actors from the IUA, PDQm, and QEDm/IPA specifications:
 
-![Resource Exchange Diagram 2](../images/resExchange_2.png)
+<p align="center">
+  <img src="../images/resExchange_2.png" alt="Resource Exchange Diagram 2">
+</p>
 
 
 **Resource Access Provider**
@@ -94,7 +104,9 @@ These composite actors inherit existing actors from the IUA, PDQm, and QEDm/IPA 
 
 This leads to the following required transactions between these actors:
 
-![Resource Exchange Diagram 3](../images/resExchange_3.png)
+<p align="center">
+  <img src="../images/resExchange_3.png" alt="Resource Exchange Diagram 3">
+</p>
 
 TODO: Analyis of what to inherit from IPA vs IHE QEDm vs EU Core. 
 
@@ -108,9 +120,13 @@ TODO: Choice of which resources from each priority area make sense to be in scop
 
 TODO: Josh Add Narrative.
 
-![alt text](../images/ExGroup_Doc.png)
+<p align="center">
+  <img src="../images/ExGroup_Doc.png" alt="Example Grouping - Document">
+</p>
 
-![alt text](../images/ExGroup_Group.png)
+<p align="center">
+  <img src="../images/ExGroup_Group.png" alt="Example Grouping - Group">
+</p>
 
 
 # Use with Other IHE Profiles
