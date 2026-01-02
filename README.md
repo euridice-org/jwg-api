@@ -71,11 +71,68 @@ Andreas Klingler, IHE Europe
 Janos Vincze, IHE Europe
 
 
-# Project Structure
-
-
 
 # Page Structure
+
+The following is the desired page structure (not yet complete).
+
+```ascii
+├── Home (landing page)
+│   └── Quick description, Goals, Link to Content Profiles, Basic Actor Definitions, Example Story & Sequence
+│
+├── Introduction / Background - Narrative / explanatory topics.
+│   ├── Scope
+│   ├── EHDS Regulatory Anchor - Link to EHDS Regulatory Text, which part we handle here, and what it means about scope
+│   ├── FHIR Documents and FHIR Resources - Simple explanation of each, where each would be used, ...
+│   ├── Relationship to XDS/XCA and FHIR Environments - MHD as a Bridge between XDS/XCA and FHIR environments. Perspective from each.
+│   └── Relation to Member State Architectures - Different member state architectures exist across the EU (central repo / federated), the aim is to fit to most. 
+│
+├── Functional - Volume 1-ish. 
+│   ├── Actors and Transactions - High level explainer of actors and transactions
+│   ├── Capability Discovery
+│   │   ├── FHIR CapabilityStatement
+│   │   └── Discovering which priority categories a server supports
+│   ├── Authorization
+│   │   └── IUA/SMART Backend
+│   ├── Patient Match
+│   │   └── Demographics Search
+│   ├── Document Exchange
+│   │   └── Shared DocRef search params
+│   └── Resource Access
+│       └── FHIR Core Search (IPA/QEDm)
+│
+├── Implementation - Example use cases.
+│   ├── Simple Example: Getting a Patient Summary for a Patient (Auth, patient match, doc lookup, doc retrieval )
+│   ├── Accessing EEHRxF Data (health professional access portal)
+│   ├── Accessing EEHRxF Data (health data access portal)
+│   ├── Accessing EEHRxF Data (cross-border via National Contact Point)
+│   └── Additional Use Cases...
+│       ├── Base: EHR System IC query and retrieve
+│       ├── Hospital-level Aggregation/Facade
+│       ├── Export data for system replacement
+│       ├── Organization to Organization Exchange (Federated)
+│       ├── Organization to Organization Exchange (Central Repository)
+│       └── Wellness App Accesses Data
+│
+├── Artifacts
+│   ├── Data Profiles
+│   │   ├── EU Core patient
+│   │   └── DocumentReference
+│   ├── operations (OperationDefinition)
+│   │   └── Patient.$match (inherited from PDQm)
+│   ├── actorDefinition
+│   │   ├── Producer
+│   │   └── Consumer
+│   └── CapabilityStatements
+│
+└── About
+    ├── Authors and Contributors
+    ├── Change Log
+    ├── Downloads
+    └── Copyright
+```
+
+
 
 
 # Misc
