@@ -23,7 +23,7 @@
 
 This implementation guide provides a API specification that addresses the requirements set by {{XtEHR}} in {{XtEHR_WP5_1}}. It addresses:
 
-* The eco-system in which the API's are deployed
+* The eco-system in which the APIs are deployed
 * The actors and use cases
 * The different deployment options that have been considered when designing these APIs
 * The API to be implemented in order to support the different {{EHDS_priority_categories}} of the {{EHDS}}
@@ -42,7 +42,7 @@ The specification is to be used in a variety of deployment models, which include
 
 ### Purpose
 
-The goal of this Implementation Guide is to define an European standard for the Imaging Report to facilitate the harmonization among the national initiatives and prepare the ground for the European EHR eXchange Format (E-EHRxF).
+The goal of this Implementation Guide is to define a European standard for the Imaging Report to facilitate the harmonization among the national initiatives and prepare the ground for the European EHR eXchange Format (E-EHRxF).
 
 The development of this implementation guide is promoted by HL7 Europe, but realized in collaboration with several other European and national organizations and projects. The aspiration of this guide is to be used as basis for European National Guides, the European EHRxF ,and - consequently - by MyHealth@EU for the EU cross-border services.
 

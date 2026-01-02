@@ -1,10 +1,10 @@
-This document explores the different API's that are relevant in the context of EHDS.
+This document explores the different APIs that are relevant in the context of EHDS.
 
 ### Context diagram
 
-The figure below shows an architectural view of the different API’s that are relevant in the context of {{EHDS}}.
- 
-The figure shows the flow of data within and between different member states. It identifies a of business actors and API’s relevant for EHDS. The API’s are presented in blue, the actors in black.
+The figure below shows an architectural view of the different APIs that are relevant in the context of {{EHDS}}.
+
+The figure shows the flow of data within and between different member states. It identifies a of business actors and APIs relevant for EHDS. The APIs are presented in blue, the actors in black.
 
 {% include img.html img="EHDS-overview.drawio.png" caption="Figure: EHDS overview" %}
 
@@ -23,7 +23,7 @@ These business actors are connected by networks. Access to these networks is gov
 * **National Infrastructure API**, the API/protocol defined by member states that is used to connect the National Contact Points with Healthcare Providers and Proxy Services.
 * **EHR System API**, the API that EHR systems have to implement in order to satisfy the requirements as specified in EHDS.
 * Wellness API, the API used by Wellness applications to communicate with an EHR system capable of receiving data from that Wellness Application.
-* **Patient Access API**, the API Patient Apps use to communicate with eh national infrastructure.
+* **Patient Access API**, the API Patient Apps use to communicate with the national infrastructure.
 
 ### API definitions
 
@@ -36,7 +36,7 @@ The definition of an interface can be conceptually described as consisting of tw
 1. The protocols/API used to set up the communication
 2. The data format that is used to communicate the content.
 
-For most interfaces in EHDS, this data format is the European Electronic Health Record exchange Format (EEHRxF) (EHDS Arcticle 15). These specifications are developed by HL7eu and IHEeu:
+For most interfaces in EHDS, this data format is the European Electronic Health Record exchange Format (EEHRxF) (EHDS Article 15). These specifications are developed by HL7eu and IHEeu:
 
 * European Patient Summary (  [HL7 Europe Patient Summary](https://build.fhir.org/ig/hl7-eu/eps/) )
 * Europe Medication Prescription and Dispense ([HL7 Europe Medication Prescription and Dispense](https://build.fhir.org/ig/hl7-eu/mpd/))
@@ -60,7 +60,7 @@ This part of the specification will define what priority categories that are to 
 * Category specific search options
 * Category specific capabilities (e.g. download of DICOM data)
 * 
-For the non-document based priority area's, the specification with define the interactions that are specific for this priority area.
+For the non-document based priority areas, the specification will define the interactions that are specific for this priority area.
 
 ### Specification directions for each interface
 

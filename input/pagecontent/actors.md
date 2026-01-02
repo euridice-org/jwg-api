@@ -1,16 +1,16 @@
-# Actors and Transations
+# Actors and Transactions
 
-The actor model defined here is an orchestration of existing IHE actors and specifications, combined together into high-level composite actors. Actors and transactions are inhereted from dependent IHE profiles, and those actors are stacked, constrained and potentially modified. 
+The actor model defined here is an orchestration of existing IHE actors and specifications, combined together into high-level composite actors. Actors and transactions are inherited from dependent IHE profiles, and those actors are stacked, constrained and potentially modified. 
 
 This is similar to the approach taken in the MHDS specification, but with a more narrow subset of specifications fit to the european situation.
 
 ## Relevant Specifications:
-- [IHE MHD](https://profiles.ihe.net/ITI/MHD/) - Defines exchange of Documents, which we use to exchange FHIR document content. (note: no XDS dependancies)
+- [IHE MHD](https://profiles.ihe.net/ITI/MHD/) - Defines exchange of Documents, which we use to exchange FHIR document content. (note: no XDS dependencies)
 - [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
 - [HL7 SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and FHIR scopes. 
 - [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) - Defines how a client can perform patient lookup against a server.
 - [HL7 International Patient Access](https://build.fhir.org/ig/HL7/fhir-ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access.
-- [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resoruces from a FHIR servr.
+- [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server.
 
 # Document Exchange
 
@@ -53,7 +53,7 @@ TODO: Table.
 
 TODO: Link to functional subpages for authorizatation, patient search, and document exchange, with details on these transactions.
 
-This can be combined with content profiles define by each EHDS Priority Category, for those categegories that are primarily represented as a FHIR Document. For example, a system can be a **Lab Result Document Producer**, a **Patient Summary Document Consumer**, or a **Imaging Manfest Document Acess Provider**. See Content Libary
+This can be combined with content profiles define by each EHDS Priority Category, for those categories that are primarily represented as a FHIR Document. For example, a system can be a **Lab Result Document Producer**, a **Patient Summary Document Consumer**, or a **Imaging Manifest Document Access Provider**. See Content Library
 
 
 # Resource Exchange
@@ -64,7 +64,7 @@ It is also useful in many cases to transact with individual FHIR resources (note
 
 
 4. **Resource Access Provider (server)** - A FHIR server providing access to FHIR resources by hosting search + read query API's.
-5. **Resource Consumer (client)** - A FHIR client that consumes external FHIR resources by querying a Resource Acess Provider.
+5. **Resource Consumer (client)** - A FHIR client that consumes external FHIR resources by querying a Resource Access Provider.
 
 <details>
 <summary><i>Note: What about Resource Producer? Click to expand</i></summary>
@@ -132,7 +132,7 @@ TODO: Bas/Charles/etc to review/fix my mistakes.
 
 In the imaging priority category, IHE-RAD (MADO) transactions are used to provide access to DICOM images.
 
-The IHE MADO Profile starts with a precondition that an Image Consumer has gained access to a manifest. This could be accomplished by the Image Consumer bundling with the Document Consumer actor specified here - and querying a Document Access Provider for an image manifest. Then, the Image Consumer uses the information in the Image Manfiest to constructo a WADO-RS query to the Imaging Source (note: Auth could get complicated here).
+The IHE MADO Profile starts with a precondition that an Image Consumer has gained access to a manifest. This could be accomplished by the Image Consumer bundling with the Document Consumer actor specified here - and querying a Document Access Provider for an image manifest. Then, the Image Consumer uses the information in the Image Manifest to construct a WADO-RS query to the Imaging Source (note: Auth could get complicated here).
 
 A composite actor could be created inheriting Document Consumer + MADO Image Consumer. 
 

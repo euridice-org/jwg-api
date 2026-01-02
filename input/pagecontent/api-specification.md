@@ -1,5 +1,5 @@
 {% include variable-definitions.md %}
-This section specifies how to inspect implement the use cases in an EHR system. 
+This section specifies how to implement the use cases in an EHR system. 
 
 The central HIE infrastructure defined in this profile might be a single FHIR Server implementing all the defined central service actors or may be virtual cloud of the systems implementing the defined profile actors. These deployment models allow for modularity where each service function could be provided by different vendors, leveraging as much as possible from a reference implementation of a FHIR Server, and also leverage as much as possible of modularity enabled by defined profiles.
 
@@ -63,7 +63,7 @@ The conditional requirement on the authorization related transactions relates to
 
 ### Actor Options
 
-Options that may be selected for each actor in this profile. Dependencies between options, when applicable ar specified in notes.
+Options that may be selected for each actor in this profile. Dependencies between options, when applicable are specified in notes.
 
 {:.grid}
 | Actor | Option name |
