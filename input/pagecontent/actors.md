@@ -110,8 +110,6 @@ TODO: Josh Add Narrative.
 
 ![alt text](../images/ExGroup_Doc.png)
 
-
-
 ![alt text](../images/ExGroup_Group.png)
 
 
