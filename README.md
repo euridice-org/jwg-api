@@ -31,11 +31,21 @@ See [Regulatory Anchors](input/pagecontent/regulatoryAnchors.md) page for more d
 
 ## Actors
 
-See [actors.md](input/pagecontent/actors.md) for a detailed description of the actor model. 
+See [Actors and Transactions](input/pagecontent/actors.md) for a detailed description of the actor model.
 
 TODO: Summary of this page for intro.
 
 [Diagram]
+
+## Functional Requirements
+
+The following pages describe the functional requirements for the API:
+
+- **[Capability Discovery](input/pagecontent/capability-discovery.md)** - How to discover which priority categories a server supports
+- **[Authorization](input/pagecontent/authorization.md)** - SMART Backend Services + IUA (required)
+- **[Patient Matching](input/pagecontent/patient-matching.md)** - PDQm Patient Demographics Query
+- **[Document Exchange](input/pagecontent/document-exchange.md)** - MHD transactions (ITI-65, ITI-67, ITI-68)
+- **[Resource Access](input/pagecontent/resource-access.md)** - QEDm resource query (PCC-44)
 
 
 
