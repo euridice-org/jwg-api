@@ -18,13 +18,6 @@ Other Member States use federated architectures where data remains at the source
 - Queries are federated across multiple systems
 - National infrastructure routes queries to appropriate sources
 
-### Hybrid Approaches
-
-Many Member States combine elements of both models:
-- Metadata in central registries
-- Full content at source systems
-- Regional hubs with national coordination
-
 ## Fitting This Specification to Different Architectures
 
 This IG supports multiple deployment models by defining actors and transactions that can be implemented:
