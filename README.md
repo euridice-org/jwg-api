@@ -49,7 +49,7 @@ The following pages describe the functional requirements for the API:
 
 ## Local build
 
-Use Docker for reproducible builds: see [`docker.md`](docker.md) for the single-command workflow and cache tips.
+See [`docker.md`](docker.md) for the full publisher workflow: local Docker build, cache options, and CI/branch verification steps.
 
 ## CI builds
 
