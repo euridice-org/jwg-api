@@ -9,6 +9,7 @@ Authorization is required for all API transactions. This IG uses SMART Backend S
 Out of band, the Consumer registers identity credentials (public key, client identifier) with the Access Provider.
 
 Future: Consider UDAP for dynamic client registration.
+See [FHIR UDAP Security IG](https://build.fhir.org/ig/HL7/fhir-udap-security-ig/) for more details.
 
 ## SMART Backend Services
 
