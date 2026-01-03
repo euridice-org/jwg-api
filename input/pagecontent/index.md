@@ -2,6 +2,8 @@
 
 # EU Health Data API
 
+This Implementation Guide specifies APIs for accessing and exchanging European Electronic Health Record exchange Format (EEHRxF) data, addressing EHDS interoperability requirements for EHR systems.
+
 In this repository a **co-branded HL7 Europe / IHE Europe Project** resides which specifies API definitions for accessing and exchanging European Electronic Health Record exchange Format (EEHRxF) (EHDS Article 15) data between systems.
 
 We inherit the following HL7 EU Content Profiles below, which define the format of the data to be exchanged (primarily FHIR Documents constructed of FHIR resources):
@@ -11,7 +13,8 @@ We inherit the following HL7 EU Content Profiles below, which define the format 
 * Europe Laboratory Report ([HL7 Europe Laboratory Report v0.2.0-ci](https://build.fhir.org/ig/hl7-eu/laboratory/))
 * Europe Hospital Discharge Report ([Europe Hospital Discharge Report](https://build.fhir.org/ig/hl7-eu/hdr/))
 * Europe Imaging Study Report ([HL7 Europe Imaging Report](https://build.fhir.org/ig/hl7-eu/imaging/))
-* Europe Imaging Study Manifest ([HL7 Europe Imaging Study Manifest R5](https://build.fhir.org/ig/hl7-eu/imaging-manifest/))
+
+**Note**: Europe Imaging Study Manifest is defined in R5. This R4 IG provides conceptual alignment only; R5 imaging manifest support will be addressed via future extensions.
 
 The goals of the **EU Health Data API** Implementation Guide are twofold:
 1. **Define Exchange Patterns for EEHRxF Data:** Define how existing IHE profiles and other specifications can be used to ***provide secure access to this data*** and enable the secure exchange of EEHRxF data between systems. 

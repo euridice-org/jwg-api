@@ -1,85 +1,110 @@
 # Document Exchange
-TODO: AI generated, seems mostly right but verify
+
 ## Overview
 
-Document exchange using IHE MHD (Mobile Health Documents).
+Document exchange using IHE MHD (Mobile Health Documents) transactions. This IG inherits MHD transactions as-is, with constraints specific to EEHRxF content.
 
 ## Actors
 
-- **Document Source** (Producer): Publishes documents
-- **Document Recipient** (Access Provider): Receives documents
-- **Document Responder** (Access Provider): Serves document queries
-- **Document Consumer:** Queries and retrieves documents
+- **Document Producer** (client): Publishes documents using MHD Document Source
+- **Document Access Provider** (server): Receives and serves documents using MHD Document Recipient + Document Responder
+- **Document Consumer** (client): Queries and retrieves documents using MHD Document Consumer
 
-## Transactions
+See [Actors and Transactions](actors.html) for detailed actor groupings.
 
-**ITI-65:** Provide Document Bundle (Publish)
-- Document Source → Document Recipient
+## IHE MHD Transactions
 
-**ITI-67:** Find Document References (Search)
-- Document Consumer → Document Responder
+This IG uses the following IHE MHD transactions without modification to the transaction mechanics:
 
-**ITI-68:** Retrieve Document (Retrieve)
-- Document Consumer → Document Responder
+### ITI-65: Provide Document Bundle (Publish)
 
-## Publish Documents (ITI-65)
+Document Producer → Document Access Provider
 
-Document Source submits DocumentReference + Binary to Document Recipient.
+Transaction bundle containing DocumentReference + Binary resources.
 
-Publication pattern: MHD Provide Document Bundle (transaction bundle)
+**Endpoint**: `POST [base]` (transaction bundle)
 
-### Scope Enforcement
-- `system/DocumentReference.c`
-- `system/Binary.c`
+**Scope**: `system/DocumentReference.c`, `system/Binary.c`
 
-### Envelope Validation
-- `subject` references valid Patient
-- `attachment.contentType` in allowlist
-- `type`/`format` bound to allowed value sets per priority category
-- `author` present
-- `custodian` present
+**Constraints**:
+- DocumentReference SHALL conform to EEHRxF DocumentReference profile for declared priority category
+- Binary content SHALL be valid EEHRxF content (FHIR document Bundle)
+- DocumentReference.type and .format SHALL match priority category value sets
 
-### Content Registry Enforcement
-Server rejects publications where DocumentReference.type/format/mime not allowed for declared priority category.
+See [IHE MHD ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) for transaction details.
 
-## Search Documents (ITI-67)
+### ITI-67: Find Document References (Search)
 
-### Required Parameters
+Document Consumer → Document Access Provider
+
+Query for DocumentReference resources.
+
+**Endpoint**: `GET [base]/DocumentReference?[parameters]`
+
+**Required Parameters**:
 - `patient` (required)
 - `_count` (for paging)
 
-### Optional Parameters
-- `type`, `date`, `category`, `format`, `status`
+**Optional Parameters**:
+- `type` - Document type (e.g., Patient Summary LOINC code)
+- `date` - Creation date range
+- `category` - Document category
+- `format` - Format code
+- `status` - Document status
 
-### Paging
-Response includes `link` with `relation="next"` when more results available.
+**Scope**: `system/DocumentReference.rs`, `system/Patient.rs`
 
-## Retrieve Document (ITI-68)
+**Paging**: Response includes `link` with `relation="next"` when more results available.
 
-```
-GET /Binary/{id}
-```
+See [IHE MHD ITI-67](https://profiles.ihe.net/ITI/MHD/ITI-67.html) for transaction details.
 
-Response `Content-Type` must match DocumentReference.content.attachment.contentType.
+### ITI-68: Retrieve Document (Retrieve)
 
-### Supported Formats
-Per priority category:
-- `application/fhir+json` (FHIR Bundle)
-- `application/pdf`
-- `text/xml` (CDA)
+Document Consumer → Document Access Provider
 
-## DocumentReference Profile
+Retrieve document content.
 
-Inherits from IHE MHD Comprehensive DocumentReference.
+**Endpoint**: `GET [base]/Binary/[id]`
 
-Additional constraints:
-- Priority category binding
-- Content registry value sets
-- Required metadata elements
+**Scope**: `system/Binary.r`
+
+**Response**: Binary content with `Content-Type` matching DocumentReference.content.attachment.contentType
+
+**Supported Formats** (per priority category):
+- `application/fhir+json` (FHIR Bundle - document)
+- `application/pdf` (optional, for rendering)
+- `text/xml` (CDA, if supported)
+
+See [IHE MHD ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) for transaction details.
+
+## EEHRxF-Specific Constraints
+
+While the MHD transaction mechanics are unchanged, this IG adds constraints on content:
+
+### DocumentReference Profile
+
+Inherits from IHE MHD Comprehensive DocumentReference with additional constraints:
+- Priority category-specific type/format value sets
+- Required metadata elements for EEHRxF
+- Content registry enforcement
+
+TODO: Define specific DocumentReference profiles per priority area.
+
+### Content Validation
+
+Document Access Providers SHALL:
+- Validate DocumentReference.type/format against priority category value sets
+- Verify Binary content is valid EEHRxF format
+- Enforce required metadata elements
+
+## Authorization
+
+All MHD transactions require authorization via [SMART Backend Services](authorization.html) with appropriate scopes as listed above.
 
 ## See Also
 
-- [IHE MHD](https://profiles.ihe.net/ITI/MHD/)
+- [IHE MHD Specification](https://profiles.ihe.net/ITI/MHD/)
 - [ITI-65 Provide Document Bundle](https://profiles.ihe.net/ITI/MHD/ITI-65.html)
 - [ITI-67 Find Document References](https://profiles.ihe.net/ITI/MHD/ITI-67.html)
 - [ITI-68 Retrieve Document](https://profiles.ihe.net/ITI/MHD/ITI-68.html)
+- [Actors and Transactions](actors.html)

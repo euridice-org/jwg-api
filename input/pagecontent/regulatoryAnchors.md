@@ -7,7 +7,7 @@ TODO 5.1 Diagram with ANNEX II sections.
 
 This Implementation Guide addresses technical requirements from the European Health Data Space (EHDS) regulation, specifically focusing on interoperability requirements placed on EHR systems.
 
-The regulatory basis is found in [EHDS ANNEX II](https://www.ringholm.com/ehds/annex-ii.htm), which describes obligations for EHR systems to:
+The regulatory basis is found in EHDS ANNEX II ([EUR-Lex](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52022PC0197) | [Ringholm reference](https://www.ringholm.com/ehds/annex-ii.htm)), which describes obligations for EHR systems to:
 - **Provide access to data** formatted in EEHRxF
 - **Receive data** formatted in EEHRxF
 
