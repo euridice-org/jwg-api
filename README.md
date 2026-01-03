@@ -51,6 +51,11 @@ The following pages describe the functional requirements for the API:
 
 Use Docker for reproducible builds: see [`docker.md`](docker.md) for the single-command workflow and cache tips.
 
+## CI builds
+
+- Main branch is published continuously at [build.fhir.org/ig/euridice-org/jwg-api/en/](https://build.fhir.org/ig/euridice-org/jwg-api/en/).
+- Feature branches appear under [`branches/<branch>/`](https://build.fhir.org/ig/euridice-org/jwg-api/branches/) after the CI job completes (allow for queue time).
+
 
 
 
