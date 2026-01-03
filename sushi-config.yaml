@@ -33,7 +33,7 @@ dependencies:
   hl7.fhir.eu.base: current
   ihe.iti.pdqm: 3.1.0
   ihe.iti.mhd: 4.2.2
-  ihe.iti.iua: 2.1.0
+  ihe.iti.iua: 2.1.1
   ihe.pcc.qedm: 3.0.0
   hl7.fhir.eu.laboratory: current
   hl7.fhir.uv.ipa: 1.0.0
