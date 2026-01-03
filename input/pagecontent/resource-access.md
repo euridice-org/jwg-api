@@ -75,15 +75,9 @@ If resources are derived from documents (extracted from Bundles), Provenance SHO
 
 ## How Resource Access Provider Gets Resources
 
-Resource Access Provider may obtain resources via:
-1. Internal generation (grouped with implied Resource Producer)
-2. Extracting from documents (grouped with Document Recipient)
-3. Querying another Resource Access Provider (grouped with Resource Consumer)
-4. Translating from other formats
+See [Resource Exchange](resourceExchange.html) for details.
 
-See [Resource Exchange](ResourceExchange.html) for details.
-
-## See Also
+## References
 
 - [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/)
 - [PCC-44 Mobile Query Existing Data](https://profiles.ihe.net/PCC/QEDm/PCC-44.html)
