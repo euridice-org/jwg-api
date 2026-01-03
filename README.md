@@ -47,6 +47,11 @@ The following pages describe the functional requirements for the API:
 - **[Document Exchange](input/pagecontent/document-exchange.md)** - MHD transactions (ITI-65, ITI-67, ITI-68)
 - **[Resource Access](input/pagecontent/resource-access.md)** - QEDm resource query (PCC-44)
 
+## Local build
+
+Use Docker for reproducible builds: see [`docker.md`](docker.md) for the single-command workflow and cache tips.
+
+
 
 
 

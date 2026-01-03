@@ -21,7 +21,7 @@
 
 ### Scope
 
-This implementation guide provides a API specification that addresses the requirements set by {{XtEHR}} in {{XtEHR_WP5_1}}. It addresses:
+This implementation guide provides an API specification that addresses the requirements set by {{XtEHR}} in {{XtEHR_WP5_1}}. It addresses:
 
 * The eco-system in which the APIs are deployed
 * The actors and use cases
