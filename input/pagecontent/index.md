@@ -14,10 +14,12 @@ We inherit the following HL7 EU Content Profiles below, which define the format 
 * Europe Imaging Study Manifest ([HL7 Europe Imaging Study Manifest R5](https://build.fhir.org/ig/hl7-eu/imaging-manifest/))
 
 The goals of the **EU Health Data API** Implementation Guide are twofold:
-1. **Define Exchange Pattern for EEHRxF Data:** Define how existing IHE profiles and other specifications can be used by to ***provide secure access to this data*** and enable the secure exchange of EEHRxF data between systems. 
-2. **Satisfy the EHDS Interoperability Requirements:** Define how these technical capabilities satisfy the EHDS Interoperability requirements placed on EHR system in the EHDS Regulation
+1. **Define Exchange Patterns for EEHRxF Data:** Define how existing IHE profiles and other specifications can be used to ***provide secure access to this data*** and enable the secure exchange of EEHRxF data between systems. 
+2. **Satisfy the EHDS Interoperability Requirements:** Define how these technical capabilities satisfy the EHDS Interoperability requirements placed on EHR systems in the EHDS Regulation
 
-We define exchange patterns by inheriting and defining transactions, system actors, and associated capability statements. 
+## Exchange Patterns
+
+We define exchange patterns by inheriting and defining transactions, system actors, and associated capability statements from existing IHE and HL7 specifications. This includes document-based exchange (using IHE MHD) and resource-based query patterns (using IHE QEDm/HL7 IPA). 
 
 ## Regulatory Basis
 
@@ -49,13 +51,6 @@ These actors can be grouped in various ways to support different deployment mode
 - Hospital or regional aggregation layers
 - National infrastructure façades
 - Federated query systems
-
-### Use with Other IHE Profiles
-
-The actor model supports integration with priority area-specific profiles:
-- **ePrescription/eDispensation**: IHE MPD actors for medication workflows
-- **Image Access**: IHE MADO actors for DICOM image retrieval
-- **Other priority areas**: Similar layered approach with area-specific IHE profiles
 
 See [Actors and Transactions](actors.html) for detailed actor definitions, transactions, and grouping requirements.
 

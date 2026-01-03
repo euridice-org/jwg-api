@@ -24,7 +24,7 @@ The following pages provide examples of common use cases:
 
 ### [Retrieve a European Patient Summary](example-patient-summary.html)
 
-A step-by-step walkthrough showing the complete flow: authorization → patient identification → document query → document retrieval. Demonstrates the most common pattern using the [Document Consumer](actors.html#document-consumer) and [Document Access Provider](actors.html#document-access-provider) actors.
+A step-by-step walkthrough showing the complete flow: authorization → patient identification → document query (IHE MHD ITI-67) → document retrieval (IHE MHD ITI-68). Demonstrates the most common pattern using the [Document Consumer](actors.html#document-consumer) and [Document Access Provider](actors.html#document-access-provider) actors with IHE MHD transactions.
 
 ### [Health Professional Portal](usecase-health-professional-portal.html)
 

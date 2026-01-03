@@ -6,7 +6,7 @@
 id: hl7.fhir.eu.euridice-api
 canonical: http://hl7.eu/fhir/euridice-api
 name: EuridiceApiSpecification
-title: Euridice API specification
+title: EU Health Data API
 # description: Example Implementation Guide for getting started with SUSHI
 status: draft # draft | active | retired | unknown
 version: 0.1.0
@@ -165,7 +165,7 @@ menu:
     Patient Match: patient-match.html
     Document Exchange: document-exchange.html
     Resource Access: resource-access.html
-  Priority Areas:
+  Content:
     Patient Summary: priority-area-eps.html
     Laboratory Test Results: priority-area-laboratory.html
     Hospital Discharge Reports: priority-area-hdr.html

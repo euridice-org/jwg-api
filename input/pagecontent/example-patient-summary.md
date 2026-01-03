@@ -27,7 +27,7 @@ Document Consumer inspects the Document Access Provider's capabilities via [Capa
 GET https://provider.example.org/fhir/metadata
 ```
 
-The CapabilityStatement confirms support for MHD document exchange, PDQm patient search, and European Patient Summary priority category.
+The CapabilityStatement confirms support for IHE MHD document exchange, PDQm patient search, and European Patient Summary priority category.
 
 ### Step 2: Obtain Authorization Token
 
@@ -56,7 +56,7 @@ Response includes the Patient resource with `id=patient-123`.
 
 ### Step 4: Search for Patient Summary Document
 
-Document Consumer queries for Patient Summary documents ([Document Exchange](document-exchange.html)).
+Document Consumer queries for Patient Summary documents using **IHE MHD ITI-67** (Find Document References) transaction ([Document Exchange](document-exchange.html)).
 
 ```
 GET https://provider.example.org/fhir/DocumentReference?patient=patient-123&type=http://loinc.org|60591-5
@@ -67,7 +67,7 @@ Response Bundle contains DocumentReference resources for available Patient Summa
 
 ### Step 5: Retrieve Document Content
 
-Document Consumer retrieves the document content using the Binary reference.
+Document Consumer retrieves the document content using **IHE MHD ITI-68** (Retrieve Document) transaction.
 
 ```
 GET https://provider.example.org/fhir/Binary/binary-456
