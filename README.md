@@ -49,7 +49,7 @@ The following pages describe the functional requirements for the API:
 
 ## Local build
 
-See [`docker.md`](docker.md) for the full publisher workflow: local Docker build, cache options, and CI/branch verification steps.
+See [`build-notes.md`](docker.md) for the full publisher workflow: local Docker build, cache options, and CI/branch verification steps.
 
 ## CI builds
 
