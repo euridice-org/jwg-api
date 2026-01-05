@@ -301,8 +301,5 @@ record:
   * lots of dependency package downloads on first run
   * many broken links + warnings in qa (that’s not a build failure)
 * seeing “internal error in IG ihe.pharm.mpd...” in logs did **not** stop successful builds; treat as noisy unless it becomes fatal
-* build.fhir branch auto-publishing appears controlled externally; don’t assume your branch will show up publicly even if it exists on github
+* build.fhir branch auto-publishing appears controlled externally, though branches are typically built within 10-30m. 
 
----
-
-if you want, paste what the “work gpt” suggested (even if it’s messy). i’ll fold it into this doc and call out which parts are irrelevant/overengineered vs what you actually need.
