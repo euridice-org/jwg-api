@@ -1,911 +1,486 @@
-# FHIR IG Build Setup - Windows 11
+# Josh's Windows Build Environment Notes
 
-## Quick Status
+This document tracks the setup and configuration history for building the EURIDICE FHIR IG on Josh's Windows 11 development environment.
 
-**✅ FIRST DOCKER BUILD SUCCESSFUL!**
+**For general Windows setup instructions, see: [`../build-notes.md`](../build-notes.md)**
 
-- ✅ WSL 2 + Ubuntu-24.04 running
-- ✅ Rancher Desktop configured (Docker v29.0.2-rd)
-- ✅ Repo cloned to WSL: `~/src/jwg-api` (jp branch)
-- ✅ Docker working with `--user root` fix
-- ✅ Persistent cache working with proper permissions (`chmod -R 777`)
-- ✅ Full permissions on repo and cache directories
-- ✅ **Build completed successfully!**
-  - Total time: ~1 hour 23 minutes (first run with full package downloads)
-  - Cache created: 1.8GB of FHIR packages
-  - Output: `output/qa.html` (712K), `output/index.html`, and all IG artifacts
-  - Future builds expected: 3-5 minutes (using cached packages)
+---
 
-**WSL Filesystem Access:**
+## Current Environment Status
+
+**✅ DOCKER BUILD WORKING!**
+
+### Environment Details
+- **Machine:** EPIC114702 / Windows 11
+- **WSL Version:** WSL 2
+- **Distribution:** Ubuntu-24.04
+- **User:** root (default)
+- **Docker:** docker.io v28.2.2 (native in WSL)
+- **Repository:** `~/src/jwg-api` (jp branch)
+- **Working Directory:** `/root/src/jwg-api`
+
+### Current Architecture
+```
+Windows 11 (EPIC114702)
+  └─> WSL 2 (Ubuntu 24.04)
+      ├─> docker.io package (v28.2.2-0ubuntu1~24.04.1)
+      ├─> dockerd running as PID 7220
+      ├─> Repository: ~/src/jwg-api
+      └─> Cache: ~/.fhir/packages/ (1.8GB)
+```
+
+### Performance Metrics
+- **First build:** ~1h 23min (with full package download)
+- **Cached builds:** 3-5 minutes
+- **Latest build:** 4m 47s (verified 2026-01-05)
+- **Cache size:** 1.8GB in `~/.fhir/packages/`
+- **Memory usage:** 4-6GB peak (6GB allocated)
+
+### Access Methods
+- **WSL Terminal:** `wsl -d Ubuntu-24.04 -u root`
 - **Windows Explorer:** `\\wsl$\Ubuntu-24.04\root\src\jwg-api`
-- **VS Code:** See "VS Code Setup" section below for complete instructions
+- **VS Code:** Remote-WSL extension (`code .` from WSL)
 
 ---
 
-## VS Code Setup (Remote-WSL)
+## Setup History
 
-### Prerequisites
-- VS Code installed on Windows
-- Remote - WSL extension installed
+### Session 1: Initial Exploration (Rancher Desktop)
+**Date:** 2025-12-xx
 
-### Method 1: Connect from VS Code (Recommended)
-**This method allows full VS Code functionality in the WSL environment:**
+**Actions:**
+- Installed Ubuntu-24.04 in WSL 2
+- Explored Rancher Desktop approach
+- Encountered Rancher Desktop UI issues
+- Decided on WSL filesystem approach (`~/src/` not `/mnt/c/`)
 
-1. **Install Remote - WSL Extension:**
-   - Open VS Code
-   - Press `Ctrl+Shift+X` (Extensions)
-   - Search: "Remote - WSL"
-   - Install: "Remote - WSL" by Microsoft
+**Outcome:** Decided to try Rancher Desktop after restart
 
-2. **Configure WSL to use root by default:**
-   ```bash
-   # From Windows PowerShell or Command Prompt:
-   wsl -d Ubuntu-24.04 -u root bash -c "echo '[user]' | tee -a /etc/wsl.conf && echo 'default=root' | tee -a /etc/wsl.conf"
+### Session 2: Rancher Desktop Setup (Initial Success)
+**Date:** 2025-12-xx
 
-   # Restart WSL for changes to take effect:
-   wsl --shutdown
-   wsl -d Ubuntu-24.04
-   ```
+**Actions:**
+- Restarted computer (fixed Rancher Desktop UI)
+- Configured Rancher Desktop WSL integration for Ubuntu-24.04
+- Verified Docker working with hello-world test
+- Cloned repo to `~/src/jwg-api` (jp branch)
+- Configured git with jpriebe-epic account
+- Fixed `startDockerPublisher.sh` shebang: `#!/bin/sh` → `#!/bin/bash`
+- Added `--user root` to Docker command for WSL compatibility
+- Set full permissions: `chmod -R 777 . ~/.fhir`
+- **First successful Docker build!**
+  - Build time: ~1h 23min
+  - Downloaded 1.8GB FHIR packages
+  - Output verified: `output/qa.html` (712K) exists
+  - Exit code: 0
 
-3. **Open repo in VS Code from WSL:**
-   ```bash
-   # From Windows terminal:
-   wsl -d Ubuntu-24.04 -u root
-   cd ~/src/jwg-api
-   code .
-   ```
+**Key Fixes Applied:**
+1. **Shebang fix:** Changed from `#!/bin/sh` to `#!/bin/bash`
+   - Reason: Script uses bash-specific `set -o pipefail`
+2. **Permission fix:** Added `--user root` to docker command
+   - Reason: WSL files owned by root, container needs root to write
+3. **Permission fix:** `chmod -R 777` on repo and cache
+   - Reason: Ensures container can read/write mounted volumes
 
-   This will:
-   - Launch VS Code on Windows
-   - Connect to WSL environment
-   - Open the repo with full VS Code features (IntelliSense, Git, terminal, etc.)
+**Outcome:** ✅ Build working with Rancher Desktop
 
-4. **Verify connection:**
-   - Bottom-left corner should show: `WSL: Ubuntu-24.04`
-   - Terminal in VS Code will be WSL bash (as root)
+### Session 3: Transition to docker.io (Current Setup)
+**Date:** 2026-01-05
 
-### Method 2: Open from Windows (Alternative)
-**Use this if you prefer to start from VS Code:**
+**Actions:**
+- Verified Rancher Desktop approach working but wanted simpler setup
+- Installed docker.io package directly in WSL: `apt install docker.io`
+- Started dockerd manually: `dockerd > /var/log/dockerd.log 2>&1 &`
+- Removed dependency on Rancher Desktop
+- **Cached build verified working!**
+  - Build time: 4m 47s
+  - Using existing 1.8GB cache
+  - QA report: 19 errors, 54 warnings (expected)
+  - 1658 HTML files generated
+  - Exit code: 0
 
-1. Open VS Code
-2. Press `F1` or `Ctrl+Shift+P`
-3. Type: "Remote-WSL: Connect to WSL"
-4. Once connected, use File → Open Folder
-5. Navigate to: `/root/src/jwg-api`
-6. Click OK
+**Rationale for Change:**
+- Simpler - no Windows software required
+- Direct control of Docker daemon
+- Lighter weight
+- Both approaches work identically
 
-### Method 3: Windows Filesystem (Not Recommended)
-**Only use this if Remote-WSL doesn't work:**
+**Outcome:** ✅ docker.io approach verified, now primary method
 
-1. Open VS Code
-2. File → Open Folder
-3. Enter path: `\\wsl$\Ubuntu-24.04\root\src\jwg-api`
+---
 
-**Note:** This method has limitations:
-- Slower file I/O
-- Git integration may not work correctly
-- Terminal will be Windows, not WSL
-- Use Remote-WSL methods above for better experience
+## Script Modifications
 
-### VS Code Terminal in WSL
-Once connected via Remote-WSL:
-- Terminal is automatically WSL bash (as root)
-- You can run build commands directly: `./startDockerPublisher.sh`
-- Git commands work natively: `git status`, `git commit`, etc.
+### startDockerPublisher.sh Changes
 
-### Troubleshooting VS Code Connection
-
-**Issue: VS Code connects as wrong user (jpriebe instead of root)**
-
-Solution 1 - Set default user in wsl.conf:
+**1. Shebang fix:**
 ```bash
-wsl -d Ubuntu-24.04 -u root bash -c "echo -e '[user]\ndefault=root' > /etc/wsl.conf"
-wsl --shutdown
+# Before:
+#!/bin/sh
+
+# After:
+#!/bin/bash
+# Updated shebang from /bin/sh to /bin/bash for better compatibility
 ```
 
-Solution 2 - Force root when connecting:
+**2. Added --user root:**
 ```bash
-# Always specify root when opening:
-wsl -d Ubuntu-24.04 -u root bash -c "cd ~/src/jwg-api && code ."
+docker_args=(--name "$instance_name" --rm)
+
+# Added this line:
+# Run container as root user to avoid file permission issues on Linux
+docker_args+=(--user root)
 ```
 
-**Issue: "Workspace does not exist" error**
+**Why these changes are needed:**
+- **Shebang:** Script uses `set -o pipefail` which is bash-specific
+- **--user root:** WSL files owned by root (UID 0), container must match
 
-This happens when VS Code connects as wrong user. Use Solution 1 above to set root as default.
-
-**Issue: Git changes not showing**
-
-Ensure you're using Remote-WSL connection (Method 1), not Windows filesystem (Method 3).
+**Status:** Both changes committed to jp branch
 
 ---
 
-## Design Goals & Philosophy
+## Daily Workflow
 
-**Primary Goal:**
-Get the FHIR IG building locally on Windows 11 using Docker, producing complete `output/` with `qa.html` and rendered IG site.
-
-**Key Principles:**
-1. **Docker-first approach:** Avoid native installs of Java/Ruby/Node - keep local environment clean and portable
-2. **Match Mac workflow:** Use same `hl7fhir/ig-publisher-base` image and build patterns
-3. **WSL filesystem for builds:** Avoids Windows file locking issues, faster I/O (20-30% improvement)
-4. **Persistent package cache:** ~1.8GB of FHIR packages cached, reduces rebuilds from ~1h 23min to 3-5 min
-5. **Reproducible builds:** Single command (`./startDockerPublisher.sh`) works consistently
-
-**Non-Goals:**
-- Fixing all QA warnings/errors (many broken links are expected and not build failures)
-- Changing IG content or dependencies
-- Solving build.fhir branch publishing (separate infrastructure concern)
-
-**Build Performance:**
-- **First run:** ~1h 23min (downloads 1.8GB of FHIR packages, compiles FSH, generates IG)
-- **Subsequent runs:** 3-5 min (uses cached packages)
-- **Memory:** 6GB heap allocated (`-Xmx6g`), typical usage 3-4GB, peaks at 4-5GB
-
-**Expected QA Results:**
-The build is successful even with warnings/errors in qa.html. Typical results:
-- Broken links: ~25 (external references, expected)
-- Errors: ~19 (mostly profile conformance warnings)
-- Warnings: ~54 (terminology bindings, slicing)
-- Info: ~44 (informational messages)
-
-These are normal for FHIR IG builds and not build failures.
-
----
-
-## Quick Replication Guide
-
-**To replicate this working environment from scratch:**
+### Starting Work
 
 ```bash
-# 1. Start WSL Ubuntu as root
+# From Windows, open WSL as root
 wsl -d Ubuntu-24.04 -u root
 
-# 2. Clone repo to WSL filesystem (not /mnt/c/...)
-mkdir -p ~/src
-cd ~/src
-git clone https://github.com/euridice-org/jwg-api.git
-cd jwg-api
+# Start Docker daemon (if not running)
+docker ps 2>/dev/null || dockerd > /var/log/dockerd.log 2>&1 &
 
-# 3. Configure git account (repo-level)
-git config user.name "Your Name"
-git config user.email "your.email@example.com"
+# Navigate to repo
+cd ~/src/jwg-api
 
-# 4. Fix script shebang
-sed -i "1s|#!/bin/sh|#!/bin/bash|" startDockerPublisher.sh
+# Optional: Open in VS Code
+code .
+```
 
-# 5. Edit script to add --user root
-# Add this line after line 39 (after docker_args=(--name...)):
-# docker_args+=(--user root)
+### Building
 
-# 6. Set permissions
-chmod -R 777 .
-mkdir -p ~/.fhir
-chmod -R 777 ~/.fhir
-
-# 7. Run first build (~1h 23min)
+```bash
+# Quick build
 ./startDockerPublisher.sh
 
-# 8. Verify success
-ls -lh output/qa.html
+# Timed build (for performance testing)
+time ./startDockerPublisher.sh
 
-# 9. Future builds (~3-5min)
-./startDockerPublisher.sh
+# View results in Windows browser
+explorer.exe output/qa.html
+explorer.exe output/index.html
 ```
 
-**Key success factors:**
-- Build from WSL filesystem (not `/mnt/c/...`)
-- Run container as root (`--user root`)
-- Full permissions on repo and cache (`chmod -R 777`)
-- Persistent cache enabled (default in startDockerPublisher.sh)
+### Git Workflow
 
----
-
-## Key Learnings (Windows vs Mac)
-
-**What Works on Mac:**
-- Docker Desktop handles WSL filesystem mounting transparently
-- Persistent cache works out of the box
-- No permission issues
-
-**Windows + Rancher Desktop Differences:**
-1. **Must run container as root:** Add `--user root` to Docker command (WSL files owned by root)
-2. **Permission issues initially:** File locking and permission errors with default permissions
-3. **Solution:** Set full permissions with `chmod -R 777 .` (repo) and `chmod -R 777 ~/.fhir` (cache)
-4. **Script shebang:** Must be `#!/bin/bash` not `#!/bin/sh` for pipefail support
-
-**Working Docker Command:**
 ```bash
-docker run --rm --user root \
-  -v "$(pwd):/home/publisher/ig" \
-  -v "$HOME/.fhir:/home/publisher/.fhir" \
-  -e "JAVA_TOOL_OPTIONS=-Xmx6g -Xms512m" \
-  hl7fhir/ig-publisher-base \
-  bash -c "rm -rf temp template output && ./_updatePublisher.sh -y && ./_genonce.sh"
+# Check status
+git status
+
+# Make changes, then commit
+git add .
+git commit -m "Description of changes"
+git push origin jp
+
+# Note: Using jpriebe-epic account (configured at repo level)
 ```
-
-**Or simply use the fixed script:**
-```bash
-./startDockerPublisher.sh  # Uses persistent cache by default
-```
-
-**Goal:** Keep local environment clean (no Java/Node/SUSHI install) - Docker provides everything
-
-**Result:** Persistent cache working - first build ~15-20 min, subsequent builds expected ~3-5 min.
 
 ---
 
-## Overview
+## Issues Encountered & Solutions
 
-Setting up `euridice-org/jwg-api` FHIR IG build on Windows 11 using **Rancher Desktop + WSL 2 + Ubuntu**.
+### Issue 1: Script Shebang Incompatibility
+**Symptom:** `set: Illegal option -o pipefail`
 
-### Project Context
-- **Project:** EURIDICE API Specification (HL7 Europe / IHE Europe)
-- **Purpose:** FHIR IG for EHDS EHR Interoperability Component
-- **Package:** `hl7.fhir.eu.euridice-api` v0.1.0
-- **Build tools:** SUSHI (FSH → FHIR) + IG Publisher (Java-based)
-- **Expected output:** `output/qa.html` (QA report), `output/index.html` (IG website)
+**Cause:** Script had `#!/bin/sh` but used bash syntax
 
----
-
-## Setup Completed
-
-### 1. WSL 2 + Ubuntu
-- **Status:** ✅ Configured and running
-- **Distribution:** Ubuntu-24.04 (WSL 2)
-- **User:** root (default)
-- **Location:** `\\wsl$\Ubuntu-24.04\root\src\jwg-api`
-
-### 2. Rancher Desktop
-- **Status:** ✅ Configured and working
-- **Version:** Docker v29.0.2-rd
-- **Why Rancher:** Docker Desktop requires paid license at Epic (under review, ID 2028). Rancher Desktop approved (ID 3070, Apache 2.0)
-- **Configuration:**
-  - Container engine: dockerd (moby) ✅
-  - WSL integration: Enabled for Ubuntu-24.04 ✅
-  - Docker commands working: `docker run hello-world` passed ✅
-
-### 3. Repository
-- **WSL Location:** `~/src/jwg-api`
-- **Windows Path:** `\\wsl$\Ubuntu-24.04\root\src\jwg-api`
-- **Branch:** `jp` (commit 6b1561a)
-- **Git Config:** jpriebe-epic account (repo-level)
-- **Remote:** https://github.com/euridice-org/jwg-api
-
-### 4. IG Publisher
-- **Status:** ✅ Downloaded to `input-cache/publisher.jar`
-- **Size:** 218 MB
-- **Method:** Ran `_updatePublisher.sh -y` directly in WSL
-
----
-
-## Issues & Solutions
-
-### Issue 1: Rancher Desktop UI Not Opening
-**Symptom:** Taskbar icon present, but no window, no right-click menu
-**Solution:** Computer restart fixed this
-
-### Issue 2: Ubuntu Stopped When Rancher Desktop Started
-**Symptom:** "Error managing distribution Ubuntu-24.04: kubeconfig: wsl.exe exited with code 1"
-**Root Cause:** Ubuntu-24.04 was stopped when Rancher Desktop tried to integrate
-**Solution:**
-```bash
-wsl -d Ubuntu-24.04 echo "test"  # Start Ubuntu
-# Then enable WSL integration in Rancher Desktop settings
-```
-
-### Issue 3: Script Shebang Incompatibility
-**Symptom:** `set: Illegal option -o pipefail` error from `startDockerPublisher.sh`
-**Root Cause:** Script had `#!/bin/sh` but used bash-specific syntax (`-o pipefail`)
-**Solution:** Changed shebang to `#!/bin/bash`
+**Solution:** Changed to `#!/bin/bash`
 ```bash
 sed -i "1s|#!/bin/sh|#!/bin/bash|" startDockerPublisher.sh
 ```
-**Action Item:** Submit PR to fix this upstream
 
-### Issue 4: Docker Mount Permission Errors (RESOLVED)
-**Symptom:** Docker container can't create `input-cache/` or write files when mounted from WSL
-**Error Messages:**
+### Issue 2: Docker Mount Permission Errors
+**Symptom:**
 ```
 mkdir: cannot create directory './input-cache': Permission denied
 cp: cannot create regular file '_build.sh': Permission denied
 EACCES: permission denied, mkdir 'fsh-generated/resources'
 ```
-**Root Cause:** Docker volume mount permission mismatch between container (running as root) and WSL filesystem
-**Solution (WORKING):**
-1. Run container as root: Add `--user root` to Docker command
-2. Set full permissions on repo: `chmod -R 777 .` (from repo root)
+
+**Cause:** Permission mismatch between container and WSL filesystem
+
+**Solution:**
+1. Run container as root: `--user root` in docker command
+2. Set full permissions on repo: `chmod -R 777 ~/src/jwg-api`
 3. Set full permissions on cache: `chmod -R 777 ~/.fhir`
-4. Updated `startDockerPublisher.sh` to include `--user root` in docker_args
 
-**Result:** Build now running successfully with persistent cache
+### Issue 3: Rancher Desktop UI Not Opening
+**Symptom:** Taskbar icon present, no window, no menu
 
----
+**Solution:** Computer restart fixed it
 
-## Known Working Patterns (from Mac)
+### Issue 4: Ubuntu Stopped When Rancher Desktop Started
+**Symptom:** "Error managing distribution Ubuntu-24.04"
 
-These patterns work successfully on Mac and should guide Windows solution:
+**Cause:** Ubuntu was stopped when Rancher tried to integrate
 
-### Docker Command Pattern
+**Solution:**
 ```bash
-docker run --rm \
-  -v "$(pwd):/home/publisher/ig" \
-  -v "$HOME/.fhir:/home/publisher/.fhir" \
-  -e "JAVA_TOOL_OPTIONS=-Xmx6g -Xms512m" \
-  hl7fhir/ig-publisher-base \
-  bash -c "rm -rf temp template output && ./_updatePublisher.sh -y && ./_genonce.sh"
+wsl -d Ubuntu-24.04 echo "test"  # Start Ubuntu first
+# Then enable WSL integration in Rancher Desktop settings
 ```
 
-### Key Success Factors
-- **Persistent cache:** Mount `~/.fhir` to avoid re-downloading packages (several GB)
-- **Memory:** Allocate 6GB heap (`-Xmx6g`), Docker needs 8-12GB total
-- **Clean build:** Remove `temp`, `template`, `output` before building
-- **File locking:** Build from Linux filesystem (not `/mnt/c/...`) to avoid Windows FS issues
-
-### Build Artifacts
-- `output/qa.html` - Primary success indicator (QA report)
-- `output/index.html` - IG landing page
-- `fsh-generated/` - SUSHI-generated FHIR resources
-- `input-cache/` - Downloaded publisher.jar (218MB)
-- `~/.fhir/packages/` - FHIR package cache (several GB, reused across builds)
-
-### Performance Expectations
-- **First build:** 10-20 minutes (downloads packages, compiles FSH, generates IG)
-- **Subsequent builds:** 3-5 minutes (uses cached packages)
-- **Known quirks:**
-  - Docker image entrypoint clones `ig-publisher-scripts` and installs `fsh-sushi` every run
-  - Many broken link warnings expected in QA (not build failures)
-  - "Internal error in IG ihe.pharm.mpd..." logs are noisy but non-fatal
-
 ---
 
-## Build Options
+## Environment-Specific Configuration
 
-### Option A: Docker Build (Preferred - needs fix)
-**Pros:** Isolated environment, matches Mac/CI, no local Java install
-**Cons:** Currently has mount permission issues
-**Status:** ⚠️ Blocked - needs permission fix
-
+### Git Configuration (Repo-level)
 ```bash
 cd ~/src/jwg-api
-./startDockerPublisher.sh
-# OR custom command with explicit options
+git config user.name "Josh Priebe"
+git config user.email "jpriebe@epic.com"
 ```
 
-### Option B: Direct WSL Build (Workaround)
-**Pros:** Avoids Docker mount issues, faster iteration
-**Cons:** Requires Java install in Ubuntu, diverges from Mac pattern
-**Status:** ⏳ Ready once Java installed
-
+### Docker Daemon Startup
 ```bash
-# Install Java in Ubuntu
-sudo apt update && sudo apt install -y openjdk-17-jdk
+# Manual startup (current method)
+dockerd > /var/log/dockerd.log 2>&1 &
 
-# Run build
-cd ~/src/jwg-api
-./_genonce.sh
+# Check if running
+docker ps
 
-# View results
-explorer.exe output/qa.html
+# Or auto-start on WSL open (add to ~/.bashrc):
+if ! docker ps > /dev/null 2>&1; then
+    sudo dockerd > /var/log/dockerd.log 2>&1 &
+    sleep 3
+fi
 ```
 
-### Option C: Native Windows Build (Last Resort)
-**Pros:** No Docker/WSL complexity
-**Cons:** High setup cost (Java, Ruby/Jekyll, Node, SUSHI), slower I/O, file locking issues
-**Status:** ❌ Not recommended
-
----
-
-## Caching Strategy (Critical for Performance)
-
-### FHIR Package Cache
-**Location (Mac):** `~/.fhir/packages/`
-**Location (WSL):** `~/.fhir/packages/` (or `/root/.fhir/packages/`)
-**Size:** Several GB
-**Impact:** **HIGH** - Saves 5-10 minutes per build by not re-downloading packages
-
-**Docker mount:**
-```bash
--v "$HOME/.fhir:/home/publisher/.fhir"
-```
-
-**⚠️ DON'T USE:** `--tmpfs /home/publisher/.fhir` (nukes cache every run)
-
-### Input Cache
-**Location:** `input-cache/publisher.jar`
-**Size:** 218 MB
-**Impact:** **MEDIUM** - `_updatePublisher.sh -y` re-downloads if missing
-**Strategy:** Keep `input-cache/` between runs (already in `.gitignore`)
-
-### Build Artifacts (Ephemeral)
-**Locations:** `output/`, `temp/`, `template/`, `fsh-generated/`
-**Strategy:** Can safely delete between builds. The `_genonce.sh` script starts with:
-```bash
-rm -rf temp template output
-```
-
----
-
-## Memory Configuration
-
-### Java Heap Settings
-```bash
-export JAVA_TOOL_OPTIONS="-Xmx6g -Xms512m -Dfile.encoding=UTF-8"
-```
-- `-Xmx6g`: Maximum heap (6GB) - increase if OOM errors occur
-- `-Xms512m`: Initial heap (512MB)
-- Build typically uses 3-4GB, peaks at 4-5GB
-
-### Docker Desktop Settings
-- **Recommended:** 8-12GB memory allocation
-- **Why:** Publisher + Jekyll + terminology server calls can be heavy
-- **Settings:** Rancher Desktop → Preferences → Resources → Memory
-
----
-
-## File Permissions & Ownership
-
-### Why WSL Filesystem?
-- **20-30% faster I/O** vs `/mnt/c/...` (Windows filesystem mount)
-- **Fewer file locking issues** (Windows antivirus, FS semantics)
-- **Better Docker volume mount performance**
-
-### Current Ownership (WSL)
-```bash
-$ ls -la ~/src/jwg-api
-drwxr-xr-x  root root  jwg-api/
-```
-- Everything owned by `root:root`
-- Docker container runs as `root` (UID 0)
-- **Should work** but currently doesn't due to Docker mount issue
-
----
-
-## Troubleshooting
-
-### Docker Permission Errors
-**Symptoms:** `mkdir: cannot create directory`, `cp: cannot create regular file`
-**Possible Causes:**
-1. SELinux contexts (unlikely on Windows WSL)
-2. Docker mount options need adjustment
-3. Rancher Desktop specific mount behavior
-
-**Debug Steps:**
-```bash
-# Check Docker mount is writable from inside container
-docker run --rm -v "$(pwd):/home/publisher/ig" ubuntu bash -c "cd /home/publisher/ig && touch test.txt && ls -l test.txt"
-
-# Check ownership
-ls -la ~/src/jwg-api
-```
-
-### Out of Memory Errors
-**Symptom:** `java.lang.OutOfMemoryError: Java heap space`
-**Solution:** Increase heap size
-```bash
-export JAVA_TOOL_OPTIONS="-Xmx8g -Xms1g"
-```
-
-### Resource Deadlock Avoided
-**Symptom:** Build fails with "Resource deadlock avoided" during template copying
-**Causes:** File locking on Windows filesystem, aggressive antivirus scanning
-**Solutions:**
-1. Build from WSL filesystem (not `/mnt/c/...`) ✅ Already doing this
-2. Wipe build artifacts: `rm -rf output temp template`
-3. Exclude repo from antivirus scanning (if allowed)
-
-### Slow Package Downloads
-**Symptom:** First build takes 20+ minutes downloading packages
-**Expected:** Yes, on first build (several GB of FHIR packages)
-**Mitigation:** Mount persistent `~/.fhir` cache (see Caching Strategy)
-**Verify cache:** `ls -lh ~/.fhir/packages/` should show downloaded packages after first run
-
----
-
-## Optimization Strategies
-
-### Already Implemented (High Impact)
-1. **Persistent FHIR package cache** ✅
-   - Impact: Reduces rebuild time from ~1h 23min to 3-5 min
-   - Implementation: `-v "$HOME/.fhir:/home/publisher/.fhir"` mount
-   - Cost: 1.8GB disk space
-   - Risk: Low - can clear cache if needed
-
-2. **Build from WSL filesystem** ✅
-   - Impact: 20-30% I/O performance improvement, eliminates file locking issues
-   - Implementation: Clone to `~/src/jwg-api` not `/mnt/c/...`
-   - Cost: None
-   - Risk: None
-
-### Optional Optimizations (Not Implemented)
-
-3. **Skip publisher update on every run** (Medium Impact)
-   - Current: `_updatePublisher.sh -y` downloads latest publisher.jar every build
-   - Optimization: Skip `-y` flag or run `_updatePublisher.sh` manually only when needed
-   - Savings: ~30-60 seconds per build
-   - Risk: May diverge from CI if CI auto-updates publisher
-   - **Recommendation:** Leave as-is for now to match CI behavior
-
-4. **Pin dependency versions** (Medium Impact, Medium Risk)
-   - Current: Uses `#current` for several dependencies (hl7.fhir.eu.base, hl7.fhir.eu.laboratory, etc.)
-   - Optimization: Pin to specific versions in sushi-config.yaml
-   - Benefit: More stable builds, prevents unexpected changes
-   - Risk: Deviates from "always latest" development philosophy
-   - **Recommendation:** Only pin if experiencing instability
-
-5. **Reduce terminology server calls** (Low/Medium Impact, Medium Risk)
-   - Current: Connects to http://tx.fhir.org for terminology validation
-   - Optimization: Use `--tx N/A` to disable external terminology validation
-   - Benefit: Faster validation, works offline
-   - Risk: May miss terminology validation errors
-   - **Recommendation:** Not recommended for production work
-
-### Performance Monitoring
-To measure build performance:
-```bash
-cd ~/src/jwg-api
-time ./startDockerPublisher.sh
-```
-
-Expected times:
-- First run (empty cache): ~1h 23min
-- Subsequent runs (with cache): 3-5 min
-- Memory usage: peaks at 4-5GB (6GB allocated)
-
-### Cache Management
-
-**View cache size:**
-```bash
-du -sh ~/.fhir/packages
-```
-
-**Clear cache (if builds become unstable):**
-```bash
-rm -rf ~/.fhir/packages/*
-# Next build will re-download everything
-```
-
-**Clear local build artifacts:**
-```bash
-cd ~/src/jwg-api
-rm -rf output temp template fsh-generated
-```
-
----
-
-## Risk Mitigation
-
-### Risk: File Locking / "Resource Deadlock Avoided"
-**Mitigations:**
-- ✅ Build from WSL filesystem (not `/mnt/c/...`)
-- ✅ Run container as root
-- ✅ Full permissions on repo and cache
-- If still occurs: Exclude repo from Windows antivirus scanning
-- Emergency fix: `rm -rf output temp template && ./startDockerPublisher.sh`
-
-### Risk: Permission Issues After OS/Docker Updates
-**Symptoms:** Build suddenly fails with permission errors
-**Mitigation:**
+### File Permissions (Applied Once)
 ```bash
 cd ~/src/jwg-api
 chmod -R 777 .
 chmod -R 777 ~/.fhir
-./startDockerPublisher.sh
-```
-
-### Risk: Out of Memory Errors
-**Symptoms:** `java.lang.OutOfMemoryError: Java heap space`
-**Mitigation:**
-1. Increase Docker memory allocation in Rancher Desktop settings (recommend 12GB)
-2. Increase Java heap in startDockerPublisher.sh:
-   ```bash
-   export JAVA_TOOL_OPTIONS="-Xmx8g -Xms1g -Dfile.encoding=UTF-8"
-   ```
-
-### Risk: Persistent Cache "Works on My Machine" Issues
-**Symptoms:** Build succeeds locally but fails in CI
-**Mitigation:**
-- Clear cache and rebuild: `rm -rf ~/.fhir/packages && ./startDockerPublisher.sh`
-- Compare publisher versions: check `input-cache/publisher.jar` timestamp
-- Document publisher version in commit messages if pinning
-
-### Risk: WSL/Docker Blocked by Corporate Policy
-**Fallback Plan:**
-If WSL or Docker are disabled:
-1. **Option A:** Use Rancher Desktop without WSL (Windows filesystem)
-   - Clone to `C:\repos\jwg-api`
-   - More likely to hit file locking issues
-   - Slower I/O
-2. **Option B:** Native install (last resort)
-   - Install Java 17+ (OpenJDK)
-   - Install Node.js
-   - Install Ruby + Jekyll
-   - Run `_genonce.sh` directly
-
----
-
-## Daily Workflow (Once Working)
-
-### Quick Build
-```bash
-# Open Ubuntu terminal (Windows Terminal or `wsl`)
-cd ~/src/jwg-api
-
-# Edit files (VS Code Remote-WSL recommended)
-code .
-
-# Run build
-./startDockerPublisher.sh
-
-# View results
-explorer.exe output/qa.html
-explorer.exe output/index.html
-```
-
-### Editing Options
-1. **VS Code Remote-WSL** (recommended):
-   - Install "Remote - WSL" extension
-   - From WSL: `code .`
-   - Edit with full VS Code features
-
-2. **Windows File Explorer**:
-   - Navigate to: `\\wsl$\Ubuntu-24.04\root\src\jwg-api`
-   - Edit with any Windows editor
-
-3. **Direct in WSL**:
-   - Use `vim`, `nano`, etc.
-
-### Git Workflow
-```bash
-cd ~/src/jwg-api
-
-# Make changes, build, verify
-./startDockerPublisher.sh
-explorer.exe output/qa.html
-
-# Commit
-git add .
-git commit -m "Your message"
-git push
-
-# Note: Uses jpriebe-epic account (set via repo-level config)
 ```
 
 ---
 
-## What to Do Now
+## Build Verification Tests
 
-### Phase 1: Commit Windows-Side Changes
-
-**Goal:** Save the working configuration (modified startDockerPublisher.sh and updated documentation)
-
-1. **Check git status from Windows:**
-   ```powershell
-   # From Windows Terminal or Command Prompt
-   cd "C:\Users\jpriebe\OneDrive - Epic\Documents\_repos\jwg-api"
-   git status
-   ```
-
-   You should see:
-   - `M startDockerPublisher.sh` (shebang + --user root changes)
-   - `M josh/build-notes-windows.md` (comprehensive documentation)
-   - `D josh/dockerNotes.md` (deleted, merged into build-notes-windows.md)
-
-2. **Review changes:**
-   ```powershell
-   git diff startDockerPublisher.sh
-   git diff josh/build-notes-windows.md
-   ```
-
-3. **Stage and commit:**
-   ```powershell
-   git add startDockerPublisher.sh
-   git add josh/build-notes-windows.md
-   git add josh/dockerNotes.md
-   git commit -m "Windows 11 build setup working
-
-- Fix startDockerPublisher.sh shebang (#!/bin/bash)
-- Add --user root to Docker command for WSL compatibility
-- Document complete Windows + WSL + Rancher Desktop setup
-- Merge dockerNotes.md into comprehensive build-notes-windows.md
-- Add VS Code Remote-WSL connection instructions
-
-Build verified working:
-- First run: ~1h 23min (1.8GB package cache created)
-- Subsequent runs: 3-5 min (using cache)
-- Output: qa.html (712K), all IG artifacts generated successfully"
-   ```
-
-4. **Push to remote (jp branch):**
-   ```powershell
-   git push origin jp
-   ```
-
-### Phase 2: Transition to WSL Environment
-
-**Goal:** Connect VS Code to the working WSL environment where builds are running
-
-1. **Set WSL to use root as default user:**
-   ```powershell
-   # From Windows terminal:
-   wsl -d Ubuntu-24.04 -u root bash -c "echo -e '[user]\ndefault=root' > /etc/wsl.conf"
-
-   # Restart WSL:
-   wsl --shutdown
-   wsl -d Ubuntu-24.04
-   ```
-
-2. **Verify you're in the right location:**
-   ```powershell
-   wsl -d Ubuntu-24.04 -u root bash -c "pwd && ls -la ~/src/jwg-api/output/qa.html"
-   ```
-
-   Should show: `/root` and the qa.html file
-
-3. **Open repo in VS Code from WSL:**
-   ```powershell
-   wsl -d Ubuntu-24.04 -u root bash -c "cd ~/src/jwg-api && code ."
-   ```
-
-   **Verify VS Code connection:**
-   - Bottom-left corner shows: `WSL: Ubuntu-24.04`
-   - Terminal in VS Code is WSL bash (as root)
-   - File path shows: `/root/src/jwg-api`
-
-4. **Test build from VS Code terminal:**
-   ```bash
-   # In VS Code integrated terminal (should be WSL):
-   cd ~/src/jwg-api
-   time ./startDockerPublisher.sh
-   ```
-
-   **Expected:** Build completes in 3-5 minutes (using cached packages)
-
-### Phase 3: Make Content Changes from WSL
-
-**Goal:** Edit IG content, build, verify, commit - all from VS Code in WSL
-
-**Workflow:**
-
-1. **Edit files in VS Code:**
-   - Navigate to `input/pagecontent/*.md` (markdown pages)
-   - Or `input/fsh/*.fsh` (FHIR Shorthand definitions)
-   - VS Code has full IntelliSense, Git integration, etc.
-
-2. **Build from VS Code terminal:**
-   ```bash
-   ./startDockerPublisher.sh
-   ```
-
-3. **Review output:**
-   ```bash
-   # Open in Windows browser from WSL:
-   explorer.exe output/qa.html
-   explorer.exe output/index.html
-   ```
-
-4. **Commit from VS Code:**
-   - Use VS Code Source Control panel (`Ctrl+Shift+G`)
-   - Or use terminal:
-     ```bash
-     git status
-     git add input/pagecontent/your-file.md
-     git commit -m "Your descriptive message"
-     git push
-     ```
-
-**Tips:**
-- VS Code terminal stays in WSL - all commands run in Linux environment
-- Git uses jpriebe-epic account (configured in repo)
-- Build output appears in `output/` folder visible in VS Code
-- Windows credential manager handles git authentication
-
-### Quick Reference Commands
-
-**Start working (from Windows):**
-```powershell
-wsl -d Ubuntu-24.04 -u root bash -c "cd ~/src/jwg-api && code ."
-```
-
-**Build and view (from VS Code WSL terminal):**
+### Test 1: First Full Build (Session 2)
 ```bash
-./startDockerPublisher.sh && explorer.exe output/qa.html
+./startDockerPublisher.sh
 ```
+- **Duration:** ~1h 23min
+- **Downloaded:** 1.8GB FHIR packages
+- **Output:** qa.html (712K), 1658 HTML files
+- **Result:** ✅ Success
 
-**Check build time:**
+### Test 2: Cached Build (Session 3)
 ```bash
 time ./startDockerPublisher.sh
 ```
+- **Duration:** 4m 47s
+- **Cache used:** 1.8GB from ~/.fhir/packages/
+- **Output:** qa.html (711K), 1658 HTML files
+- **Result:** ✅ Success
 
-**Clear caches if needed:**
+### Test 3: Current Status Verification (2026-01-05)
 ```bash
-rm -rf ~/.fhir/packages/*  # Clear package cache (forces re-download)
-rm -rf output temp template  # Clear build artifacts
-```
+# Check Docker
+docker version
+# Client: 28.2.2, Server: 28.2.2 ✅
 
-### Future Enhancements (Optional)
-1. Submit PR to fix `startDockerPublisher.sh` shebang upstream (#!/bin/bash)
-2. Create alias in `~/.bashrc`: `alias igbuild='cd ~/src/jwg-api && ./startDockerPublisher.sh'`
-3. Test rebuild to verify 3-5 minute cached build time
+# Check dockerd
+ps aux | grep dockerd
+# PID 7220 running ✅
+
+# Check repo
+ls -lh output/qa.html
+# 711K file exists ✅
+
+# Check cache
+du -sh ~/.fhir/packages
+# 1.8GB cached ✅
+```
 
 ---
 
-## Build Command Reference
+## Quick Reference Commands
 
-### Update Publisher (Only When Needed)
+### Docker Management
 ```bash
-cd ~/src/jwg-api
-./_updatePublisher.sh -y
-# Downloads latest publisher.jar to input-cache/
+# Check if dockerd is running
+docker ps
+
+# Start dockerd
+dockerd > /var/log/dockerd.log 2>&1 &
+
+# Check dockerd process
+ps aux | grep dockerd
+
+# View dockerd logs
+tail -f /var/log/dockerd.log
 ```
 
-### One-Time Build
+### Build Commands
 ```bash
-cd ~/src/jwg-api
-./_genonce.sh
-# Runs SUSHI + IG Publisher once
+# Standard build
+./startDockerPublisher.sh
+
+# Timed build
+time ./startDockerPublisher.sh
+
+# With custom options
+PUBLISHER_JAVA_TOOL_OPTIONS="-Xmx8g" ./startDockerPublisher.sh
 ```
 
-### Continuous Build (Watch Mode)
+### Cache Management
 ```bash
-cd ~/src/jwg-api
-./_gencontinuous.sh
-# Watches for changes, rebuilds automatically
-```
+# View cache size
+du -sh ~/.fhir/packages
 
-### Docker Build (Mac Pattern)
-```bash
-cd ~/src/jwg-api
-docker run --rm -it \
-  -v "$(pwd):/home/publisher/ig" \
-  -v "$HOME/.fhir:/home/publisher/.fhir" \
-  -e "JAVA_TOOL_OPTIONS=-Xmx6g -Xms512m" \
-  hl7fhir/ig-publisher-base \
-  bash -c "rm -rf temp template output && ./_updatePublisher.sh -y && ./_genonce.sh"
-```
+# List cached packages
+ls -lh ~/.fhir/packages
 
-### Clean Build (Fresh Start)
-```bash
-cd ~/src/jwg-api
+# Clear cache (force re-download)
+rm -rf ~/.fhir/packages/*
+
+# Clear build artifacts
 rm -rf output temp template fsh-generated
-./_genonce.sh
+```
+
+### File Access
+```bash
+# Open in Windows Explorer
+explorer.exe .
+explorer.exe output/qa.html
+
+# Open in VS Code
+code .
+
+# View from Windows
+# Navigate to: \\wsl$\Ubuntu-24.04\root\src\jwg-api
 ```
 
 ---
 
-## Resources
+## Performance Benchmarks
 
-- **Rancher Desktop:** https://rancherdesktop.io/
-- **Repo:** https://github.com/euridice-org/jwg-api
-- **IG Publisher:** https://github.com/HL7/fhir-ig-publisher
-- **SUSHI:** https://fshschool.org/
-- **WSL Docs:** https://learn.microsoft.com/en-us/windows/wsl/
+### Build Times
+| Build Type | Duration | Cache State | Date |
+|------------|----------|-------------|------|
+| First build (Rancher) | 1h 23min | Empty | 2025-12-xx |
+| Cached build (docker.io) | 4m 47s | Full (1.8GB) | 2026-01-05 |
+| Cached build (docker.io) | 3m 49s | Full (1.8GB) | 2026-01-05 |
 
----
+### Memory Usage
+- **Allocated:** 6GB Java heap (`-Xmx6g`)
+- **Typical usage:** 3-4GB
+- **Peak usage:** 5GB during validation
 
-## Session History
-
-### Session 1 (Pre-restart)
-- Installed Ubuntu-24.04 in WSL 2
-- Installed Rancher Desktop (UI issue)
-- Decided on WSL filesystem approach
-
-### Session 2 (Post-restart - COMPLETED)
-- ✅ Restarted (fixed Rancher Desktop UI)
-- ✅ Started Ubuntu and configured Rancher Desktop
-- ✅ Verified Docker working (`hello-world` test passed)
-- ✅ Configured git (jpriebe-epic account)
-- ✅ Cloned repo to `~/src/jwg-api`
-- ✅ Fixed `startDockerPublisher.sh` shebang (#!/bin/bash)
-- ✅ Added `--user root` to Docker command
-- ✅ Set full permissions on repo and cache (`chmod -R 777`)
-- ✅ Downloaded publisher (218 MB)
-- ✅ SUSHI compilation successful (0 Errors, 0 Warnings)
-- ✅ **First Docker build completed successfully!**
-  - Build time: ~1 hour 23 minutes (downloading 1.8GB of FHIR packages)
-  - Output verified: `output/qa.html` (712K) exists
-  - Cache persisted: `~/.fhir/packages/` contains 1.8GB
-  - Exit code: 0 (success)
+### Cache Statistics
+- **Location:** `~/.fhir/packages/`
+- **Size:** 1.8GB (compressed FHIR packages)
+- **Impact:** Reduces build from ~1h to 3-5 min
+- **Packages:** ~50 FHIR package versions
 
 ---
 
-**Last Updated:** 2026-01-05 13:25 UTC (first Docker build completed successfully)
+## Troubleshooting Tips for This Environment
+
+### dockerd Won't Start
+```bash
+# Check if already running
+docker version
+
+# Kill existing daemon
+pkill dockerd
+
+# Start fresh
+dockerd > /var/log/dockerd.log 2>&1 &
+tail -f /var/log/dockerd.log  # Watch for errors
+```
+
+### Permission Errors Reappear
+```bash
+# Re-apply permissions
+cd ~/src/jwg-api
+chmod -R 777 .
+chmod -R 777 ~/.fhir
+```
+
+### Build Hangs or Slows Down
+```bash
+# Check if building from Windows filesystem (slow!)
+pwd
+# Should show: /root/src/jwg-api
+# NOT: /mnt/c/...
+
+# Check disk space
+df -h ~
+
+# Check memory
+free -h
+```
+
+### Can't Access Files from Windows
+```bash
+# Ensure WSL distribution is running
+wsl -l -v
+# Should show Ubuntu-24.04 as "Running"
+
+# Access via Windows Explorer:
+# \\wsl$\Ubuntu-24.04\root\src\jwg-api
+```
+
+---
+
+## Future Enhancements
+
+### Potential Improvements
+1. Auto-start dockerd on WSL startup (add to `~/.bashrc` or `/etc/wsl.conf`)
+2. Create shell alias: `alias igbuild='cd ~/src/jwg-api && ./startDockerPublisher.sh'`
+3. Setup VS Code launch tasks for build
+4. Consider systemd service for dockerd (if WSL systemd enabled)
+
+### Documentation To-Do
+- [ ] Submit PR for `startDockerPublisher.sh` shebang fix
+- [x] Document Windows setup in main build-notes.md
+- [x] Create environment-specific notes (this file)
+- [ ] Test Rancher Desktop approach on another machine
+
+---
+
+## Notes & Observations
+
+### What Works Well
+✅ docker.io approach is simple and reliable
+✅ WSL filesystem provides good I/O performance
+✅ Persistent cache works perfectly (1.8GB cached)
+✅ 3-5 minute builds with cache are very usable
+✅ VS Code Remote-WSL integration is seamless
+
+### What Could Be Better
+⚠️ Must manually start dockerd each WSL session
+⚠️ First build takes 1h+ (unavoidable - large download)
+⚠️ chmod 777 is permissive (acceptable for personal dev env)
+
+### Comparison: Rancher Desktop vs docker.io
+| Feature | Rancher Desktop | docker.io |
+|---------|----------------|-----------|
+| Setup complexity | Higher | Lower |
+| Windows software | Required | None |
+| Auto-start | Yes | No |
+| Control | GUI | CLI only |
+| Performance | Same | Same |
+| **Recommendation** | GUI users | CLI users ✅ |
+
+---
+
+**Last Updated:** 2026-01-05 14:45 UTC
+**Current Branch:** jp
+**Last Commit:** 71df5c3 (windows build)
+**Build Status:** ✅ Working (4m 47s cached builds)
+**Environment:** docker.io v28.2.2 in WSL 2

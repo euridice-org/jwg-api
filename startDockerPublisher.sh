@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+# Updated shebang from /bin/sh to /bin/bash for better compatibility with bash-specific features
 set -euo pipefail
 
 random_number=$(date +%s%N | cut -b1-10)
@@ -38,6 +39,8 @@ publisher_command=${PUBLISHER_COMMAND:-"rm -rf temp template output && ./_update
 
 docker_args=(--name "$instance_name" --rm)
 
+# Run container as root user to avoid file permission issues on Linux
+docker_args+=(--user root)
 if [ -n "$interactive_flags" ]; then
     docker_args+=("$interactive_flags")
 fi
