@@ -4,8 +4,6 @@
 
 This Implementation Guide specifies APIs for accessing and exchanging European Electronic Health Record exchange Format (EEHRxF) data, addressing EHDS interoperability requirements for EHR systems.
 
-In this repository a **co-branded HL7 Europe / IHE Europe Project** resides which specifies API definitions for accessing and exchanging European Electronic Health Record exchange Format (EEHRxF) (EHDS Article 15) data between systems.
-
 We inherit the following HL7 EU Content Profiles below, which define the format of the data to be exchanged (primarily FHIR Documents constructed of FHIR resources):
 
 * European Patient Summary (  [HL7 Europe Patient Summary](https://build.fhir.org/ig/hl7-eu/eps/) )
@@ -14,17 +12,16 @@ We inherit the following HL7 EU Content Profiles below, which define the format 
 * Europe Hospital Discharge Report ([Europe Hospital Discharge Report](https://build.fhir.org/ig/hl7-eu/hdr/))
 * Europe Imaging Study Report ([HL7 Europe Imaging Report](https://build.fhir.org/ig/hl7-eu/imaging/))
 
-**Note**: Europe Imaging Study Manifest is defined in R5. This R4 IG provides conceptual alignment only; R5 imaging manifest support will be addressed via future extensions.
 
 The goals of the **EU Health Data API** Implementation Guide are twofold:
 1. **Define Exchange Patterns for EEHRxF Data:** Define how existing IHE profiles and other specifications can be used to ***provide secure access to this data*** and enable the secure exchange of EEHRxF data between systems. 
 2. **Satisfy the EHDS Interoperability Requirements:** Define how these technical capabilities satisfy the EHDS Interoperability requirements placed on EHR systems in the EHDS Regulation
 
-## Exchange Patterns
+## 1. Exchange Patterns
 
-We define exchange patterns by inheriting and defining transactions, system actors, and associated capability statements from existing IHE and HL7 specifications. This includes document-based exchange (using IHE MHD) and resource-based query patterns (using IHE QEDm/HL7 IPA). 
+We define exchange patterns by inheriting and defining transactions, system actors, and associated capability statements from existing IHE and HL7 specifications. This includes document-based exchange (using IHE MHD) and resource-based query patterns (using IHE QEDm/HL7 IPA).
 
-## Regulatory Basis
+## 2. Regulatory Basis
 
 From the regulatory perspective, the initial focus is to provide technical capabilities that satisfy the EHDS Interoperability requirements placed on EHR systems, specifically the obligations described in [EHDS ANNEX II](https://www.ringholm.com/ehds/annex-ii.htm) that require EHR systems to **provide access to data** and **receive data** formatted in EEHRxF.
 
@@ -32,9 +29,26 @@ We focus here on technical implementation of these requirements - The requiremen
 
 See [Regulatory Anchors](regulatoryAnchors.html) page for more detail on the link to the EHDS regulation requirements, and the technical interpretation of those requirements used here.
 
-## Actors
+## 3. Relevant Specifications
 
-This Implementation Guide defines composite actors that inherit from existing IHE and HL7 specifications:
+This Implementation Guide directly inherits and draws inspiration from the following standards and describes their use towards the European situation.
+
+- [IHE MHD](https://profiles.ihe.net/ITI/MHD/) - Defines exchange of Documents, which we use to exchange FHIR document content.
+- [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
+- [HL7 SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and FHIR scopes.
+- [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) - Defines how a client can perform patient lookup against a server.
+- [HL7 International Patient Access](https://build.fhir.org/ig/HL7/fhir-ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access.
+- [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server.
+
+## 4. Actors
+
+This Implementation Guide defines composite actors that inherit and combine actors defined in these existing specifications. See [Actors and Transactions](actors.html) for detailed actor definitions, transactions, and actor grouping.
+
+At a high level, the following actors are specified:
+
+<div style="text-align: center;">
+{% include img.html img="actors_overall.png" caption="Figure: Actor Overview" %}
+</div>
 
 ### Document Exchange Actors
 
@@ -47,19 +61,11 @@ This Implementation Guide defines composite actors that inherit from existing IH
 - **Resource Access Provider** - Provides query access to individual FHIR resources
 - **Resource Consumer** - Queries FHIR resources from Resource Access Providers
 
-### Actor Groupings
+These resource actors are initially scoped for research search + read. See [Resource Exchange](resourceExchange.html) for detailed discussion and possible approaches for resource exchange patterns.
 
-These actors can be grouped in various ways to support different deployment models, including:
-- Direct EHR system implementation
-- Hospital or regional aggregation layers
-- National infrastructure façades
-- Federated query systems
+## 5. Functional Requirements
 
-See [Actors and Transactions](actors.html) for detailed actor definitions, transactions, and grouping requirements.
-
-## Functional Requirements
-
-The following pages describe the functional requirements for the API:
+The following pages describe the functional components of the API:
 
 - **[Capability Discovery](capability-discovery.html)** - How to discover which priority categories a server supports
 - **[Authorization](authorization.html)** - SMART Backend Services + IUA (required)
@@ -67,7 +73,7 @@ The following pages describe the functional requirements for the API:
 - **[Document Exchange](document-exchange.html)** - MHD transactions (ITI-65, ITI-67, ITI-68)
 - **[Resource Access](resource-access.html)** - QEDm resource query (PCC-44)
 
-## Authors
+## 6. Authors
 
 Josh Priebe, Epic
 

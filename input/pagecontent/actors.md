@@ -16,7 +16,9 @@ This is similar to the approach taken in the MHDS specification, but with a more
 
 Document exchange is defined with 3 actors:
 
+<div style="text-align: center;">
 {% include img.html img="docExchange_1.png" caption="Figure: Document Exchange Actors" %}
+</div>
 
 1. **Document Producer (client)** - Produces EEHRxF FHIR Documents, publishes those documents to a Document Access Provider. Can be grouped with Access Provider, in which case the publishing transactions are internalized.
 
@@ -26,7 +28,9 @@ Document exchange is defined with 3 actors:
 
 These composite actors inherit existing actors from the IUA, PDQm, and MHD specifications:
 
+<div style="text-align: center;">
 {% include img.html img="docExchange_2.png" caption="Figure: Document Exchange - Actor Groupings" %}
+</div>
 
 **Document Producer**
 - [IUA Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client)
@@ -47,7 +51,9 @@ These composite actors inherit existing actors from the IUA, PDQm, and MHD speci
 
 This leads to the following required transactions between these actors:
 
+<div style="text-align: center;">
 {% include img.html img="docExchange_3.png" caption="Figure: Document Exchange Transactions" %}
+</div>
 
 TODO: Table.
 
@@ -60,23 +66,27 @@ This can be combined with content profiles define by each EHDS Priority Category
 
 It is also useful in many cases to transact with individual FHIR resources (note: ref other page). For this purpose, two resource-based actors are defined:
 
+<div style="text-align: center;">
 {% include img.html img="resExchange_1.png" caption="Figure: Resource Exchange Actors" %}
+</div>
 
 
 4. **Resource Access Provider (server)** - A FHIR server providing access to FHIR resources by hosting search + read query API's.
 5. **Resource Consumer (client)** - A FHIR client that consumes external FHIR resources by querying a Resource Access Provider.
 
 <details>
-<summary><i>Note: What about Resource Producer? Click to expand</i></summary>
+<summary><i>Note: What about Resource Producer?</i></summary>
 
-Resource exchange is more complex than document publication, and in many cases has resource and use-case specific considerations. Within the scope of this IG, we assume a precondition that the Resource Access Provider has access to resources and focus on defining how the Resource Access Provider enables a consumer to search and read those resources. For more details and possible approaches, see the [Resource Exchange](resourceExchange.html) page.
+Resource exchange is more complex than document publication, and in many cases has resource and use-case specific considerations. Within the scope of this version of the IG, we assume a precondition that the Resource Access Provider has access to resources and focus on defining how the Resource Access Provider enables a consumer to search and read those resources. For more details and possible approaches, see the [Resource Exchange](resourceExchange.html) page.
 
 </details>
 
 
 These composite actors inherit existing actors from the IUA, PDQm, and QEDm/IPA specifications:
 
+<div style="text-align: center;">
 {% include img.html img="resExchange_2.png" caption="Figure: Resource Exchange - Actor Groupings" %}
+</div>
 
 
 **Resource Access Provider**
@@ -94,7 +104,9 @@ These composite actors inherit existing actors from the IUA, PDQm, and QEDm/IPA 
 
 This leads to the following required transactions between these actors:
 
+<div style="text-align: center;">
 {% include img.html img="resExchange_3.png" caption="Figure: Resource Exchange Transactions" %}
+</div>
 
 TODO: Analyis of what to inherit from IPA vs IHE QEDm vs EU Core. 
 
@@ -108,9 +120,13 @@ TODO: Choice of which resources from each priority area make sense to be in scop
 
 TODO: Josh Add Narrative.
 
+<div style="text-align: center;">
 {% include img.html img="ExGroup_Doc.png" caption="Figure: Example Grouping - Document" %}
+</div>
 
+<div style="text-align: center;">
 {% include img.html img="ExGroup_Group.png" caption="Figure: Example Grouping - Group" %}
+</div>
 
 
 # Use with Other IHE Profiles
