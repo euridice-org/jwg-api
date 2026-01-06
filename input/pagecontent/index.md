@@ -14,12 +14,23 @@ We inherit the following HL7 EU Content Profiles below, which define the format 
 
 
 The goals of the **EU Health Data API** Implementation Guide are twofold:
-1. **Define Exchange Patterns for EEHRxF Data:** Define how existing IHE profiles and other specifications can be used to ***provide secure access to this data*** and enable the secure exchange of EEHRxF data between systems. 
+1. **Define Exchange Patterns for Proving Access to EEHRxF Data:** Define how existing IHE profiles and other specifications can be used to provide access to this data and enable the secure exchange of EEHRxF data between systems. 
 2. **Satisfy the EHDS Interoperability Requirements:** Define how these technical capabilities satisfy the EHDS Interoperability requirements placed on EHR systems in the EHDS Regulation
 
-## 1. Exchange Patterns
+## 1. EEHRxF Access Exchange Patterns
 
 We define exchange patterns by inheriting and defining transactions, system actors, and associated capability statements from existing IHE and HL7 specifications. This includes document-based exchange (using IHE MHD) and resource-based query patterns (using IHE QEDm/HL7 IPA).
+
+This Implementation Guide accomplishes this by referencing and directly inheriting the following standards, and describing their use in the the European situation.
+
+- [IHE MHD](https://profiles.ihe.net/ITI/MHD/) - Defines exchange of Documents, which we use to exchange FHIR document content.
+- [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
+- [HL7 SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and FHIR scopes.
+- [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) - Defines how a client can perform patient lookup against a server. We use it for patient identification.
+- [HL7 International Patient Access](https://build.fhir.org/ig/HL7/fhir-ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access. 
+- [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server.
+
+
 
 ## 2. Regulatory Basis
 
@@ -29,18 +40,8 @@ We focus here on technical implementation of these requirements - The requiremen
 
 See [Regulatory Anchors](regulatoryAnchors.html) page for more detail on the link to the EHDS regulation requirements, and the technical interpretation of those requirements used here.
 
-## 3. Relevant Specifications
 
-This Implementation Guide directly inherits and draws inspiration from the following standards and describes their use towards the European situation.
-
-- [IHE MHD](https://profiles.ihe.net/ITI/MHD/) - Defines exchange of Documents, which we use to exchange FHIR document content.
-- [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
-- [HL7 SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and FHIR scopes.
-- [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) - Defines how a client can perform patient lookup against a server.
-- [HL7 International Patient Access](https://build.fhir.org/ig/HL7/fhir-ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access.
-- [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server.
-
-## 4. Actors
+## Actors Model
 
 This Implementation Guide defines composite actors that inherit and combine actors defined in these existing specifications. See [Actors and Transactions](actors.html) for detailed actor definitions, transactions, and actor grouping.
 
@@ -49,6 +50,7 @@ At a high level, the following actors are specified:
 <div style="text-align: center;">
 {% include img.html img="actors_overall.png" caption="Figure: Actor Overview" %}
 </div>
+
 
 ### Document Exchange Actors
 
@@ -63,12 +65,19 @@ At a high level, the following actors are specified:
 
 These resource actors are initially scoped for research search + read. See [Resource Exchange](resourceExchange.html) for detailed discussion and possible approaches for resource exchange patterns.
 
+
+## Example - Retrieving a Patient's European Patient Summary
+
+Document Access Provider <> Document Consumer
+TODO: Sequence diagram including Capability Discovery, Authorization, Patient Lookup, Document Search and Retrieval
+
+
 ## 5. Functional Requirements
 
 The following pages describe the functional components of the API:
 
-- **[Capability Discovery](capability-discovery.html)** - How to discover which priority categories a server supports
-- **[Authorization](authorization.html)** - SMART Backend Services + IUA (required)
+- **[Capability Discovery](capability-discovery.html)** - How to discover which capabilities and priority categories a server supports
+- **[Authorization](authorization.html)** - SMART Backend Services + IUA
 - **[Patient Matching](patient-match.html)** - PDQm Patient Demographics Query
 - **[Document Exchange](document-exchange.html)** - MHD transactions (ITI-65, ITI-67, ITI-68)
 - **[Resource Access](resource-access.html)** - QEDm resource query (PCC-44)
