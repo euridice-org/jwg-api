@@ -8,7 +8,7 @@ The European Health Data Space (EHDS) regulation describes an obligation for EHR
 
 This Implementation Guide:
 1. **Defines a set of EHRs functionalities that meet the Interoperability Component requirements:** describes how existing IHE profiles and other specifications can be used to provide secure access and enable secure exchange of EEHRxF data between systems. 
-2. **Shows how these EHR functionalities can be used within common national architectures to satisfy the requirements of EHDS:** outlines how these EHR functionalities can be used by national infrastructures to exchange data with EHRs in order to provide patients access to their own data, to allow providers access to patient data, and to support cross-border data exchange.
+2. **Shows how these EHR functionalities can be used in real-world data exchange for EHDS use cases:** outlines how these EHR functionalities can be used to provide patients access to their own data, to allow providers access to patient data, and to support the cross-border data exchange in the myHealth@EU network.
 
 This Implementation Guide does **not**: 
 - **Define all functionalities or data exchange patterns with EHRs that might or could be used by various  Member States to satisfy the requirements of EHDS:** Each Member State has the power to define its own methods of meeting the EHDS requirements, which could involve accessing data from EHRs using other specifications than those described here. The goal of this guide is not to list every data exchange pattern that might be useful in meeting those requirements, only to define a minimum sufficient and feasible set of APIs that can be used to meet the requirements for certain common architectural patterns of member states, that can be agreed upon as a minimum shared set of requirements.
@@ -27,9 +27,7 @@ The intended audiences of this Implementation Guide are:
 
 - **Manufacturers of EHR systems:** EHR vendors looking to develop support for APIs that meet the needs of EHDS should refer to the [Functional Requirements](functionalRequirements.html) for a list of functional specifications EHRs should support.
 
-- Architects of national infrastructures
-  
-National eHealth agencies looking to understand how to use the capabilities of EHRs required by EHDS to meet the goals of EHDS in their Member States should refer to the [Implementation](implementation.html) for examples of how the EHR APIs can be used for the EHDS use cases.
+- **Architects of national infrastructures:** National eHealth agencies looking to understand how to use the capabilities of EHRs required by EHDS to meet the goals of EHDS in their Member States should refer to the [Implementation](implementation.html) for examples of how the EHR APIs can be used for the EHDS use cases.
 
 # Approach
 
