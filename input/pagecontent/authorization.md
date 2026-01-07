@@ -1,56 +1,61 @@
 # Authorization
-TODO: Verify. AI-generated.
 
 ## Overview
 
-Authorization is required using SMART Backend Services and IUA.
+Authorization is required for all API transactions. This IG uses SMART Backend Services for system-to-system authorization, grouped with IHE IUA actors.
 
 ## Client Registration
 
-Out of band, the Consumer registers identity credentials with the access provider.
+Out of band, the Consumer registers identity credentials (public key, client identifier) with the Access Provider.
 
-Future: Consider UDAP.
+Future: Consider UDAP for dynamic client registration.
+See [FHIR UDAP Security IG](https://build.fhir.org/ig/HL7/fhir-udap-security-ig/) for more details.
 
 ## SMART Backend Services
 
-System-to-system OAuth2 using client_credentials grant + JWT client assertion.
+System-to-system OAuth2 using `client_credentials` grant with JWT client assertion.
 
-**Discovery:** `GET /.well-known/smart-configuration`
+**Discovery**: Servers advertise authorization endpoints via `.well-known/smart-configuration` (see [SMART Backend Services Discovery](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html#discovery))
 
-**Token endpoint:** `POST /token`
+**Token Request**: Client requests token from authorization server's token endpoint (discovered via smart-configuration)
 - Grant type: `client_credentials`
-- Client assertion: JWT signed by client
+- Client assertion: JWT signed by client private key
+- Client authentication: Asymmetric (public key registered out-of-band)
 
 ## Scopes
 
-### Document Producer
-- `system/DocumentReference.c` (create)
-- `system/Binary.c` (create)
-- Optional: `system/DocumentReference.u` (update, for replace/amend)
+Scopes follow SMART v2 conventions and align with required MHD and QEDm transactions:
 
-### Document Consumer
-- `system/Patient.rs` (read/search)
-- `system/DocumentReference.rs` (read/search)
-- `system/Binary.r` (read)
+### Document Producer (MHD ITI-65)
+- `system/DocumentReference.c` - Create DocumentReference
+- `system/Binary.c` - Create Binary  
+- `system/Patient.rs` - Read/search Patient (for patient matching)
 
-### Resource Consumer
-- `system/Patient.rs`
-- Additional scopes per resource type: `system/Observation.rs`, `system/Condition.rs`, etc.
+### Document Consumer (MHD ITI-67, ITI-68)
+- `system/Patient.rs` - Read/search Patient
+- `system/DocumentReference.rs` - Read/search DocumentReference
+- `system/Binary.r` - Read Binary
 
+### Resource Consumer (QEDm PCC-44)
+- `system/Patient.rs` - Read/search Patient
+- Additional scopes per resource type: `system/Observation.rs`, `system/Condition.rs`, `system/DiagnosticReport.rs`, etc.
 
-## IUA Actor Groupings
+**Note**: Scopes are examples aligned with typical MHD/QEDm interactions. Actual scope enforcement depends on deployment context and authorization server policy.
+
+TODO: Define normative scope requirements per actor and transaction.
+
+## IHE IUA Actor Groupings
 
 - **Document/Resource Producer:** IUA Authorization Client
 - **Document/Resource Consumer:** IUA Authorization Client
 - **Document/Resource Access Provider:** IUA Authorization Server + Resource Server
-
 
 ## Error Responses
 
 - `401 Unauthorized` - Missing or invalid token
 - `403 Forbidden` - Insufficient scopes
 
-## See Also
+## References
 
 - [SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html)
 - [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html)

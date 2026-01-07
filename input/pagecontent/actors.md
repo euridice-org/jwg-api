@@ -5,20 +5,29 @@ The actor model defined here is an orchestration of existing IHE actors and spec
 This is similar to the approach taken in the MHDS specification, but with a more narrow subset of specifications fit to the european situation.
 
 ## Relevant Specifications:
-- [IHE MHD](https://profiles.ihe.net/ITI/MHD/) - Defines exchange of Documents, which we use to exchange FHIR document content. (note: no XDS dependencies)
-- [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
-- [HL7 SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and FHIR scopes. 
-- [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) - Defines how a client can perform patient lookup against a server.
-- [HL7 International Patient Access](https://build.fhir.org/ig/HL7/fhir-ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access.
-- [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server.
+
+- [IHE Consistent Time](https://profiles.ihe.net/ITI/TF/Volume1/ch-7.html) - Defines the use of Network Time Protocol (NTP) to provide consistent time across systems.
+- [IHE ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-8.html) - Defines secure communication and audit logging requirements for healthcare systems.
+  - [RESTful ATNA](https://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_Suppl_RESTful-ATNA.pdf) - Defines the use of FHIR AuditEvent rather than the legacy audit log format.
+- Client App and User Authorization  
+  - [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
+  - [HL7 SMART Backend Services](https://hl7.org/fhir/smart-app-launch/) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and FHIR scopes.
+- Patient Identity Matching
+  - [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) - Defines how a client can perform patient lookup given demographics against a server.
+  - [IHE PIXm](https://profiles.ihe.net/ITI/PIXm/index.html) - Defines how a client can perform patient lookup given only identifiers.
+- Document Exchange
+  - [IHE MHD](https://profiles.ihe.net/ITI/MHD/) - Defines exchange of Documents, which we use to exchange FHIR document content. (note: no XDS dependencies)
+- Resource Exchange
+  - [HL7 International Patient Access](https://hl7.org/fhir/uv/ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access.
+  - [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server.
 
 # Document Exchange
 
 Document exchange is defined with 3 actors:
 
-<p align="center">
-  <img src="../images/docExchange_1.png" alt="Document Exchange Diagram 1">
-</p>
+<div style="text-align: center;">
+{% include img.html img="docExchange_1.png" caption="Figure: Document Exchange Actors" %}
+</div>
 
 1. **Document Producer (client)** - Produces EEHRxF FHIR Documents, publishes those documents to a Document Access Provider. Can be grouped with Access Provider, in which case the publishing transactions are internalized.
 
@@ -28,32 +37,42 @@ Document exchange is defined with 3 actors:
 
 These composite actors inherit existing actors from the IUA, PDQm, and MHD specifications:
 
-<p align="center">
-  <img src="../images/docExchange_2.png" alt="Document Exchange Diagram 2">
-</p>
+<figure>
+{%include simplified-document-actors.svg%}
+<figcaption><b>Figure: Document Exchange - Actor Groupings</b></figcaption>
+</figure>
+<br clear="all">
 
 **Document Producer**
+
 - [IUA Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client)
 - [PDQm Patient Demographics Consumer](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsConsumerQuery.html))
+- [PIXm Patient Identifier Cross-reference Consumer](https://profiles.ihe.net/ITI/PIXm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PIXm/CapabilityStatement-IHE.PIXm.Consumer.html))
 - [MHD Document Source](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentSource.html))
 
 **Document Access Provider**
+
 - [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server)
 - [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server)
 - [PDQm Patient Demographics Supplier](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsSupplier.html))
+- [PIXm Patient Identifier Cross-reference Manager](https://profiles.ihe.net/ITI/PIXm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PIXm/CapabilityStatement-IHE.PIXm.Manager.html))
 - [MHD Document Recipient](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentRecipient.html))
 - [MHD Document Responder](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentResponder.html))
 
 **Document Consumer**
+
 - [IUA Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client)
 - [PDQm Patient Demographics Consumer](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsConsumerQuery.html))
+- [PIXm Patient Identifier Cross-reference Consumer](https://profiles.ihe.net/ITI/PIXm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PIXm/CapabilityStatement-IHE.PIXm.Consumer.html))
 - [MHD Document Consumer](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentConsumer.html))
 
 This leads to the following required transactions between these actors:
 
-<p align="center">
-  <img src="../images/docExchange_3.png" alt="Document Exchange Diagram 3">
-</p>
+<figure>
+{%include document-transactions-sequence.svg%}
+<figcaption><b>Figure: Document Exchange Transactions</b></figcaption>
+</figure>
+<br clear="all">
 
 TODO: Table.
 
@@ -66,49 +85,58 @@ This can be combined with content profiles define by each EHDS Priority Category
 
 It is also useful in many cases to transact with individual FHIR resources (note: ref other page). For this purpose, two resource-based actors are defined:
 
-<p align="center">
-  <img src="../images/resExchange_1.png" alt="Resource Exchange Diagram 1">
-</p>
+<div style="text-align: center;">
+{% include img.html img="resExchange_1.png" caption="Figure: Resource Exchange Actors" %}
+</div>
 
 
 4. **Resource Access Provider (server)** - A FHIR server providing access to FHIR resources by hosting search + read query API's.
 5. **Resource Consumer (client)** - A FHIR client that consumes external FHIR resources by querying a Resource Access Provider.
 
 <details>
-<summary><i>Note: What about Resource Producer? Click to expand</i></summary>
+<summary><i>Note: What about Resource Producer?</i></summary>
 
-Resource exchange is more complex than document publication, and in many cases has resource and use-case specific considerations. Within the scope of this IG, we assume a precondition that the Resource Access Provider has access to resources and focus on defining how the Resource Access Provider enables a consumer to search and read those resources. For more details and possible approaches, see the [Resource Exchange](resourceExchange.md) page.
+Resource exchange is more complex than document publication, and in many cases has resource and use-case specific considerations. Within the scope of this version of the IG, we assume a precondition that the Resource Access Provider has access to resources and focus on defining how the Resource Access Provider enables a consumer to search and read those resources. For more details and possible approaches, see the [Resource Exchange](resourceExchange.html) page.
 
 </details>
 
 
 These composite actors inherit existing actors from the IUA, PDQm, and QEDm/IPA specifications:
 
-<p align="center">
-  <img src="../images/resExchange_2.png" alt="Resource Exchange Diagram 2">
-</p>
-
+<figure>
+{% include simplified-resource-actors.svg%}
+<figcaption><b>Figure: Resource Exchange - Actor Groupings</b></figcaption>
+</figure>
+<br clear="all">
 
 **Resource Access Provider**
+
 - [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server)
 - [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server)
-- [PDQm Patient Demographics Supplier](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsSupplier.html)) 
-- [Clinical Data Source](https://profiles.ihe.net/PCC/QEDm/volume-1.html#actors-and-transactions)
-    - *alt:* [HL7 International Patient Access Server](https://build.fhir.org/ig/HL7/fhir-ipa/CapabilityStatement-ipa-server.html)
+- [PDQm Patient Demographics Supplier](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsSupplier.html))
+- [PIXm Patient Identifier Cross-reference Manager](https://profiles.ihe.net/ITI/PIXm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PIXm/CapabilityStatement-IHE.PIXm.Manager.html))
+- Resource Access
+  - [Clinical Data Source](https://profiles.ihe.net/PCC/QEDm/volume-1.html#actors-and-transactions) ([CapabilityStatement](https://profiles.ihe.net/PCC/QEDm/CapabilityStatement-IHE.QEDm.Clinical-Data-Source.html))
+  - [HL7 International Patient Access Server](https://build.fhir.org/ig/HL7/fhir-ipa/index.html) ([CapabilityStatement](https://build.fhir.org/ig/HL7/fhir-ipa/CapabilityStatement-ipa-server.html)
 
 **Resource Consumer**
+
 - [IUA Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client)
 - [PDQm Patient Demographics Consumer](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsConsumerQuery.html))
-- [Clinical Data Consumer](https://profiles.ihe.net/PCC/QEDm/volume-1.html#actors-and-transactions)
-    - *alt:* [HL7 International Patient Access Client](https://build.fhir.org/ig/HL7/fhir-ipa/CapabilityStatement-ipa-client.html)
+- [PIXm Patient Identifier Cross-reference Consumer](https://profiles.ihe.net/ITI/PIXm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PIXm/CapabilityStatement-IHE.PIXm.Consumer.html))
+- Resource Access
+  - [Clinical Data Consumer](https://profiles.ihe.net/PCC/QEDm/volume-1.html#actors-and-transactions) ([CapabilityStatement](https://profiles.ihe.net/PCC/QEDm/CapabilityStatement-IHE.QEDm.Clinical-Data-Consumer.html))
+  - [HL7 International Patient Access Client](https://profiles.ihe.net/ITI/PIXm/volume-1.html) ([CapabilityStatement](https://build.fhir.org/ig/HL7/fhir-ipa/CapabilityStatement-ipa-client.html))
 
 This leads to the following required transactions between these actors:
 
-<p align="center">
-  <img src="../images/resExchange_3.png" alt="Resource Exchange Diagram 3">
-</p>
+<figure>
+{%include resource-transactions-sequence.svg%}
+<figcaption><b>Figure: Resource Exchange - Actor Groupings</b></figcaption>
+</figure>
+<br clear="all">
 
-TODO: Analyis of what to inherit from IPA vs IHE QEDm vs EU Core. 
+TODO: Analysis of what to inherit from IPA vs IHE QEDm vs EU Core. 
 
 TODO: Choice of which resources from each priority area make sense to be in scope (NOT all of them). 
 
@@ -120,13 +148,13 @@ TODO: Choice of which resources from each priority area make sense to be in scop
 
 TODO: Josh Add Narrative.
 
-<p align="center">
-  <img src="../images/ExGroup_Doc.png" alt="Example Grouping - Document">
-</p>
+<div style="text-align: center;">
+{% include img.html img="ExGroup_Doc.png" caption="Figure: Example Grouping - Document" %}
+</div>
 
-<p align="center">
-  <img src="../images/ExGroup_Group.png" alt="Example Grouping - Group">
-</p>
+<div style="text-align: center;">
+{% include img.html img="ExGroup_Group.png" caption="Figure: Example Grouping - Group" %}
+</div>
 
 
 # Use with Other IHE Profiles

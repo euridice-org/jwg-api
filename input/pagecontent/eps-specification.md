@@ -1,3 +1,0 @@
-### File contents
-
-Document bundle

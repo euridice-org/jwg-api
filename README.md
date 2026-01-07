@@ -47,6 +47,16 @@ The following pages describe the functional requirements for the API:
 - **[Document Exchange](input/pagecontent/document-exchange.md)** - MHD transactions (ITI-65, ITI-67, ITI-68)
 - **[Resource Access](input/pagecontent/resource-access.md)** - QEDm resource query (PCC-44)
 
+## Local build
+
+See [`build-notes.md`](build-notes.md) for the full publisher workflow, including platform-specific setup for Mac and Windows.
+
+## CI builds
+
+- Main branch is published continuously at [build.fhir.org/ig/euridice-org/jwg-api/en/](https://build.fhir.org/ig/euridice-org/jwg-api/en/).
+- Feature branches appear under [`branches/<branch>/`](https://build.fhir.org/ig/euridice-org/jwg-api/branches/) after the CI job completes (allow for queue time).
+
+
 
 
 

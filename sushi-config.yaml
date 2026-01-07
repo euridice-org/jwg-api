@@ -6,7 +6,7 @@
 id: hl7.fhir.eu.euridice-api
 canonical: http://hl7.eu/fhir/euridice-api
 name: EuridiceApiSpecification
-title: Euridice API specification
+title: EU Health Data API
 # description: Example Implementation Guide for getting started with SUSHI
 status: draft # draft | active | retired | unknown
 version: 0.1.0
@@ -31,8 +31,14 @@ license: CC0-1.0 # https://www.hl7.org/fhir/valueset-spdx-license.html
 dependencies:
   hl7.fhir.uv.bulkdata: current
   hl7.fhir.eu.base: current
-  ihe.iti.pdqm: 3.1.0
-  ihe.iti.mhd: 4.2.2
+  ihe.iti.pdqm: 3.2.x
+  ihe.iti.pixm: 3.1.x
+  ihe.iti.mhd: 4.2.x
+  ihe.pcc.qedm: 3.0.x
+  hl7.fhir.eu.laboratory: current
+  hl7.fhir.uv.ipa: 1.1.x
+# Note: IUA is referenced conceptually but not as a package dependency
+# Authorization uses SMART Backend Services with IUA actor groupings
 #   hl7.fhir.us.core: 3.1.0
 #   hl7.fhir.us.mcode:
 #     id: mcode
@@ -54,54 +60,38 @@ dependencies:
 pages:
   index.md:
     title: Home
-    changes.md: 
-      title: Changes
-    dependencies.md:
-      title: Dependencies
-    references.md:
-      title: References
-    adapting.md: 
-      title: Adapting Guidelines for Country use
-    contributors.md:
-      title: Authors and contributors
-    copyright.md:
-      title: Copyright
+  background.md:
+    title: Background
+    regulatoryAnchors.md:
+      title: Regulatory Anchors
+    member-state-architectures.md:
+      title: Member State Architectures
+    actors.md:
+      title: Actors and Transactions
   functional.md:
-    title: Functional
-    xtehr-mapping.md:
-      title: Xt-EHR mapping
-    context.md:
-      title: API context
-    main-usecases.md:
-      title: Main Use Cases
-  specification.md:
-    title: Specification
-    api-specification.md:
-      title: API Specification
-    transaction-T1.md:
-      title: Inspect [T1]
-    transaction-T2.md:
-      title: Find Patient [T2]
-    transaction-T4.md:
-      title: Import EEHRxF data [T4]
-    transaction-T5.md:
-      title: Export EEHRxF data [T5]
-    content-FHIR-file.md:
-      title: FHIR File Format
-  priority-areas.md:
-    title: Priority Areas
-    priority-area-eps.md:
-      title: Patient Summary
-    priority-area-laboratory.md:
-      title: (Laboratory) Test Results
-    priority-area-hdr.md:
-      title: Hospital Discharge Reports
-    priority-area-imaging-manifest.md:
-      title: Imaging Manifests
-    priority-area-imaging-report.md:
-      title: Imaging Reports
-    priority-area-mpd.md:
-      title: Medication Prescription and Dispense
+    title: Functional Requirements
+    capability-discovery.md:
+      title: Capability Discovery
+    authorization.md:
+      title: Authorization
+    patient-match.md:
+      title: Patient Match
+    document-exchange.md:
+      title: Document Exchange
+    resource-access.md:
+      title: Resource Access
+  implementation.md:
+    title: Implementation
+    example-patient-summary.md:
+      title: Retrieve a European Patient Summary
+    usecase-health-professional-portal.md:
+      title: Use Case - Health Professional Portal
+    usecase-health-data-portal.md:
+      title: Use Case - Health Data Portal
+    usecase-cross-border-ncp.md:
+      title: Use Case - Cross-Border via NCP
+  changes.md: 
+    title: Change Log
 
 
   # actors-and-transactions.md:
@@ -138,29 +128,24 @@ pages:
 # ╰────────────────────────────────────────────────────────────────────────────────────────────────╯
 menu:
   Home: index.html
-  Introduction:
-    Changes: changes.html
-    Dependencies: dependencies.html
-    References: references.html
-    Adapting Guidelines for Country use: adapting.html
-  Functional:
-    API Context: context.html
-    Main Use Cases: main-usecases.html
-  Specification:
-    API Specification: api-specification.html
-    T1 Inspect: transaction-T1.html
-    T2 Find Patient: transaction-T2.html
-    T4 Import EEHRxF data: transaction-T4.html
-    T5 Export EEHRxF data: transaction-T5.html
-    FHIR File Format: content-FHIR-file.html
-  Priority Areas:
-    Patient Summary: priority-area-eps.html
-    (Laboratory) Test Results: priority-area-laboratory.html
-    Hospital Discharge Reports: priority-area-hdr.html
-    Imaging Manifests: priority-area-imaging-manifest.html
-    Imaging Reports: priority-area-imaging-report.html
-    Medication Prescription and Dispense: priority-area-mpd.html
+  Background:
+    Regulatory Anchors: regulatoryAnchors.html
+    Member State Architectures: member-state-architectures.html
+    Actors and Transactions: actors.html
+  Functional Requirements:
+    Capability Discovery: capability-discovery.html
+    Authorization: authorization.html
+    Patient Match: patient-match.html
+    Document Exchange: document-exchange.html
+    Resource Access: resource-access.html
+  Implementation:
+    Retrieve a European Patient Summary: example-patient-summary.html
+    Health Professional Portal: usecase-health-professional-portal.html
+    Health Data Portal: usecase-health-data-portal.html
+    Cross-Border via NCP: usecase-cross-border-ncp.html
   Artifacts: artifacts.html
+  Change Log: changes.html
+
 #   Functional:
 #     Xt-EHR model: https://build.fhir.org/ig/Xt-EHR/xt-ehr-common/useCaseMedicalImages.html
 #     System actors: actors-and-transactions.html
@@ -208,6 +193,7 @@ parameters:
   usage-stats-opt-out: true
   # packages: ./package-cache
   releaselabel: 0.1.1-build
+  shownav: 'true'
 
 # ╭───────────────────────────Less Common Implementation Guide Properties──────────────────────────╮
 # │  Uncomment the properties below to configure additional properties on the ImplementationGuide  │
