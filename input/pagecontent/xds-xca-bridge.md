@@ -7,7 +7,7 @@ Many European healthcare systems currently use IHE XDS (Cross-Enterprise Documen
 MHD provides a FHIR-based interface for document sharing that can be implemented:
 
 1. **Natively** - As a direct FHIR-based document sharing system
-2. **As a Façade** - As a FHIR interface in front of existing XDS/XCA infrastructure
+2. **As a Facade** - As a FHIR interface in front of existing XDS/XCA infrastructure
 
 This allows Member States with existing XDS/XCA infrastructure to expose FHIR-based APIs without replacing their underlying systems.
 
@@ -29,7 +29,7 @@ From the perspective of FHIR-native systems:
 
 Member States can choose the approach that best fits their current infrastructure:
 - Pure FHIR implementation
-- MHD façade over XDS/XCA
+- MHD facade over XDS/XCA
 - Hybrid approaches
 
 TODO: Add architectural diagrams showing different implementation patterns and mappings.
