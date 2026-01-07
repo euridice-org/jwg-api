@@ -4,7 +4,7 @@
 
 This Implementation Guide addresses technical requirements from the European Health Data Space (EHDS) regulation, specifically focusing on the interoperability requirements placed on EHR systems.
 
-The regulatory basis is primarily found in ([EHDS ANNEX II - Essential Requirements for EHR Systems](https://eur-lex.europa.eu/eli/reg/2025/327/oj/eng#anx_II), which describes an obligation for EHR systems to include an *Interoperability Component* that does the following:
+The regulatory basis is primarily found in ([EHDS ANNEX II - Essential Requirements for EHR Systems](https://eur-lex.europa.eu/eli/reg/2025/327/oj/eng#anx_II)), which describes an obligation for EHR systems to include an *Interoperability Component* that does the following:
 
 - §2.1: “SHALL provide an **interface enabling access** to the personal electronic health data [formatted in EEHRxF]”
 - §2.2: “SHALL **be able to receive** personal electronic health data [formatted in EEHRxF]"
@@ -44,11 +44,9 @@ We inherit that work, and this IG focuses on **technical specification layer** o
 
 D5.1 defined **26 requirements** across three categories (TODO: Link to annex for complete list):
 
-* **[In Scope] 15 Interoperability Component Requirements:** This implementation guide primarily focuses on the technical implementation of these requirements.
-
-* **[Out of Scope] 6 Logging Component Requirements:** This Implementation Guide does not specify the logging component for EHR systems. The logging component in EHDS ANNEX II is primarily focused on the generation of local logs for review, and not on the interoperability of those logs.
-
-* **[Out of Scope] 5 General requirements:** D5.1 also defines general requirements covering software installation, documentation, performance, and safety of EHR systems. These are not testable API specifications and are therefore out of scope for this IG.
+- **[In Scope] 15 Interoperability Component Requirements:** This implementation guide primarily focuses on the technical implementation of these requirements.
+- **[Out of Scope] 6 Logging Component Requirements:** This Implementation Guide does not specify the logging component for EHR systems. The logging component in EHDS ANNEX II is primarily focused on the generation of local logs for review, and not on the interoperability of those logs.
+- **[Out of Scope] 5 General requirements:** D5.1 also defines general requirements covering software installation, documentation, performance, and safety of EHR systems. These are not testable API specifications and are therefore out of scope for this IG.
 
 # Interoperability Requirements
 
@@ -58,8 +56,8 @@ Xt-EHR deliverable 5.1 interpreted the EHDS Annex II requirements for EHR system
 
 This Implementation Guide has adjusted the D5.1 actor model ((based on feedback from member state stakeholders and harmonization with the priority category Xt-EHR work packages) to ren
 
-* Accordingly, D5.1's "Producer" role has been refined in this IG as **Provider**, with more specific actor types including Document Access Provider, Resource Access Provider, and Document Producer. 
-* S can act as [Document Producers](actors.html#document-producer) that supply content to a separate [Document Access Provider](actors.html#document-access-provider)
+- Accordingly, D5.1's "Producer" role has been refined in this IG as **Provider**, with more specific actor types including Document Access Provider, Resource Access Provider, and Document Producer. 
+- S can act as [Document Producers](actors.html#document-producer) that supply content to a separate [Document Access Provider](actors.html#document-access-provider)
 
 The Consumer role is similarly refined into Document Consumer and Resource Consumer. See the [Actors page](actors.html) for complete actor definitions.
 
@@ -70,9 +68,9 @@ This accomplishes the following:
 
 
  to address real-world implementation requirements identified through Xt-EHR work packages 6 and 7 (priority category specifications) and feedback from member states. The refined actor model accounts for:
-* Aggregation at hospital and national scale: Recognizes that providing access to EHR data may be accomplished by intermediary systems (hospital data aggregators, national health information exchanges) rather than solely by individual EHR systems.
-* Separation of data production from data access: It is not nescesarily true that the system that produces/stores clinical data is the same system that provides API access to that data. This enables centralized API gateways and data repositories.
-* Not all EHR systems are well-suited to serving real-time queries 24/7. This enables those system
+- Aggregation at hospital and national scale: Recognizes that providing access to EHR data may be accomplished by intermediary systems (hospital data aggregators, national health information exchanges) rather than solely by individual EHR systems.
+- Separation of data production from data access: It is not nescesarily true that the system that produces/stores clinical data is the same system that provides API access to that data. This enables centralized API gateways and data repositories.
+- Not all EHR systems are well-suited to serving real-time queries 24/7. This enables those system
 
 
 4. **Priority category exchange patterns**: Aligns with the specific data exchange needs defined in Xt-EHR work packages 6 and 7, where some priority categories are best exchanged as documents while others benefit from resource-level queries.

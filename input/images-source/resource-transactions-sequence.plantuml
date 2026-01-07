@@ -1,0 +1,27 @@
+@startuml resource-transactions-sequence
+skinparam svgDimensionStyle false
+
+participant "Resource Access Provider" as Provider
+participant "Resource Consumer" as Consumer
+
+
+Consumer -> Provider : ITI-19 ATNA Authenticate Node (TLS)
+Consumer -> Provider : ITI-103 IUA Get Authorization Server Metadata
+Consumer -> Provider : ITI-71 IUA Get Authorization Token
+
+alt Patient Identity Lookup
+    Consumer -> Provider : ITI-83 PIXm id cross-reference
+else
+    Consumer -> Provider : ITI-78 PDQm Query
+else
+    Consumer -> Provider : ITI-119 PDQm $match
+end
+
+alt Resource Query
+    Consumer -> Provider : PCC-44 QEDm Mobile Query Existing Data
+else 
+    Consumer -> Provider : IPA Finding and Retrieving Patient Information
+end
+
+
+@enduml

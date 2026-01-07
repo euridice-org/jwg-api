@@ -31,11 +31,12 @@ license: CC0-1.0 # https://www.hl7.org/fhir/valueset-spdx-license.html
 dependencies:
   hl7.fhir.uv.bulkdata: current
   hl7.fhir.eu.base: current
-  ihe.iti.pdqm: 3.1.0
-  ihe.iti.mhd: 4.2.2
-  ihe.pcc.qedm: 3.0.0
+  ihe.iti.pdqm: 3.2.x
+  ihe.iti.pixm: 3.1.x
+  ihe.iti.mhd: 4.2.x
+  ihe.pcc.qedm: 3.0.x
   hl7.fhir.eu.laboratory: current
-  hl7.fhir.uv.ipa: 1.0.0
+  hl7.fhir.uv.ipa: 1.1.x
 # Note: IUA is referenced conceptually but not as a package dependency
 # Authorization uses SMART Backend Services with IUA actor groupings
 #   hl7.fhir.us.core: 3.1.0
@@ -236,6 +237,7 @@ parameters:
   usage-stats-opt-out: true
   # packages: ./package-cache
   releaselabel: 0.1.1-build
+  shownav: 'true'
 
 # ╭───────────────────────────Less Common Implementation Guide Properties──────────────────────────╮
 # │  Uncomment the properties below to configure additional properties on the ImplementationGuide  │
