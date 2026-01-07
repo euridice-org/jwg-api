@@ -4,7 +4,7 @@ This section provides background and context for understanding the EU Health Dat
 
 ## Purpose and Scope
 
-This Implementation Guide defines technical specifications for API-based access to European Electronic Health Record exchange Format (EEHRxF) data. See [Scope](scope.html) for details on what is and isn't covered by this specification.
+This Implementation Guide defines technical specifications for API-based access to European Electronic Health Record exchange Format (EEHRxF) data. See the [home page](index.html) for details on what is and isn't covered by this specification.
 
 ## Regulatory Context
 
@@ -14,9 +14,7 @@ The specification addresses requirements from the European Health Data Space (EH
 
 The following pages provide conceptual background to help readers understand the technical choices made in this specification:
 
-- **[FHIR Documents and Resources](fhir-documents-vs-resources.html)** - Explains the difference between document-based and resource-based exchange patterns and when to use each
-
-- **[Relationship to XDS/XCA](xds-xca-bridge.html)** - Describes how this specification relates to existing XDS/XCA infrastructure and how IHE MHD serves as a bridge
+- **[Actors and Transactions](actors.html)** - Defines the document-based and resource-based exchange patterns using a composite actor model built on IHE and HL7 specifications
 
 - **[Member State Architectures](member-state-architectures.html)** - Shows how the specification accommodates different Member State architectural approaches (centralized, federated, hybrid)
 

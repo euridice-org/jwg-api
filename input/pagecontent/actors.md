@@ -29,10 +29,13 @@ Document exchange is defined with 3 actors:
 {% include img.html img="docExchange_1.png" caption="Figure: Document Exchange Actors" %}
 </div>
 
+<a name="document-producer"></a>
 1. **Document Producer (client)** - Produces EEHRxF FHIR Documents, publishes those documents to a Document Access Provider. Can be grouped with Access Provider, in which case the publishing transactions are internalized.
 
+<a name="document-access-provider"></a>
 2. **Document Access Provider (server)** - Provides Access to EEHRxF FHIR Documents by offering an API which Document Consumer clients can query. Receives Documents from Document Producer (If not grouped with Document Producer).
 
+<a name="document-consumer"></a>
 3. **Document Consumer (client)** - Consumes EEHRxF FHIR documents by querying a Document Access Provider.
 
 These composite actors inherit existing actors from the IUA, PDQm, and MHD specifications:
@@ -76,7 +79,7 @@ This leads to the following required transactions between these actors:
 
 TODO: Table.
 
-TODO: Link to functional subpages for authorizatation, patient search, and document exchange, with details on these transactions.
+TODO: Link to functional subpages for authorization, patient search, and document exchange, with details on these transactions.
 
 This can be combined with content profiles define by each EHDS Priority Category, for those categories that are primarily represented as a FHIR Document. For example, a system can be a **Lab Result Document Producer**, a **Patient Summary Document Consumer**, or a **Imaging Manifest Document Access Provider**. See Content Library
 
@@ -90,7 +93,10 @@ It is also useful in many cases to transact with individual FHIR resources (note
 </div>
 
 
+<a name="resource-access-provider"></a>
 4. **Resource Access Provider (server)** - A FHIR server providing access to FHIR resources by hosting search + read query API's.
+
+<a name="resource-consumer"></a>
 5. **Resource Consumer (client)** - A FHIR client that consumes external FHIR resources by querying a Resource Access Provider.
 
 <details>

@@ -12,7 +12,7 @@ This Implementation Guide:
 
 This Implementation Guide does **not**: 
 - **Define all functionalities or data exchange patterns with EHRs that might or could be used by various  Member States to satisfy the requirements of EHDS:** Each Member State has the power to define its own methods of meeting the EHDS requirements, which could involve accessing data from EHRs using other specifications than those described here. The goal of this guide is not to list every data exchange pattern that might be useful in meeting those requirements, only to define a minimum sufficient and feasible set of APIs that can be used to meet the requirements for certain common architectural patterns of member states, that can be agreed upon as a minimum shared set of requirements.
-- **Define data exchange patterns other than EHRs providing access to data and receiving data:** Where there are further workflow actions involved in data exchange (such as for prescribing and dispensing medications), those exchange patterns should be defined in their respective Implementation Guides. Where there are shared needs, such as for authorizatoin and patient search, those IGs should make use of the data exchange patterns defined here.
+- **Define data exchange patterns other than EHRs providing access to data and receiving data:** Where there are further workflow actions involved in data exchange (such as for prescribing and dispensing medications), those exchange patterns should be defined in their respective Implementation Guides. Where there are shared needs, such as for authorization and patient search, those IGs should make use of the data exchange patterns defined here.
 - **Define data exchange patterns for wellness apps:** While integrations between EHRs and wellness apps can and should use some of the APIs described here (such as authorization, patient search, and resource access), writing data to EHRs can involve workflows other than access to data that have other important considerations, and therefore should be defined separately.
 - **Define data exchange patterns other than for EHRs:** There are many pieces of national infrastructure outside of exchange of data with the Interoperability Component of EHRs (for instance, recording and implementing patient opt-outs and restriction of access to data from the national data access services, exchanging data across borders between NCPs, and interacting with services like provider registries and terminology servers) that Member States will need in order to meet the requirements of EHDS. Those are outside the scope of this Implementation Guide, which is focused on requirements for EHRs.
 - **Define the content of the documents and resources for EEHRxF:** These are defined in separate Xt-EHR logical models and HL7 Europe Implementation Guides.
@@ -25,7 +25,7 @@ See [Regulatory Anchors](regulatoryAnchors.html) page for more detail on the lin
 
 The intended audiences of this Implementation Guide are: 
 
-- **Manufacturers of EHR systems:** EHR vendors looking to develop support for APIs that meet the needs of EHDS should refer to the [Functional Requirements](functionalRequirements.html) for a list of functional specifications EHRs should support.
+- **Manufacturers of EHR systems:** EHR vendors looking to develop support for APIs that meet the needs of EHDS should refer to the [Functional Requirements](functional.html) for a list of functional specifications EHRs should support.
 
 - **Architects of national infrastructures:** National eHealth agencies looking to understand how to use the capabilities of EHRs required by EHDS to meet the goals of EHDS in their Member States should refer to the [Implementation](implementation.html) for examples of how the EHR APIs can be used for the EHDS use cases.
 
@@ -59,7 +59,7 @@ At a high level, the following actors are specified:
 - **Resource Access Provider** - Provides query access to individual FHIR resources
 - **Resource Consumer** - Queries FHIR resources from Resource Access Providers
 
-These resource actors are initially scoped for research search + read. See [Resource Exchange](resourceExchange.html) for detailed discussion and possible approaches for resource exchange patterns.
+These resource actors are initially scoped for search + read. See the [Actors](actors.html#resource-exchange) page for detailed discussion on resource exchange patterns.
 
 ## Summary of Functional Requirements ("the API")
 

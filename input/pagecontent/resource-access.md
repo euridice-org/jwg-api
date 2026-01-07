@@ -75,7 +75,7 @@ If resources are derived from documents (extracted from Bundles), Provenance SHO
 
 ## How Resource Access Provider Gets Resources
 
-See [Resource Exchange](resourceExchange.html) for details.
+See [Actors and Transactions - Resource Exchange](actors.html#resource-exchange) for details on the actor model and how Resource Access Providers relate to underlying systems.
 
 ## References
 

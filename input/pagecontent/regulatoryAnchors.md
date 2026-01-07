@@ -15,7 +15,7 @@ Note that this IG does NOT create legal obligations on EHR Systems unless adopte
 
 This IG inherits and builds upon the work of the Xt-EHR Joint Action, which has created deliverables drafting the EHDS Implementing Acts. Specifically, we inherit the work done in Xt-EHR Work Package 5.1 which has mapped the EHDS text to more precise EHR requirements. 
 
-These requirements have also been adjusted based in order to harmonize against Xt-EHR work package 6 and 7, which define requirements for each prority category.
+These requirements have also been adjusted based in order to harmonize against Xt-EHR work package 6 and 7, which define requirements for each priority category.
 
 For more details on the Xt-EHR work, see [the Xt-EHR Website](https://www.xt-ehr.eu/work-packages/). Note: Xt-EHR deliverables are not yet publically released.
 
