@@ -18,16 +18,3 @@ Other Member States use federated architectures where data remains at the source
 - Queries are federated across multiple systems
 - National infrastructure routes queries to appropriate sources
 
-## Fitting This Specification to Different Architectures
-
-This IG supports multiple deployment models by defining actors and transactions that can be implemented:
-
-- **At the EHR system level** - Direct implementation of the API
-- **At the organizational level** - Hospital or regional aggregation layer
-- **At the national level** - National infrastructure exposing the API
-- **Via façade** - Adaptation layer in front of existing systems
-
-The specification focuses on the API contract, allowing flexibility in where and how it is implemented within Member State infrastructure.
-
-TODO: Add deployment option diagrams showing how the specification fits different MS architectures.
-
