@@ -59,7 +59,7 @@ At a high level, the following actors are specified:
 - **Resource Access Provider** - Provides query access to individual FHIR resources
 - **Resource Consumer** - Queries FHIR resources from Resource Access Providers
 
-These resource actors are initially scoped for research search + read. See [Resource Exchange](resourceExchange.html) for detailed discussion and possible approaches for resource exchange patterns.
+These resource actors are initially scoped for research search + read. See [Resource Access](resource-access.html) for detailed discussion and possible approaches for resource exchange patterns.
 
 ## Summary of Functional Requirements ("the API")
 
