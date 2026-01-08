@@ -10,7 +10,7 @@ Maria wants to review her recent lab results and share her medication history wi
 
 ## Scope
 
-TODO: Note we are not making complete requirements for the protal here, we are defining how it could use the interoperability model to access health data.
+**Note:** This use case does not define complete requirements for the portal itself; it defines how a portal could use this interoperability model to access health data.
 
 ## Actor Roles
 
@@ -33,4 +33,4 @@ The portal implements Consumer actors with patient-specific authorization:
 - Portal queries only for data belonging to the authenticated patient
 - Patient consent preferences are enforced
 
-TODO: Add guidance on patient-scoped authorization and consent enforcement mechanisms.
+> **Open Issue:** Add guidance on patient-scoped authorization and consent enforcement mechanisms.

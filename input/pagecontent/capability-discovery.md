@@ -45,7 +45,7 @@ Providers instantiate one or more of the following CapabilityStatements:
 
 Consumers inspect `CapabilityStatement.instantiates` to determine which priority categories are supported and which exchange patterns (document vs resource) are available.
 
-TODO: Define specific CapabilityStatement resources and profile references for each priority area.
+> **Open Issue:** Define specific CapabilityStatement resources and profile references for each priority area.
 
 ## Content Registry
 

@@ -1,6 +1,6 @@
 # Actors and Transactions
 
-The actor model defined here is an orchestration of existing IHE actors and specifications, combined together into high-level composite actors. Actors and transactions are inherited from dependent IHE profiles, and those actors are stacked, constrained and potentially modified. 
+The actor model defined here is an orchestration of existing IHE actors and specifications, combined together into high-level composite actors. Actors and transactions are inherited from dependent IHE profiles, and those actors are stacked, constrained and potentially modified.
 
 This is similar to the approach taken in the MHDS specification, but with a more narrow subset of specifications fit to the european situation.
 
@@ -9,7 +9,7 @@ This is similar to the approach taken in the MHDS specification, but with a more
 - [IHE Consistent Time](https://profiles.ihe.net/ITI/TF/Volume1/ch-7.html) - Defines the use of Network Time Protocol (NTP) to provide consistent time across systems.
 - [IHE ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-8.html) - Defines secure communication and audit logging requirements for healthcare systems.
   - [RESTful ATNA](https://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_Suppl_RESTful-ATNA.pdf) - Defines the use of FHIR AuditEvent rather than the legacy audit log format.
-- Client App and User Authorization  
+- Client App and User Authorization
   - [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
   - [HL7 SMART Backend Services](https://hl7.org/fhir/smart-app-launch/) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and FHIR scopes.
 - Patient Identity Matching
@@ -77,9 +77,12 @@ This leads to the following required transactions between these actors:
 </figure>
 <br clear="all">
 
-TODO: Table.
+> **Open Issue:** Add transaction table for document exchange actors.
 
-TODO: Link to functional subpages for authorization, patient search, and document exchange, with details on these transactions.
+See the following functional pages for detailed transaction information:
+- [Authorization](authorization.html) - Authentication and authorization flows
+- [Patient Match](patient-match.html) - Patient identification transactions
+- [Document Exchange](document-exchange.html) - Document query and retrieval transactions
 
 This can be combined with content profiles define by each EHDS Priority Category, for those categories that are primarily represented as a FHIR Document. For example, a system can be a **Lab Result Document Producer**, a **Patient Summary Document Consumer**, or a **Imaging Manifest Document Access Provider**. See Content Library
 
@@ -142,9 +145,9 @@ This leads to the following required transactions between these actors:
 </figure>
 <br clear="all">
 
-TODO: Analysis of what to inherit from IPA vs IHE QEDm vs EU Core. 
+> **Open Issue:** Analysis of what to inherit from IPA vs IHE QEDm vs EU Core.
 
-TODO: Choice of which resources from each priority area make sense to be in scope (NOT all of them). 
+> **Open Issue:** Determine which resources from each priority area should be in scope for resource exchange (not all resources are appropriate for granular exchange).
 
 
 
@@ -152,7 +155,7 @@ TODO: Choice of which resources from each priority area make sense to be in scop
 
 ## Example Groupings
 
-TODO: Josh Add Narrative.
+> **Open Issue:** Add narrative explaining the example groupings below.
 
 <div style="text-align: center;">
 {% include img.html img="ExGroup_Doc.png" caption="Figure: Example Grouping - Document" %}
@@ -165,33 +168,25 @@ TODO: Josh Add Narrative.
 
 # Use with Other IHE Profiles
 
-Within this implemenation guide, we focus on the generalized document and resource access transactions - but a similar layered approach can be taken with other use case-specific IHE profiles. 
+Within this implemenation guide, we focus on the generalized document and resource access transactions - but a similar layered approach can be taken with other use case-specific IHE profiles.
 
 IUA + PDQM actors can be considered an **API Base**, since most interoperabiliy use cases have a shared need for authorization and patient identification.
 
-We leave the details of implementation up to individual priority category area, but here are some examples of how this could be done: 
+We leave the details of implementation up to individual priority category area, but here are some examples of how this could be done:
 
 ## ePrescription and eDispenation with IHE MPD
 For example, the [IHE MPD specification actors](https://profiles.ihe.net/PHARM/MPD/actors-transactions.html) could be stacked in a similar way to accomplish a prescription workflow:
 
-TODO: Diagram with IUA + PDQm + MPD Actors. Similar to above, but with MPD Actors for Order Placer, Order Receiver, ....
+> **Open Issue:** Add diagram with IUA + PDQm + MPD Actors showing Order Placer, Order Receiver groupings.
 
 ## Image Access with IHE MADO
 
-TODO: Bas/Charles/etc to review/fix my mistakes.
+> **Open Issue:** Review imaging actor groupings with imaging experts.
 
 In the imaging priority category, IHE-RAD (MADO) transactions are used to provide access to DICOM images.
 
 The IHE MADO Profile starts with a precondition that an Image Consumer has gained access to a manifest. This could be accomplished by the Image Consumer bundling with the Document Consumer actor specified here - and querying a Document Access Provider for an image manifest. Then, the Image Consumer uses the information in the Image Manifest to construct a WADO-RS query to the Imaging Source (note: Auth could get complicated here).
 
-A composite actor could be created inheriting Document Consumer + MADO Image Consumer. 
+A composite actor could be created inheriting Document Consumer + MADO Image Consumer.
 
-TODO: Diagram: Image Consumer as Document Consumer + Image Consumer
-
-
-
-
-
-
-
-
+> **Open Issue:** Add diagram showing Image Consumer as composite of Document Consumer + MADO Image Consumer.

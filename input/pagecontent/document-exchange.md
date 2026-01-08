@@ -88,7 +88,7 @@ Inherits from IHE MHD Comprehensive DocumentReference with additional constraint
 - Required metadata elements for EEHRxF
 - Content registry enforcement
 
-TODO: Define specific DocumentReference profiles per priority area.
+> **Open Issue:** Define specific DocumentReference profiles per priority area.
 
 ### Content Validation
 

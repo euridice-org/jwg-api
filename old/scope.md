@@ -20,5 +20,5 @@ This IG does not specify:
 - National infrastructure APIs between healthcare providers
 - Cross-border exchange protocols (governed by MyHealth@EU)
 
-TODO: Expand with additional scope clarifications as needed.
+{% include open-issue.md issue="Expand with additional scope clarifications as needed." %}
 

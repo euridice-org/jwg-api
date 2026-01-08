@@ -32,5 +32,5 @@ Member States can choose the approach that best fits their current infrastructur
 - MHD facade over XDS/XCA
 - Hybrid approaches
 
-TODO: Add architectural diagrams showing different implementation patterns and mappings.
+> **Open Issue:** Add architectural diagrams showing different implementation patterns and mappings.
 

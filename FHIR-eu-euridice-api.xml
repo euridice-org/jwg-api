@@ -22,36 +22,21 @@
 <artifact id="ValueSet/im-xds-class-code-valueset" key="ValueSet-im-xds-class-code-valueset" name="XDS Class Codes"/>
 <page key="NA" name="(NA)"/>
 <page key="many" name="(many)"/>
-<page key="about" name="About"/>
 <page key="actors" name="Actors and Transactions"/>
 <page key="artifacts" name="Artifacts Summary"/>
 <page key="authorization" name="Authorization"/>
-<page key="contributors" name="Authors and Contributors"/>
+<page key="background" name="Background"/>
 <page key="capability-discovery" name="Capability Discovery"/>
-<page key="changes" name="Changes"/>
-<page key="copyright" name="Copyright"/>
-<page key="dependencies" name="Dependencies"/>
+<page key="changes" name="Change Log"/>
 <page key="document-exchange" name="Document Exchange"/>
-<page key="fhir-documents-vs-resources" name="FHIR Documents and Resources"/>
-<page key="functional" name="Functional"/>
+<page key="functional" name="Functional Requirements"/>
 <page key="index" name="Home"/>
-<page key="priority-area-hdr" name="Hospital Discharge Reports"/>
-<page key="priority-area-imaging-manifest" name="Imaging Manifests"/>
-<page key="priority-area-imaging-report" name="Imaging Reports"/>
 <page key="implementation" name="Implementation"/>
-<page key="background" name="Introduction"/>
-<page key="priority-area-laboratory" name="Laboratory Test Results"/>
-<page key="priority-area-mpd" name="Medication Prescription and Dispense"/>
 <page key="member-state-architectures" name="Member State Architectures"/>
 <page key="patient-match" name="Patient Match"/>
-<page key="priority-area-eps" name="Patient Summary"/>
-<page key="priority-areas" name="Priority Areas"/>
-<page key="references" name="References"/>
 <page key="regulatoryAnchors" name="Regulatory Anchors"/>
-<page key="xds-xca-bridge" name="Relationship to XDS/XCA"/>
 <page key="resource-access" name="Resource Access"/>
 <page key="example-patient-summary" name="Retrieve a European Patient Summary"/>
-<page key="scope" name="Scope"/>
 <page key="toc" name="Table of Contents"/>
 <page key="usecase-cross-border-ncp" name="Use Case - Cross-Border via NCP"/>
 <page key="usecase-health-data-portal" name="Use Case - Health Data Portal"/>

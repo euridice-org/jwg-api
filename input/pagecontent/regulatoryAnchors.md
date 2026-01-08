@@ -42,7 +42,7 @@ The Xt-EHR Work Packages, notably WP 5.1, has drafted the middle layer: EHR Func
 
 We inherit that work, and this IG focuses on **technical specification layer** of these interoperability requirements, using off the shelf IHE and HL7 standards. The requirements themselves and how they are applied to EHR products are not defined in this IG. These are ultimately owned by the European Commission to be finalized in the EHDS Implementing Acts.
 
-D5.1 defined **26 requirements** across three categories (TODO: Link to annex for complete list):
+D5.1 defined **26 requirements** across three categories (see Xt-EHR D5.1 Annex for complete list):
 
 - **[In Scope] 15 Interoperability Component Requirements:** This implementation guide primarily focuses on the technical implementation of these requirements.
 - **[Out of Scope] 6 Logging Component Requirements:** This Implementation Guide does not specify the logging component for EHR systems. The logging component in EHDS ANNEX II is primarily focused on the generation of local logs for review, and not on the interoperability of those logs.
@@ -118,6 +118,7 @@ Jan 6, 2026 - Initial IG Publication: In order to harmonize with XT-EHR Work pac
 
 
 # Patient Rights
-TODO: How rights are upheld depends on the context of the member state interoperability network.
+
+> **Open Issue:** How patient rights are upheld depends on the context of the member state interoperability network. Further guidance needed.
 
 

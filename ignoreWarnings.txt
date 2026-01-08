@@ -1,0 +1,20 @@
+# ignoreWarnings.txt
+# This file lists known acceptable warnings that should not block CI builds.
+# Each warning pattern is matched against the full warning message.
+
+# =============================================================================
+# External IHE QEDm broken links
+# These are broken links within IHE's QEDm CapabilityStatement artifacts that
+# reference IHE's Volume 1 documentation. These are IHE's problem to fix in
+# their package, not something we can fix in this IG.
+# =============================================================================
+The link 'volume-1.html#actor-options' for "8.2 QEDm Actor Options" cannot be resolved
+
+# =============================================================================
+# Dependency version warnings
+# Using 'current' versions for dependencies that don't have stable releases yet.
+# This will be addressed before ballot/publication - acceptable for wide review.
+# =============================================================================
+Dependency on hl7.fhir.uv.bulkdata is to the current version - not allowed
+Dependency on hl7.fhir.eu.base is to the current version - not allowed
+Dependency on hl7.fhir.eu.laboratory is to the current version - not allowed

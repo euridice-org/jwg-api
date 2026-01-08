@@ -8,13 +8,13 @@ FHIR Documents are complete, immutable snapshots of clinical information at a po
 
 Documents are self-contained and can be signed and attested by healthcare providers, making them suitable for traditional clinical reports like patient summaries, discharge reports, and lab reports.
 
-TODO: Expand on when to use documents vs resources and provide examples.
+> **Open Issue:** Expand on when to use documents vs resources and provide examples.
 
 ## FHIR Resources
 
 Individual FHIR Resources represent discrete pieces of health information (observations, conditions, medications, etc.) that can be queried and accessed independently. Resources provide granular, queryable access to health data and support real-time clinical decision support workflows.
 
-TODO: Expand on resource query patterns and use cases.
+> **Open Issue:** Expand on resource query patterns and use cases.
 
 ## Relationship
 
