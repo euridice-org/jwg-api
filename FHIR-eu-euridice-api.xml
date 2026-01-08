@@ -4,9 +4,10 @@
 <artifactPageExtension value="-definitions"/>
 <artifactPageExtension value="-examples"/>
 <artifactPageExtension value="-mappings"/>
+<artifact id="ValueSet/eehrxf-document-class-vs" key="ValueSet-eehrxf-document-class-vs" name="EEHRxF Document Class ValueSet (Category)"/>
+<artifact id="ValueSet/eehrxf-document-type-vs" key="ValueSet-eehrxf-document-type-vs" name="EEHRxF Document Type ValueSet"/>
 <artifact id="CapabilityStatement/EEHRxF-EPS-Resource-Consumer-CapabilityStatement" key="CapabilityStatement-EEHRxF-EPS-Resource-Consumer-CapabilityStatement" name="EEHRxF EPS Resource Consumer Actor"/>
 <artifact id="CapabilityStatement/EEHRxF-EPS-Resource-Provider-CapabilityStatement" key="CapabilityStatement-EEHRxF-EPS-Resource-Provider-CapabilityStatement" name="EEHRxF EPS Resource Provider Actor"/>
-<artifact id="ValueSet/EehrxfMhdDocumentReferenceTypeVs" key="ValueSet-EehrxfMhdDocumentReferenceTypeVs" name="EEHRxF MHD Category Code System"/>
 <artifact id="StructureDefinition/EehrxfMhdDocumentReference" key="StructureDefinition-EehrxfMhdDocumentReference" name="EEHRxF MHD DocumentReference Profile"/>
 <artifact id="CapabilityStatement/T5-EERxF-BulkDataExport" key="CapabilityStatement-T5-EERxF-BulkDataExport" name="EERxF BulkDate Export Capability Statement"/>
 <artifact id="ActorDefinition/EERxF-Consumer" key="ActorDefinition-EERxF-Consumer" name="EERxF Consumer Actor Definition"/>
@@ -19,7 +20,6 @@
 <artifact id="StructureDefinition/EpsMhdDocumentReference" key="StructureDefinition-EpsMhdDocumentReference" name="EPS MHD DocumentReference Profile"/>
 <artifact id="StructureDefinition/SupportedIdentifier" key="StructureDefinition-SupportedIdentifier" name="Extension: SupportedIdentifier"/>
 <artifact id="CapabilityStatement/IHE.QEDm.Clinical-Data-Source" key="CapabilityStatement-IHE.QEDm.Clinical-Data-Source" name="IHE QEDm Clinical Data Source Actor"/>
-<artifact id="ValueSet/im-xds-class-code-valueset" key="ValueSet-im-xds-class-code-valueset" name="XDS Class Codes"/>
 <page key="NA" name="(NA)"/>
 <page key="many" name="(many)"/>
 <page key="actors" name="Actors and Transactions"/>

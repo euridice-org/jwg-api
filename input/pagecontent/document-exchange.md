@@ -12,6 +12,140 @@ Document exchange using IHE MHD (Mobile Health Documents) transactions. This IG 
 
 See [Actors and Transactions](actors.html) for detailed actor groupings.
 
+## Document Search Strategy: Category vs Type
+
+This IG follows the IHE approach for document discovery, using a **two-step search pattern**:
+
+1. **Request Search (Coarse)**: Use `category` to cast a wide net
+2. **Response Filtering (Precise)**: Filter results client-side using `type`
+
+### Category (Coarse Search)
+
+`DocumentReference.category` uses **XDS ClassCode** values for broad document classification:
+
+| Code | Display | Use For |
+|------|---------|---------|
+| `REPORTS` | Reports | Laboratory reports, imaging reports, clinical reports |
+| `SUMMARIES` | Summaries | Patient summaries, discharge summaries |
+| `IMAGES` | Images | Imaging manifests, DICOM references |
+| `PRESCRIPTIONS` | Prescriptions | Medication prescriptions |
+| `DISPENSATIONS` | Dispensations | Medication dispensation records |
+
+See [EEHRxFDocumentClassVS](ValueSet-eehrxf-document-class-vs.html) for the complete list.
+
+### Type (Clinical Precision)
+
+`DocumentReference.type` uses **LOINC codes** for specific document identification:
+
+| LOINC Code | Display | Priority Category |
+|------------|---------|-------------------|
+| `60591-5` | Patient summary Document | Patient Summary (IPS) |
+| `18842-5` | Discharge summary | Hospital Discharge Report (HDR) |
+| `11502-2` | Laboratory report | Laboratory Report |
+| `68604-8` | Radiology Diagnostic study note | Diagnostic Imaging Report |
+
+See [EEHRxFDocumentTypeVS](ValueSet-eehrxf-document-type-vs.html) for the complete list.
+
+### practiceSetting for Lab vs Imaging Differentiation
+
+When searching for reports (`category=REPORTS`), the `context.practiceSetting` element SHOULD be used to differentiate between laboratory and imaging reports:
+
+- **Laboratory**: `practiceSetting` = General pathology, Clinical pathology, etc.
+- **Imaging**: `practiceSetting` = Radiology, Cardiology, Nuclear medicine, etc.
+
+See [HL7 Practice Setting Codes](http://hl7.org/fhir/ValueSet/c80-practice-codes) for available values.
+
+## Canonical Query Examples
+
+The following examples demonstrate the recommended search patterns for document discovery.
+
+### Example 1: Find Patient Summary by Type
+
+When you know you want a specific document type, search directly by type:
+
+```http
+GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|60591-5&status=current
+```
+
+**Parameters**:
+- `patient`: Patient reference (required)
+- `type`: LOINC code for Patient Summary
+- `status`: Only current documents
+
+**Use case**: Retrieve the patient's International Patient Summary for unplanned care encounter.
+
+### Example 2: Find Laboratory Reports by Type
+
+```http
+GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|11502-2&status=current
+```
+
+**Parameters**:
+- `patient`: Patient reference (required)
+- `type`: LOINC code for Laboratory Report
+- `status`: Only current documents
+
+**Use case**: Retrieve all laboratory reports for a patient.
+
+### Example 3: Find All Reports by Category (Coarse Search)
+
+When you want to discover all reports regardless of type:
+
+```http
+GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|REPORTS&status=current
+```
+
+**Parameters**:
+- `patient`: Patient reference (required)
+- `category`: XDS ClassCode for REPORTS
+- `status`: Only current documents
+
+**Use case**: Discover all reports (lab, imaging, clinical) for a patient, then filter client-side by type.
+
+### Example 4: Find Imaging Reports (Category + practiceSetting)
+
+To find specifically imaging reports, combine category with practiceSetting:
+
+```http
+GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|REPORTS&context.practiceSetting=http://snomed.info/sct|394914008&status=current
+```
+
+**Parameters**:
+- `patient`: Patient reference (required)
+- `category`: XDS ClassCode for REPORTS
+- `context.practiceSetting`: SNOMED code for Radiology (394914008)
+- `status`: Only current documents
+
+**Use case**: Retrieve radiology reports specifically.
+
+### Example 5: Find Imaging Manifests
+
+To find imaging manifests (DICOM references):
+
+```http
+GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|IMAGES&status=current
+```
+
+**Parameters**:
+- `patient`: Patient reference (required)
+- `category`: XDS ClassCode for IMAGES
+- `status`: Only current documents
+
+**Use case**: Retrieve imaging study manifests for WADO retrieval.
+
+### Example 6: Find Discharge Summaries
+
+```http
+GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|18842-5&status=current
+```
+
+**Parameters**:
+- `patient`: Patient reference (required)
+- `type`: LOINC code for Discharge Summary
+- `status`: Only current documents
+
+**Use case**: Retrieve hospital discharge reports for continuity of care.
+
 ## IHE MHD Transactions
 
 This IG uses the following IHE MHD transactions without modification to the transaction mechanics:
@@ -45,10 +179,13 @@ Query for DocumentReference resources.
 - `patient` (required)
 - `_count` (for paging)
 
-**Optional Parameters**:
-- `type` - Document type (e.g., Patient Summary LOINC code)
+**Recommended Parameters** (see [Document Search Strategy](#document-search-strategy-category-vs-type)):
+- `category` - Document class (XDS ClassCode) for coarse filtering
+- `type` - Document type (LOINC) for clinical precision
+- `context.practiceSetting` - Clinical specialty for lab vs imaging differentiation
+
+**Additional Parameters**:
 - `date` - Creation date range
-- `category` - Document category
 - `format` - Format code
 - `status` - Document status
 
