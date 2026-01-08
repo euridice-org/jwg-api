@@ -103,7 +103,7 @@ Tokens must be presented on all API requests to protected resources.
 
 ## Scopes
 
-Scopes follow SMART v2 conventions and align with required MHD and QEDm transactions:
+Scopes follow [SMART v2 conventions](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) and align with required MHD and QEDm transactions:
 
 ### Document Producer (MHD ITI-65)
 - `system/DocumentReference.c` - Create DocumentReference
@@ -119,20 +119,7 @@ Scopes follow SMART v2 conventions and align with required MHD and QEDm transact
 - `system/Patient.rs` - Read/search Patient
 - Additional scopes per resource type: `system/Observation.rs`, `system/Condition.rs`, `system/DiagnosticReport.rs`, etc.
 
-### Scope Matrix
-
-The following table defines the required scopes for each actor and interaction. Authorization servers SHALL enforce these scope requirements.
-
-| Actor | Interaction | Required Scope |
-|-------|-------------|----------------|
-| Document Consumer | DocumentReference.search | system/DocumentReference.s OR .rs |
-| Document Consumer | DocumentReference.read | system/DocumentReference.r OR .rs |
-| Document Consumer | Binary.read | system/Binary.r OR .rs |
-| Document Consumer | Patient.search | system/Patient.s OR .rs |
-| Document Source | DocumentReference.create | system/DocumentReference.c |
-| Document Source | Binary.create | system/Binary.c |
-
-Scope conventions follow the [SMART Backend Services specification](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html):
+### Scope Conventions
 - `.r` = read
 - `.s` = search
 - `.rs` = read and search

@@ -5,10 +5,16 @@
 <artifactPageExtension value="-examples"/>
 <artifactPageExtension value="-mappings"/>
 <artifact id="ValueSet/eehrxf-document-class-vs" key="ValueSet-eehrxf-document-class-vs" name="EEHRxF Document Class ValueSet (Category)"/>
+<artifact id="CapabilityStatement/EEHRxF-DocumentConsumer" key="CapabilityStatement-EEHRxF-DocumentConsumer" name="EEHRxF Document Consumer CapabilityStatement"/>
+<artifact id="CapabilityStatement/EEHRxF-DocumentRecipient" key="CapabilityStatement-EEHRxF-DocumentRecipient" name="EEHRxF Document Recipient CapabilityStatement"/>
+<artifact id="CapabilityStatement/EEHRxF-DocumentResponder" key="CapabilityStatement-EEHRxF-DocumentResponder" name="EEHRxF Document Responder CapabilityStatement"/>
+<artifact id="CapabilityStatement/EEHRxF-DocumentSource" key="CapabilityStatement-EEHRxF-DocumentSource" name="EEHRxF Document Source CapabilityStatement"/>
 <artifact id="ValueSet/eehrxf-document-type-vs" key="ValueSet-eehrxf-document-type-vs" name="EEHRxF Document Type ValueSet"/>
 <artifact id="CapabilityStatement/EEHRxF-EPS-Resource-Consumer-CapabilityStatement" key="CapabilityStatement-EEHRxF-EPS-Resource-Consumer-CapabilityStatement" name="EEHRxF EPS Resource Consumer Actor"/>
 <artifact id="CapabilityStatement/EEHRxF-EPS-Resource-Provider-CapabilityStatement" key="CapabilityStatement-EEHRxF-EPS-Resource-Provider-CapabilityStatement" name="EEHRxF EPS Resource Provider Actor"/>
 <artifact id="StructureDefinition/EehrxfMhdDocumentReference" key="StructureDefinition-EehrxfMhdDocumentReference" name="EEHRxF MHD DocumentReference Profile"/>
+<artifact id="CapabilityStatement/EEHRxF-ResourceAccessProvider" key="CapabilityStatement-EEHRxF-ResourceAccessProvider" name="EEHRxF Resource Access Provider CapabilityStatement"/>
+<artifact id="CapabilityStatement/EEHRxF-ResourceConsumer" key="CapabilityStatement-EEHRxF-ResourceConsumer" name="EEHRxF Resource Consumer CapabilityStatement"/>
 <artifact id="ActorDefinition/EERxF-Consumer" key="ActorDefinition-EERxF-Consumer" name="EERxF Consumer Actor Definition"/>
 <artifact id="ActorDefinition/EERxF-Document-Consumer" key="ActorDefinition-EERxF-Document-Consumer" name="EERxF Document Consumer Actor Definition"/>
 <artifact id="ActorDefinition/EERxF-Document-Provider" key="ActorDefinition-EERxF-Document-Provider" name="EERxF Document Provider Actor Definition"/>
@@ -33,6 +39,7 @@
 <page key="member-state-architectures" name="Member State Architectures"/>
 <page key="patient-match" name="Patient Match"/>
 <page key="regulatoryAnchors" name="Regulatory Anchors"/>
+<page key="xds-xca-bridge" name="Relationship to XDS/XCA"/>
 <page key="resource-access" name="Resource Access"/>
 <page key="resourceExchange" name="Resource Exchange Patterns"/>
 <page key="example-patient-summary" name="Retrieve a European Patient Summary"/>
