@@ -1,10 +1,8 @@
-# Capability Discovery
-
-## Overview
+### Overview
 
 Systems discover capabilities via FHIR CapabilityStatement (`GET /metadata`). This allows consumers to inspect what functionality a provider supports before attempting transactions.
 
-## Transaction
+### Transaction
 
 Capability discovery uses the standard FHIR capabilities interaction:
 
@@ -19,7 +17,7 @@ The server returns a CapabilityStatement resource that declares:
 - Supported search parameters
 - Priority category support (see below)
 
-## Provider Actors
+### Provider Actors
 
 Different provider actors advertise different capabilities:
 
@@ -28,7 +26,7 @@ Different provider actors advertise different capabilities:
 
 A system may implement one or both sets of capabilities depending on its role.
 
-## Priority Category Support
+### Priority Category Support
 
 Servers declare which EHDS ANNEX II priority categories they support using `CapabilityStatement.instantiates` to reference the appropriate capability statements defined in this IG:
 
@@ -47,7 +45,7 @@ Providers instantiate one or more of the following CapabilityStatements:
 
 Consumers inspect `CapabilityStatement.instantiates` to determine which priority categories are supported and which exchange patterns (document vs resource) are available.
 
-## Example Capability Discovery Flow
+### Example Capability Discovery Flow
 
 ```mermaid
 sequenceDiagram
@@ -60,7 +58,7 @@ sequenceDiagram
     Note over Consumer: Consumer inspects:<br/>- instantiates (priority categories)<br/>- rest.resource (supported resources)<br/>- rest.interaction (MHD/QEDm support)
 ```
 
-## See Also
+### See Also
 - [FHIR CapabilityStatement](https://hl7.org/fhir/R4/capabilitystatement.html)
 - [Actors and Transactions](actors.html)
 - [IHE MHD](https://profiles.ihe.net/ITI/MHD/)
