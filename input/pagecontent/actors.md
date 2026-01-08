@@ -1,6 +1,6 @@
 The actor model defined here is an orchestration of existing IHE actors and specifications, combined together into high-level composite actors. Actors and transactions are inherited from dependent IHE profiles, and those actors are stacked, constrained and potentially modified.
 
-This is similar to the approach taken in the MHDS specification, but with a more narrow subset of specifications fit to the european situation.
+This is similar to the approach taken in the MHDS specification, but with a more narrow subset of specifications fit to the European situation.
 
 ### Relevant Specifications:
 
