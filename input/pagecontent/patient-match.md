@@ -72,7 +72,7 @@ When grouped with IUA actors:
 - Consumer uses Get Access Token [ITI-71] with appropriate scope
 - Provider enforces authorization via Incorporate Access Token [ITI-72]
 
-### Example Flow
+### Example
 
 ```mermaid
 sequenceDiagram

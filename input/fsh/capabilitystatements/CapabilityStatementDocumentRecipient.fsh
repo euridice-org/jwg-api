@@ -26,7 +26,7 @@ Systems SHALL support SMART Backend Services authorization for all transactions.
 * experimental = false
 * date = "2026-01-08"
 * publisher = "HL7 Europe"
-* kind = #capability
+* kind = #requirements
 * fhirVersion = #4.0.1
 * format[+] = #json
 * format[+] = #xml

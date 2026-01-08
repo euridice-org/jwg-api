@@ -19,6 +19,21 @@ The following are explicitly out of scope for this version of the specification:
 
 These may be addressed in future versions. Member States MAY layer user-level authorization on top of system-to-system authorization as appropriate for their national infrastructure.
 
+### Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as IUA Authorization Client
+    participant AuthZ as IUA Authorization Server
+    participant Resource as IUA Resource Server
+
+    Client->>AuthZ: POST /token (client_credentials, signed JWT)
+    AuthZ-->>Client: Access Token
+
+    Client->>Resource: GET /Patient?identifier=... (Bearer token)
+    Resource-->>Client: Bundle (search results)
+```
+
 ### Client Registration
 
 Out of band, the Consumer registers identity credentials (public key, client identifier) with the Access Provider.
@@ -103,21 +118,6 @@ Scopes follow [SMART v2 conventions](https://build.fhir.org/ig/HL7/smart-app-lau
 - **Document/Resource Producer:** IUA Authorization Client
 - **Document/Resource Consumer:** IUA Authorization Client
 - **Document/Resource Access Provider:** IUA Authorization Server + Resource Server
-
-### Sequence Diagram
-
-```mermaid
-sequenceDiagram
-    participant Client as IUA Authorization Client
-    participant AuthZ as IUA Authorization Server
-    participant Resource as IUA Resource Server
-
-    Client->>AuthZ: POST /token (client_credentials, signed JWT)
-    AuthZ-->>Client: Access Token
-
-    Client->>Resource: GET /Patient?identifier=... (Bearer token)
-    Resource-->>Client: Bundle (search results)
-```
 
 ### Transport Security {#transport-security}
 

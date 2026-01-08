@@ -10,235 +10,106 @@ Document exchange using IHE MHD (Mobile Health Documents) transactions. This IG 
 
 See [Actors and Transactions](actors.html) for detailed actor groupings.
 
-### Document Search Strategy: Category vs Type
+### IHE MHD Transactions
 
-This IG follows the IHE approach for document discovery, using a **two-step search pattern**:
+This IG uses the following IHE MHD transactions:
 
-1. **Request Search (Coarse)**: Use `category` to cast a wide net
-2. **Response Filtering (Precise)**: Filter results client-side using `type`
+| Transaction | Direction | Description | Scope |
+|-------------|-----------|-------------|-------|
+| [ITI-67](https://profiles.ihe.net/ITI/MHD/ITI-67.html) | Consumer → Provider | Find Document References | `system/DocumentReference.rs` |
+| [ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) | Consumer → Provider | Retrieve Document | `system/Binary.r` |
+| [ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) | Producer → Provider | Provide Document Bundle | `system/DocumentReference.c`, `system/Binary.c` |
 
-#### Category (Coarse Search)
+### Sequence Diagram
 
-`DocumentReference.category` uses **XDS ClassCode** values for broad document classification:
+```mermaid
+sequenceDiagram
+    participant Consumer as Document Consumer
+    participant Provider as Document Access Provider
 
-| Code | Display | Use For |
-|------|---------|---------|
-| `REPORTS` | Reports | Laboratory reports, imaging reports, clinical reports |
-| `SUMMARIES` | Summaries | Patient summaries, discharge summaries |
-| `IMAGES` | Images | Imaging manifests, DICOM references |
-| `PRESCRIPTIONS` | Prescriptions | Medication prescriptions |
-| `DISPENSATIONS` | Dispensations | Medication dispensation records |
+    Consumer->>Provider: GET /DocumentReference?patient=...&type=... (ITI-67)
+    Provider-->>Consumer: Bundle of DocumentReferences
 
-See [EEHRxFDocumentClassVS](ValueSet-eehrxf-document-class-vs.html) for the complete list.
+    Consumer->>Provider: GET /Binary/[id] (ITI-68)
+    Provider-->>Consumer: Document content
+```
 
-#### Type (Clinical Precision)
+### Examples
 
-`DocumentReference.type` uses **LOINC codes** for specific document identification:
-
-| LOINC Code | Display | Priority Category |
-|------------|---------|-------------------|
-| `60591-5` | Patient summary Document | Patient Summary (IPS) |
-| `18842-5` | Discharge summary | Hospital Discharge Report (HDR) |
-| `11502-2` | Laboratory report | Laboratory Report |
-| `68604-8` | Radiology Diagnostic study note | Diagnostic Imaging Report |
-
-See [EEHRxFDocumentTypeVS](ValueSet-eehrxf-document-type-vs.html) for the complete list.
-
-#### practiceSetting for Lab vs Imaging Differentiation
-
-When searching for reports (`category=REPORTS`), the `context.practiceSetting` element SHOULD be used to differentiate between laboratory and imaging reports:
-
-- **Laboratory**: `practiceSetting` = General pathology, Clinical pathology, etc.
-- **Imaging**: `practiceSetting` = Radiology, Cardiology, Nuclear medicine, etc.
-
-See [HL7 Practice Setting Codes](http://hl7.org/fhir/ValueSet/c80-practice-codes) for available values.
-
-### Canonical Query Examples
-
-The following examples demonstrate the recommended search patterns for document discovery.
-
-#### Example 1: Find Patient Summary by Type
-
-When you know you want a specific document type, search directly by type:
+#### Patient Summary
 
 ```http
 GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|60591-5&status=current
 ```
 
-**Parameters**:
-- `patient`: Patient reference (required)
-- `type`: LOINC code for Patient Summary
-- `status`: Only current documents
-
-**Use case**: Retrieve the patient's International Patient Summary for unplanned care encounter.
-
-#### Example 2: Find Laboratory Reports by Type
+#### Medical Test Results
 
 ```http
 GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|11502-2&status=current
 ```
 
-**Parameters**:
-- `patient`: Patient reference (required)
-- `type`: LOINC code for Laboratory Report
-- `status`: Only current documents
-
-**Use case**: Retrieve all laboratory reports for a patient.
-
-#### Example 3: Find All Reports by Category (Coarse Search)
-
-When you want to discover all reports regardless of type:
-
-```http
-GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|REPORTS&status=current
-```
-
-**Parameters**:
-- `patient`: Patient reference (required)
-- `category`: XDS ClassCode for REPORTS
-- `status`: Only current documents
-
-**Use case**: Discover all reports (lab, imaging, clinical) for a patient, then filter client-side by type.
-
-#### Example 4: Find Imaging Reports (Category + practiceSetting)
-
-To find specifically imaging reports, combine category with practiceSetting:
+#### Imaging Reports
 
 ```http
 GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|REPORTS&context.practiceSetting=http://snomed.info/sct|394914008&status=current
 ```
 
-**Parameters**:
-- `patient`: Patient reference (required)
-- `category`: XDS ClassCode for REPORTS
-- `context.practiceSetting`: SNOMED code for Radiology (394914008)
-- `status`: Only current documents
-
-**Use case**: Retrieve radiology reports specifically.
-
-#### Example 5: Find Imaging Manifests
-
-To find imaging manifests (DICOM references):
+#### Imaging Manifests
 
 ```http
 GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|IMAGES&status=current
 ```
 
-**Parameters**:
-- `patient`: Patient reference (required)
-- `category`: XDS ClassCode for IMAGES
-- `status`: Only current documents
-
-**Use case**: Retrieve imaging study manifests for WADO retrieval.
-
-#### Example 6: Find Discharge Summaries
+#### Hospital Discharge Reports
 
 ```http
 GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|18842-5&status=current
 ```
 
-**Parameters**:
-- `patient`: Patient reference (required)
-- `type`: LOINC code for Discharge Summary
-- `status`: Only current documents
+### Document Publication (ITI-65)
 
-**Use case**: Retrieve hospital discharge reports for continuity of care.
+Document Producers publish documents by POSTing a transaction Bundle:
 
-### IHE MHD Transactions
+```http
+POST [base]
+Content-Type: application/fhir+json
+```
 
-This IG uses the following IHE MHD transactions without modification to the transaction mechanics:
+The Bundle contains DocumentReference + Binary resources. See [IHE MHD ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) for details.
 
-#### ITI-65: Provide Document Bundle (Publish)
+### Document Search Strategy
 
-Document Producer → Document Access Provider
+This IG follows the [IHE approach for document discovery](https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System):
 
-Transaction bundle containing DocumentReference + Binary resources.
+1. **Category** (coarse search): XDS ClassCode for broad classification
+2. **Type** (clinical precision): LOINC codes for specific document types
+3. **practiceSetting**: Differentiate clinical specialty (e.g., lab vs radiology)
 
-**Endpoint**: `POST [base]` (transaction bundle)
+#### Category Values (XDS ClassCode)
 
-**Scope**: `system/DocumentReference.c`, `system/Binary.c`
+| Code | Use For |
+|------|---------|
+| `REPORTS` | Medical test results, imaging reports |
+| `SUMMARIES` | Patient summaries, discharge summaries |
+| `IMAGES` | Imaging manifests |
+| `PRESCRIPTIONS` | Medication prescriptions |
+| `DISPENSATIONS` | Medication dispensation records |
 
-**Constraints**:
-- DocumentReference SHALL conform to EEHRxF DocumentReference profile for declared priority category
-- Binary content SHALL be valid EEHRxF content (FHIR document Bundle)
-- DocumentReference.type and .format SHALL match priority category value sets
+See [EEHRxFDocumentClassVS](ValueSet-eehrxf-document-class-vs.html) for the complete list.
 
-See [IHE MHD ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) for transaction details.
+#### Type Values (LOINC)
 
-#### ITI-67: Find Document References (Search)
+| LOINC Code | Priority Category |
+|------------|-------------------|
+| `60591-5` | Patient Summary |
+| `18842-5` | Hospital Discharge Report |
+| `11502-2` | Medical Test Results |
+| `68604-8` | Diagnostic Imaging Report |
 
-Document Consumer → Document Access Provider
+See [EEHRxFDocumentTypeVS](ValueSet-eehrxf-document-type-vs.html) for the complete list.
 
-Query for DocumentReference resources.
-
-**Endpoint**: `GET [base]/DocumentReference?[parameters]`
-
-**Required Parameters**:
-- `patient` (required)
-- `_count` (for paging)
-
-**Recommended Parameters** (see [Document Search Strategy](#document-search-strategy-category-vs-type)):
-- `category` - Document class (XDS ClassCode) for coarse filtering
-- `type` - Document type (LOINC) for clinical precision
-- `context.practiceSetting` - Clinical specialty for lab vs imaging differentiation
-
-**Additional Parameters**:
-- `date` - Creation date range
-- `format` - Format code
-- `status` - Document status
-
-**Scope**: `system/DocumentReference.rs`, `system/Patient.rs`
-
-**Paging**: Response includes `link` with `relation="next"` when more results available.
-
-See [IHE MHD ITI-67](https://profiles.ihe.net/ITI/MHD/ITI-67.html) for transaction details.
-
-#### ITI-68: Retrieve Document (Retrieve)
-
-Document Consumer → Document Access Provider
-
-Retrieve document content.
-
-**Endpoint**: `GET [base]/Binary/[id]`
-
-**Scope**: `system/Binary.r`
-
-**Response**: Binary content with `Content-Type` matching DocumentReference.content.attachment.contentType
-
-**Supported Formats** (per priority category):
-- `application/fhir+json` (FHIR Bundle - document)
-- `application/pdf` (optional, for rendering)
-- `text/xml` (CDA, if supported)
-
-See [IHE MHD ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) for transaction details.
-
-### EEHRxF-Specific Constraints
-
-While the MHD transaction mechanics are unchanged, this IG adds constraints on content:
-
-#### DocumentReference Profile
-
-Inherits from IHE MHD Comprehensive DocumentReference with additional constraints:
-- Priority category-specific type/format value sets
-- Required metadata elements for EEHRxF
-- Content registry enforcement
-
-
-#### Content Validation
-
-Document Access Providers SHALL:
-- Validate DocumentReference.type/format against priority category value sets
-- Verify Binary content is valid EEHRxF format
-- Enforce required metadata elements
-
-### Authorization
-
-All MHD transactions require authorization via [SMART Backend Services](authorization.html) with appropriate scopes as listed above.
-
-### See Also
+### References
 
 - [IHE MHD Specification](https://profiles.ihe.net/ITI/MHD/)
-- [ITI-65 Provide Document Bundle](https://profiles.ihe.net/ITI/MHD/ITI-65.html)
-- [ITI-67 Find Document References](https://profiles.ihe.net/ITI/MHD/ITI-67.html)
-- [ITI-68 Retrieve Document](https://profiles.ihe.net/ITI/MHD/ITI-68.html)
+- [IHE XDS ClassCode Metadata](https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System)
 - [Actors and Transactions](actors.html)

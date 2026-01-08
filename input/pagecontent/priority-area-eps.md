@@ -1,43 +1,33 @@
 {% include variable-definitions.md %}
 This section defines the API requirements for EHR systems that provide EEHRxF data that follows the {{hl7EuEps}}.
 
-The transactions required by the EEHRxF EPS API are indicated in the figure below.
+### Actors
 
-```mermaid
-flowchart TD
-    subgraph EEHRxF EPS Consumer
-        EEHRxFDocumentConsumer["EEHRxF EPS&#13Document Consumer"]
-        EEHRxFResourceConsumer["EEHRxF EPS&#13Resource Consumer"]
-    end
-    subgraph EEHRxF EPS Provider
-        EEHRxFDocumentProvider["EEHRxF EPS&#13Document Provider"]
-        EEHRxFResourceProvider["EEHRxF EPS&#13Resource Provider"]
-    end
+European Patient Summary data can be accessed using either document or resource exchange patterns:
 
-    EEHRxFResourceConsumer -->|"ITI-1 Maintain Time,&#13T=1 Inspect,&#13T-2 Find Patient,&#13T-3 Query Existing Data"| EEHRxFResourceProvider
-    EEHRxFDocumentConsumer -->|"ITI-1 Maintain Time,&#13T1-Inspect,&#13T2-Find Patient,&#13ITI-67 Find Document References,&#13ITI-66 Retrieve Documents"| EEHRxFDocumentProvider
+| Actor | Description | CapabilityStatement |
+|-------|-------------|---------------------|
+| Document Consumer | Retrieves EPS documents | [EEHRxF Document Consumer](CapabilityStatement-EEHRxF-DocumentConsumer.html) |
+| Document Access Provider | Serves EPS documents | [EEHRxF Document Responder](CapabilityStatement-EEHRxF-DocumentResponder.html) |
+| Resource Consumer | Queries EPS resources | [EEHRxF Resource Consumer](CapabilityStatement-EEHRxF-ResourceConsumer.html) |
+| Resource Access Provider | Serves EPS resources | [EEHRxF Resource Access Provider](CapabilityStatement-EEHRxF-ResourceAccessProvider.html) |
+
+### Document Exchange
+
+For document-based access, use the [Document Exchange](document-exchange.html) transactions:
+
+```http
+GET /DocumentReference?patient=123&type=http://loinc.org|60591-5&status=current
 ```
 
-As {{hl7EuEps}} is document based, the normal set of transactions as defined in the base API specification apply. This part of the specification introduces the EPS variants of the base actors.
+DocumentReference resources use:
+- **type**: `60591-5` (Patient summary Document)
+- **category**: `SUMMARIES` (XDS ClassCode)
 
-### Actor definitions
+### Resource Exchange
 
-The following actors are defined:
+For resource-based access, use the [Resource Access](resource-access.html) transactions to query individual clinical resources from the Patient Summary.
 
-{:.grid}
-| Actor | Description | Optionality | Link |
-|=======|=============|=============|======|
-| EPS Resource Consumer | Consumes/accesses resource based EPS data | R | EEHRxF Consumer |
-||| R | [EPS Resource Consumer CapabilityStatement](CapabilityStatement-EEHRxF-EPS-Resource-Consumer-CapabilityStatement.html) |
-|||||
-| EPS Resource Provider | Provides resource based EPS data | R | EEHRxF Provider |
-||| R | [EPS Resource Provider CapabilityStatement](CapabilityStatement-EEHRxF-EPS-Resource-Provider-CapabilityStatement.html) |
-|||||
-| EPS Document Consumer | Consumes/accesses document based EPS data | R | EEHRxF Consumer |
-||| R | [IHE-MHD Document Consumer](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentConsumer.html) |
-|||||
-| EPS Document Provider | Provides document based EPS data | R | EEHRxF Provider |
-||| R | [IHE-MHD Document Responder](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentResponder.html) |
+### Content Profile
 
-Note: EPS Document Consumer and Providers SHALL use the [EPS MHD DocumentReference](StructureDefinition-EpsMhdDocumentReference.html) profile to represent EPS documents.
-
+EPS documents and resources SHALL conform to the {{hl7EuEps}} content profiles.

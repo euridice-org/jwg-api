@@ -4,7 +4,7 @@ This is similar to the approach taken in the MHDS specification, but with a more
 
 ### Relevant Specifications:
 
-- Client App and User Authorization
+- Authorization
   - [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
   - [HL7 SMART Backend Services](https://hl7.org/fhir/smart-app-launch/) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and FHIR scopes.
 - Patient Identity Matching
@@ -160,24 +160,4 @@ This leads to the following required transactions between these actors:
 </div>
 
 
-### Use with Other IHE Profiles
-
-Within this implemenation guide, we focus on the generalized document and resource access transactions - but a similar layered approach can be taken with other use case-specific IHE profiles.
-
-IUA + PDQM actors can be considered an **API Base**, since most interoperabiliy use cases have a shared need for authorization and patient identification.
-
-We leave the details of implementation up to individual priority category area, but here are some examples of how this could be done:
-
-### ePrescription and eDispenation with IHE MPD
-For example, the [IHE MPD specification actors](https://profiles.ihe.net/PHARM/MPD/actors-transactions.html) could be stacked in a similar way to accomplish a prescription workflow:
-
-
-### Image Access with IHE MADO
-
-
-In the imaging priority category, IHE-RAD (MADO) transactions are used to provide access to DICOM images.
-
-The IHE MADO Profile starts with a precondition that an Image Consumer has gained access to a manifest. This could be accomplished by the Image Consumer bundling with the Document Consumer actor specified here - and querying a Document Access Provider for an image manifest. Then, the Image Consumer uses the information in the Image Manifest to construct a WADO-RS query to the Imaging Source (note: Auth could get complicated here).
-
-A composite actor could be created inheriting Document Consumer + MADO Image Consumer.
 

@@ -1,49 +1,56 @@
 ### Overview
 
-FHIR resource query using QEDm/IPA patterns.
-
-**Optional:** Not all implementations support resource access.
-
-### Constraints
-
-- **Read/search only** (no create/update/delete)
-- **Patient-scoped queries** (patient parameter required)
-- **Curated resource set** (not a generic FHIR server)
+FHIR resource query for direct access to clinical data. This capability is **optional** - not all implementations support resource access.
 
 ### Actors
 
 - **Resource Access Provider** (server): Provides resource query capabilities
 - **Resource Consumer** (client): Queries resources
 
-### Transaction
+See [Actors and Transactions](actors.html) for detailed actor groupings.
 
-**PCC-44:** Mobile Query Existing Data (QEDm)
+### Specifications
 
-### Resource Set
+This IG aligns with:
 
-Minimal curated set:
-- AllergyIntolerance
-- Condition
-- Observation
-- DiagnosticReport
-- MedicationRequest / MedicationStatement
-- Immunization
-- (Optional) Encounter
+- [HL7 International Patient Access (IPA)](https://build.fhir.org/ig/HL7/fhir-ipa/) - Resource access patterns and CapabilityStatements
+- [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/) - Query Existing Data mobile
+- [PCC-44](https://profiles.ihe.net/PCC/QEDm/PCC-44.html) - Mobile Query Existing Data transaction
 
-### Search Patterns
+### Sequence Diagram
 
-All searches require `patient` parameter:
+```mermaid
+sequenceDiagram
+    participant Consumer as Resource Consumer
+    participant Provider as Resource Access Provider
 
-```
-GET /AllergyIntolerance?patient={id}
-GET /Condition?patient={id}&clinical-status=active
-GET /Observation?patient={id}&category=vital-signs&date=ge2024-01-01
-GET /DiagnosticReport?patient={id}&category=LAB
-GET /MedicationRequest?patient={id}&status=active
-GET /Immunization?patient={id}&date=ge2024-01-01
+    Consumer->>Provider: GET /Condition?patient=123&clinical-status=active
+    Provider-->>Consumer: Bundle of Conditions
+
+    Consumer->>Provider: GET /Observation?patient=123&category=vital-signs
+    Provider-->>Consumer: Bundle of Observations
 ```
 
-Searches without `patient` parameter are rejected (unless bulk option explicitly enabled).
+### Constraints
+
+- **Read/search only** - No create/update/delete operations
+- **Patient-scoped queries** - `patient` parameter required on all searches
+- Searches without `patient` parameter are rejected
+
+### Core Resources
+
+The following resources are available for read/search access. Data models inherit from [HL7 Europe Base](https://build.fhir.org/ig/hl7-eu/base/).
+
+| Resource | Search Parameters |
+|----------|-------------------|
+| AllergyIntolerance | `patient` |
+| Condition | `patient`, `clinical-status` |
+| Observation | `patient`, `category`, `date` |
+| DiagnosticReport | `patient`, `category` |
+| MedicationRequest | `patient`, `status` |
+| MedicationStatement | `patient`, `status` |
+| Immunization | `patient`, `date` |
+| Encounter | `patient`, `date` |
 
 ### Scopes
 
@@ -54,11 +61,22 @@ system/Observation.rs
 system/DiagnosticReport.rs
 system/MedicationRequest.rs
 system/Immunization.rs
+system/Encounter.rs
+```
+
+### Example Queries
+
+```http
+GET /AllergyIntolerance?patient=123
+GET /Condition?patient=123&clinical-status=active
+GET /Observation?patient=123&category=vital-signs&date=ge2024-01-01
+GET /DiagnosticReport?patient=123&category=LAB
+GET /MedicationRequest?patient=123&status=active
 ```
 
 ### Derived Resources
 
-If resources are derived from documents (extracted from Bundles), Provenance SHOULD link to source DocumentReference:
+If resources are derived from documents, Provenance SHOULD link to source DocumentReference:
 
 ```json
 {
@@ -71,12 +89,13 @@ If resources are derived from documents (extracted from Bundles), Provenance SHO
 }
 ```
 
-### How Resource Access Provider Gets Resources
-
-See [Actors and Transactions - Resource Exchange](actors.html#resource-exchange) for details on the actor model and how Resource Access Providers relate to underlying systems.
-
 ### References
 
+- [HL7 International Patient Access](https://build.fhir.org/ig/HL7/fhir-ipa/)
 - [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/)
 - [PCC-44 Mobile Query Existing Data](https://profiles.ihe.net/PCC/QEDm/PCC-44.html)
-- [IPA (International Patient Access)](https://build.fhir.org/ig/HL7/fhir-ipa/)
+- [Actors and Transactions](actors.html)
+
+### IPA vs QEDm
+
+Both IPA and QEDm define similar resource access patterns. This IG uses IPA as the primary reference for CapabilityStatements and aligns with QEDm transaction semantics. The approaches are compatible and complementary.

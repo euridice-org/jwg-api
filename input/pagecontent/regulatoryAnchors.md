@@ -2,16 +2,16 @@
 
 This Implementation Guide addresses technical requirements from the European Health Data Space (EHDS) regulation, specifically focusing on the interoperability requirements placed on EHR systems.
 
-The regulatory basis is primarily found in ([EHDS ANNEX II - Essential Requirements for EHR Systems](https://eur-lex.europa.eu/eli/reg/2025/327/oj/eng#anx_II)), which describes an obligation for EHR systems to include an *Interoperability Component* that does the following:
+The regulatory basis is primarily found in EHDS ANNEX II - Essential Requirements for EHR Systems ([EUR-Lex](https://eur-lex.europa.eu/eli/reg/2025/327/oj/eng#anx_II) | [Local Copy](ehds-annex-ii.html)), which describes an obligation for EHR systems to include an *Interoperability Component* that does the following:
 
-- §2.1: “SHALL provide an **interface enabling access** to the personal electronic health data [formatted in EEHRxF]”
-- §2.2: “SHALL **be able to receive** personal electronic health data [formatted in EEHRxF]"
+- §2.1: "SHALL provide an **interface enabling access** to the personal electronic health data [formatted in EEHRxF]"
+- §2.2: "SHALL **be able to receive** personal electronic health data [formatted in EEHRxF]"
 
-Note that this IG does NOT create legal obligations on EHR Systems unless adopted by the European Commission. 
+Note that this IG does NOT create legal obligations on EHR Systems unless adopted by the European Commission.
 
 ### Xt-EHR Joint Action
 
-This IG inherits and builds upon the work of the Xt-EHR Joint Action, which has created deliverables drafting the EHDS Implementing Acts. Specifically, we inherit the work done in Xt-EHR Work Package 5.1 which has mapped the EHDS text to more precise EHR requirements. 
+This IG inherits and builds upon the work of the Xt-EHR Joint Action, which has created deliverables drafting the EHDS Implementing Acts. Specifically, we inherit the work done in Xt-EHR Work Package 5.1 which has mapped the EHDS text to more precise EHR requirements.
 
 These requirements have also been adjusted based in order to harmonize against Xt-EHR work package 6 and 7, which define requirements for each priority category.
 
@@ -19,9 +19,9 @@ For more details on the Xt-EHR work, see [the Xt-EHR Website](https://www.xt-ehr
 
 ### Requirements Framework
 
-The EHDS regulation defines the interperability component at a high level, but interoperability needs to be defined with technical precision in order for two systems to effectively achieve interoperablity. 
+The EHDS regulation defines the interperability component at a high level, but interoperability needs to be defined with technical precision in order for two systems to effectively achieve interoperablity.
 
-This table describes the bridge between the regulation text and precice and implementable specifications.   
+This table describes the bridge between the regulation text and precice and implementable specifications.
 
 
 | | **EHDS Regulation** | **EHR Functional Requirements** | **Technical Specifications (You Are Here)** |
@@ -54,7 +54,7 @@ Xt-EHR deliverable 5.1 interpreted the EHDS Annex II requirements for EHR system
 
 This Implementation Guide has adjusted the D5.1 actor model ((based on feedback from member state stakeholders and harmonization with the priority category Xt-EHR work packages) to ren
 
-- Accordingly, D5.1's "Producer" role has been refined in this IG as **Provider**, with more specific actor types including Document Access Provider, Resource Access Provider, and Document Producer. 
+- Accordingly, D5.1's "Producer" role has been refined in this IG as **Provider**, with more specific actor types including Document Access Provider, Resource Access Provider, and Document Producer.
 - S can act as [Document Producers](actors.html#document-producer) that supply content to a separate [Document Access Provider](actors.html#document-access-provider)
 
 The Consumer role is similarly refined into Document Consumer and Resource Consumer. See the [Actors page](actors.html) for complete actor definitions.
@@ -97,26 +97,3 @@ The following table maps each D5.1 interoperability requirement to its implement
 | `api-provider-data` | The EHR system Interoperability Software Component SHALL be capable of providing priority category data that conforms to the EEHRxF data format, as defined by each priority category. | Annex II §2.1, §2.4 | Provider | Priority Category Content Profiles | HL7 EU Content IGs |
 | `api-consumer-data` | The EHR system Interoperability Software Component SHALL be able to receive and handle data for its intended use, when that data is conforming to the EEHRxF data format (as defined by each priority category). | Annex II §2.2 | Consumer | Priority Category Content Profiles | HL7 EU Content IGs |
 | `api-encryption` | The EHR system Interoperability Component SHALL be capable of transport-encrypted data exchange | Annex II §1.4, Art. 36(3)(e) | Provider + Consumer | [Transport Security](authorization.html#transport-security) | TLS 1.2+ |
-
-
-
-### Changes
-
-Jan 6, 2026 - Initial IG Publication: In order to harmonize with XT-EHR Work packages 6 and 7, and in response to input from member states - the Producer requirements have been renamed to "Provider", and a separate Document Producer actor has been created. 
-
-
-
-
-
-
-
-
-
-
-
-
-### Patient Rights
-
-Patient rights under EHDS (such as the right to access data, right to restriction, and right to opt-out) are exercised through national infrastructure, not through the EHR API directly. See [Open Issues](open-issues.html) for additional guidance needed.
-
-

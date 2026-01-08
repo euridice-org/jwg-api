@@ -1,38 +1,37 @@
 ### Overview
 
-Health information is exchanged across borders through National Contact Points (NCPs) using MyHealth@EU infrastructure.
+Health information is exchanged across borders through National Contact Points (NCPs) using the MyHealth@EU network.
 
-### Scenario
+### How Cross-Border Exchange Works
 
-A patient from Country A (home country) experiences a medical emergency while traveling in Country B. The healthcare facility in Country B needs to access the patient's health records from Country A to inform emergency treatment.
+NCPs communicate with each other via the **MyHealth@EU network**. When a **patient** from Country A needs care in Country B:
 
-### Actor Roles
+1. Country B's healthcare facility requests data through their NCP
+2. NCPs exchange data over MyHealth@EU
+3. Country A's NCP queries national infrastructure to retrieve the patient's data
 
-- Country B healthcare facility acts as [Document Consumer](actors.html#document-consumer)
-- Country A EHR system acts as [Document Access Provider](actors.html#document-access-provider)
-- National Contact Points (NCP-A and NCP-B) facilitate cross-border exchange
+**This IG enables the final step**: Country A's national infrastructure (or the NCP itself) acts as a **Consumer** to query EHR systems that are **Providers** of patient data.
 
-### Cross-Border Flow
+### Actors
 
-1. Country B healthcare facility identifies the patient and obtains consent for cross-border data access
-2. NCP-B sends query to NCP-A via MyHealth@EU infrastructure
-3. NCP-A routes query through Country A's national infrastructure
-4. Country A EHR system provides data via the API defined in this IG
-5. Information flows back through NCP-A and NCP-B to the Country B healthcare facility
+- **NCP or National Infrastructure** acts as [Document Consumer](actors.html#document-consumer)
+- **EHR systems** act as [Document Access Provider](actors.html#document-access-provider)
 
-### Technical Architecture
+### Architecture
 
 ```
-Country B Healthcare Facility → NCP-B → MyHealth@EU → NCP-A → National Infrastructure → EHR System API
+Country B Facility → NCP-B → MyHealth@EU → NCP-A → National Infrastructure → EHR System API
+                                                                              ↑
+                                                                    This IG defines this API
 ```
 
 ### Role of This Specification
 
-This IG defines the rightmost component: the API between national infrastructure and EHR systems.
-
-- **Cross-Border API** (MyHealth@EU): Defined by the [MyHealth@EU NCPeH API](https://build-fhir.ehdsi.eu/ncp-api/) specification, not by this IG. This is an operational service today, and implementations commonly use [OpenNCP](https://www.openncp.org/) software for NCP functionality.
-- **National Infrastructure API**: Defined by Member States
-- **EHR System API**: Defined by this IG ← **You are here**
+| Layer | Defined By |
+|-------|-----------|
+| Cross-Border API (MyHealth@EU) | [MyHealth@EU NCPeH API](https://build-fhir.ehdsi.eu/ncp-api/) |
+| National Infrastructure API | Member States |
+| **EHR System API** | **This IG** |
 
 All layers exchange EEHRxF-formatted data to ensure semantic interoperability.
 
@@ -40,4 +39,4 @@ All layers exchange EEHRxF-formatted data to ensure semantic interoperability.
 
 - Patient consent for cross-border access
 - Healthcare professional authentication in requesting country
-- Authorization decisions at multiple levels (NCP, national infrastructure, EHR system)
+- Authorization decisions at NCP, national infrastructure, and EHR system levels

@@ -2,12 +2,18 @@ This example walks through a complete workflow for accessing a Patient Summary d
 
 ### Scenario
 
-A Document Consumer needs to access the European Patient Summary for a patient who is being seen in their facility. The patient has received care in another organization that operates a Document Access Provider system with the patient's health data.
+A **Document Consumer** needs to access the European Patient Summary for a patient being seen in their facility. The patient has received care in another organization that operates a **Document Access Provider** system with the patient's health data.
 
 ### Actors
 
 - **[Document Consumer](actors.html#document-consumer)** - The healthcare provider's system requesting the Patient Summary
 - **[Document Access Provider](actors.html#document-access-provider)** - The system holding the patient's health data
+
+### Prerequisites
+
+- Document Consumer has registered with Document Access Provider and obtained authorization credentials
+- Patient has a known identifier in the Document Access Provider system
+- Document Access Provider supports European Patient Summary priority category
 
 ### Sequence Diagram
 
@@ -32,12 +38,6 @@ sequenceDiagram
     Consumer->>Provider: GET /Binary/[id] (ITI-68)
     Provider-->>Consumer: Patient Summary Document
 ```
-
-### Prerequisites
-
-- Document Consumer has registered with Document Access Provider and obtained authorization credentials
-- Patient has a known identifier in the Document Access Provider system
-- Document Access Provider supports European Patient Summary priority category
 
 ### Step-by-Step Flow
 

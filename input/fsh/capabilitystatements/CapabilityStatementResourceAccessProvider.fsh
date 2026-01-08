@@ -41,7 +41,7 @@ Resources SHOULD conform to EU Core profiles where available.
 * experimental = false
 * date = "2026-01-08"
 * publisher = "HL7 Europe"
-* kind = #capability
+* kind = #requirements
 * fhirVersion = #4.0.1
 * format[+] = #json
 * format[+] = #xml

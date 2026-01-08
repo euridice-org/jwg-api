@@ -19,6 +19,7 @@ publisher:
   name: HL7 Europe
   url: http://hl7.eu
   # email: test@example.org
+jurisdiction: http://unstats.un.org/unsd/methods/m49/m49.htm#150 "Europe"
 copyright: >-
   Copyright HL7 Europe. Licensed under Creative Commons public domain (CC0 1.0).
 license: CC0-1.0 # https://www.hl7.org/fhir/valueset-spdx-license.html
@@ -64,6 +65,8 @@ pages:
     title: Background
     regulatoryAnchors.md:
       title: Regulatory Anchors
+      ehds-annex-ii.md:
+        title: EHDS Annex II - Essential Requirements
     fhir-documents-vs-resources.md:
       title: FHIR Documents and Resources
     xds-xca-bridge.md:
@@ -93,9 +96,9 @@ pages:
     example-patient-summary.md:
       title: Retrieve a European Patient Summary
     usecase-health-professional-portal.md:
-      title: Use Case - Health Professional Portal
+      title: Use Case - Health Professional Access Service
     usecase-health-data-portal.md:
-      title: Use Case - Health Data Portal
+      title: Use Case - Health Data Access Service
     usecase-cross-border-ncp.md:
       title: Use Case - Cross-Border via NCP
 
@@ -147,8 +150,8 @@ menu:
     Resource Access: resource-access.html
   Implementation:
     Retrieve a European Patient Summary: example-patient-summary.html
-    Health Professional Portal: usecase-health-professional-portal.html
-    Health Data Portal: usecase-health-data-portal.html
+    Health Professional Access Service: usecase-health-professional-portal.html
+    Health Data Access Service: usecase-health-data-portal.html
     Cross-Border via NCP: usecase-cross-border-ncp.html
   Artifacts: artifacts.html
 
