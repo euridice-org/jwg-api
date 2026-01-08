@@ -1,6 +1,6 @@
-# Open Issues for Wide Review
+# Open Issues
 
-This document tracks open issues requiring reviewer feedback. These will be incorporated into the IG as a dedicated page before ballot.
+This document tracks open issues possibly requiring reviewer feedback. These will be incorporated into the IG as a dedicated page before ballot.
 
 ---
 
@@ -142,9 +142,14 @@ Add guidance on patient-scoped authorization and consent enforcement mechanisms.
 Add detailed architecture diagram showing all layers and data flow for cross-border exchange.
 
 ### Issue 21: Patient Rights Guidance
-**Page**: regulatoryAnchors.html
+**Status**: Deferred
 
-How patient rights are upheld depends on the context of the member state interoperability network. Further guidance needed.
+Patient rights under EHDS (such as the right to access data, right to restriction, and right to opt-out) are exercised through national infrastructure, not through the EHR API directly. How patient rights are upheld depends on the context of the member state interoperability network.
+
+This topic requires further guidance on:
+- How consent and opt-out are enforced at the API level
+- Member state variations in patient rights implementation
+- Relationship to GDPR data subject rights
 
 ---
 
