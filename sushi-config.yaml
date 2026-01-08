@@ -72,6 +72,8 @@ pages:
       title: Member State Architectures
     actors.md:
       title: Actors and Transactions
+    changes.md:
+      title: Change Log
   functional.md:
     title: Functional Requirements
     capability-discovery.md:
@@ -96,8 +98,6 @@ pages:
       title: Use Case - Health Data Portal
     usecase-cross-border-ncp.md:
       title: Use Case - Cross-Border via NCP
-  changes.md: 
-    title: Change Log
 
 
   # actors-and-transactions.md:
@@ -138,6 +138,7 @@ menu:
     Regulatory Anchors: regulatoryAnchors.html
     Actors and Transactions: actors.html
     Member State Architectures: member-state-architectures.html
+    Change Log: changes.html
   Functional Requirements:
     Capability Discovery: capability-discovery.html
     Authorization: authorization.html
@@ -150,7 +151,6 @@ menu:
     Health Data Portal: usecase-health-data-portal.html
     Cross-Border via NCP: usecase-cross-border-ncp.html
   Artifacts: artifacts.html
-  Change Log: changes.html
 
 #   Functional:
 #     Xt-EHR model: https://build.fhir.org/ig/Xt-EHR/xt-ehr-common/useCaseMedicalImages.html
