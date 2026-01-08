@@ -16,6 +16,7 @@ This IG specifies:
 
 This IG does not specify:
 
+- Logging Component requirements
 - The EEHRxF content profiles themselves (these are defined in separate HL7 Europe IGs)
 - National infrastructure APIs between healthcare providers
 - Cross-border exchange protocols (governed by MyHealth@EU)

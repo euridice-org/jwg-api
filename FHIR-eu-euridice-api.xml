@@ -36,7 +36,6 @@
 <page key="member-state-architectures" name="Member State Architectures"/>
 <page key="patient-match" name="Patient Match"/>
 <page key="regulatoryAnchors" name="Regulatory Anchors"/>
-<page key="xds-xca-bridge" name="Relationship to XDS/XCA"/>
 <page key="resource-access" name="Resource Access"/>
 <page key="resourceExchange" name="Resource Exchange Patterns"/>
 <page key="example-patient-summary" name="Retrieve a European Patient Summary"/>

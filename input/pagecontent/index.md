@@ -2,15 +2,15 @@
 
 # Regulatory Basis and Scope
 
-The European Health Data Space (EHDS) regulation describes an obligation for EHR systems to include an Interoperability Component that does the following: 
-- §2.1: “SHALL provide an **interface enabling access** to the personal electronic health data [formatted in EEHRxF]”
-- §2.2: “SHALL **be able to receive** personal electronic health data [formatted in EEHRxF]"
+The European Health Data Space (EHDS) regulation describes an obligation for EHR systems to include an Interoperability Component that does the following:
+- §2.1: "SHALL provide an **interface enabling access** to the personal electronic health data [formatted in EEHRxF]"
+- §2.2: "SHALL **be able to receive** personal electronic health data [formatted in EEHRxF]"
 
 This Implementation Guide:
-1. **Defines a set of EHRs functionalities that meet the Interoperability Component requirements:** describes how existing IHE profiles and other specifications can be used to provide secure access and enable secure exchange of EEHRxF data between systems. 
+1. **Defines a set of EHRs functionalities that meet the Interoperability Component requirements:** describes how existing IHE profiles and other specifications can be used to provide secure access and enable secure exchange of EEHRxF data between systems.
 2. **Shows how these EHR functionalities can be used in real-world data exchange for EHDS use cases:** outlines how these EHR functionalities can be used to provide patients access to their own data, to allow providers access to patient data, and to support the cross-border data exchange in the myHealth@EU network.
 
-This Implementation Guide does **not**: 
+This Implementation Guide does **not**:
 - **Define all functionalities or data exchange patterns with EHRs that might or could be used by various  Member States to satisfy the requirements of EHDS:** Each Member State has the power to define its own methods of meeting the EHDS requirements, which could involve accessing data from EHRs using other specifications than those described here. The goal of this guide is not to list every data exchange pattern that might be useful in meeting those requirements, only to define a minimum sufficient and feasible set of APIs that can be used to meet the requirements for certain common architectural patterns of member states, that can be agreed upon as a minimum shared set of requirements.
 - **Define data exchange patterns other than EHRs providing access to data and receiving data:** Where there are further workflow actions involved in data exchange (such as for prescribing and dispensing medications), those exchange patterns should be defined in their respective Implementation Guides. Where there are shared needs, such as for authorization and patient search, those IGs should make use of the data exchange patterns defined here.
 - **Define data exchange patterns for wellness apps:** While integrations between EHRs and wellness apps can and should use some of the APIs described here (such as authorization, patient search, and resource access), writing data to EHRs can involve workflows other than access to data that have other important considerations, and therefore should be defined separately.
@@ -23,7 +23,7 @@ See [Regulatory Anchors](regulatoryAnchors.html) page for more detail on the lin
 
 # Audience
 
-The intended audiences of this Implementation Guide are: 
+The intended audiences of this Implementation Guide are:
 
 - **Manufacturers of EHR systems:** EHR vendors looking to develop support for APIs that meet the needs of EHDS should refer to the [Functional Requirements](functional.html) for a list of functional specifications EHRs should support.
 
@@ -59,7 +59,7 @@ At a high level, the following actors are specified:
 - **Resource Access Provider** - Provides query access to individual FHIR resources
 - **Resource Consumer** - Queries FHIR resources from Resource Access Providers
 
-These resource actors are initially scoped for search + read. See the [Actors](actors.html#resource-exchange) page for detailed discussion on resource exchange patterns.
+These resource actors are initially scoped for search + read. See [Resource Access](resource-access.html) for detailed discussion and possible approaches for resource exchange patterns.
 
 ## Summary of Functional Requirements ("the API")
 
