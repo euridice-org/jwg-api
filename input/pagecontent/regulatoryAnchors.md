@@ -15,13 +15,13 @@ This IG inherits and builds upon the work of the Xt-EHR Joint Action, which has 
 
 These requirements have also been adjusted based in order to harmonize against Xt-EHR work package 6 and 7, which define requirements for each priority category.
 
-For more details on the Xt-EHR work, see [the Xt-EHR Website](https://www.xt-ehr.eu/work-packages/). Note: Xt-EHR deliverables are not yet publically released.
+For more details on the Xt-EHR work, see [the Xt-EHR Website](https://www.xt-ehr.eu/work-packages/). Note: Xt-EHR deliverables are not yet publicly released.
 
 ### Requirements Framework
 
-The EHDS regulation defines the interperability component at a high level, but interoperability needs to be defined with technical precision in order for two systems to effectively achieve interoperablity.
+The EHDS regulation defines the interoperability component at a high level, but interoperability needs to be defined with technical precision in order for two systems to effectively achieve interoperability.
 
-This table describes the bridge between the regulation text and precice and implementable specifications.
+This table describes the bridge between the regulation text and precise and implementable specifications.
 
 
 | | **EHDS Regulation** | **EHR Functional Requirements** | **Technical Specifications (You Are Here)** |
@@ -67,8 +67,8 @@ This accomplishes the following:
 
  to address real-world implementation requirements identified through Xt-EHR work packages 6 and 7 (priority category specifications) and feedback from member states. The refined actor model accounts for:
 - Aggregation at hospital and national scale: Recognizes that providing access to EHR data may be accomplished by intermediary systems (hospital data aggregators, national health information exchanges) rather than solely by individual EHR systems.
-- Separation of data production from data access: It is not nescesarily true that the system that produces/stores clinical data is the same system that provides API access to that data. This enables centralized API gateways and data repositories.
-- Not all EHR systems are well-suited to serving real-time queries 24/7. This enables those system
+- Separation of data production from data access: It is not necessarily true that the system that produces/stores clinical data is the same system that provides API access to that data. This enables centralized API gateways and data repositories.
+- Not all EHR systems are well-suited to serving real-time queries 24/7. This enables those systems
 
 
 4. **Priority category exchange patterns**: Aligns with the specific data exchange needs defined in Xt-EHR work packages 6 and 7, where some priority categories are best exchanged as documents while others benefit from resource-level queries.
