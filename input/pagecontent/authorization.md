@@ -4,29 +4,17 @@
 
 Authorization is required for all API transactions. This IG uses SMART Backend Services for system-to-system authorization, grouped with IHE IUA actors.
 
-```
-┌──────────────────┐                              ┌──────────────────┐
-│                  │                              │                  │
-│  Authorization   │                              │    Resource      │
-│     Client       │                              │     Server       │
-│                  │                              │                  │
-└────────┬─────────┘                              └────────┬─────────┘
-         │                                                 │
-         │  1. POST /token                                 │
-         │     grant_type=client_credentials               │
-         │     client_assertion=<signed JWT>               │
-         │  ─────────────────────────────────────────►     │
-         │                                                 │
-         │  2. Access Token                                │
-         │  ◄─────────────────────────────────────────     │
-         │                                                 │
-         │  3. GET /Patient?identifier=...                 │
-         │     Authorization: Bearer <token>               │
-         │  ─────────────────────────────────────────►     │
-         │                                                 │
-         │  4. Bundle (search results)                     │
-         │  ◄─────────────────────────────────────────     │
-         │                                                 │
+```mermaid
+sequenceDiagram
+    participant Client as IUA Authorization Client
+    participant AuthZ as IUA Authorization Server
+    participant Resource as IUA Resource Server
+
+    Client->>AuthZ: POST /token (client_credentials, signed JWT)
+    AuthZ-->>Client: Access Token
+
+    Client->>Resource: GET /Patient?identifier=... (Bearer token)
+    Resource-->>Client: Bundle (search results)
 ```
 
 ## Scope: System-to-System Authorization
