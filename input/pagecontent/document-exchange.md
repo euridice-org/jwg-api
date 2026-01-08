@@ -1,10 +1,8 @@
-# Document Exchange
-
-## Overview
+### Overview
 
 Document exchange using IHE MHD (Mobile Health Documents) transactions. This IG inherits MHD transactions as-is, with constraints specific to EEHRxF content.
 
-## Actors
+### Actors
 
 - **Document Producer** (client): Publishes documents using MHD Document Source
 - **Document Access Provider** (server): Receives and serves documents using MHD Document Recipient + Document Responder
@@ -12,14 +10,14 @@ Document exchange using IHE MHD (Mobile Health Documents) transactions. This IG 
 
 See [Actors and Transactions](actors.html) for detailed actor groupings.
 
-## Document Search Strategy: Category vs Type
+### Document Search Strategy: Category vs Type
 
 This IG follows the IHE approach for document discovery, using a **two-step search pattern**:
 
 1. **Request Search (Coarse)**: Use `category` to cast a wide net
 2. **Response Filtering (Precise)**: Filter results client-side using `type`
 
-### Category (Coarse Search)
+#### Category (Coarse Search)
 
 `DocumentReference.category` uses **XDS ClassCode** values for broad document classification:
 
@@ -33,7 +31,7 @@ This IG follows the IHE approach for document discovery, using a **two-step sear
 
 See [EEHRxFDocumentClassVS](ValueSet-eehrxf-document-class-vs.html) for the complete list.
 
-### Type (Clinical Precision)
+#### Type (Clinical Precision)
 
 `DocumentReference.type` uses **LOINC codes** for specific document identification:
 
@@ -46,7 +44,7 @@ See [EEHRxFDocumentClassVS](ValueSet-eehrxf-document-class-vs.html) for the comp
 
 See [EEHRxFDocumentTypeVS](ValueSet-eehrxf-document-type-vs.html) for the complete list.
 
-### practiceSetting for Lab vs Imaging Differentiation
+#### practiceSetting for Lab vs Imaging Differentiation
 
 When searching for reports (`category=REPORTS`), the `context.practiceSetting` element SHOULD be used to differentiate between laboratory and imaging reports:
 
@@ -55,11 +53,11 @@ When searching for reports (`category=REPORTS`), the `context.practiceSetting` e
 
 See [HL7 Practice Setting Codes](http://hl7.org/fhir/ValueSet/c80-practice-codes) for available values.
 
-## Canonical Query Examples
+### Canonical Query Examples
 
 The following examples demonstrate the recommended search patterns for document discovery.
 
-### Example 1: Find Patient Summary by Type
+#### Example 1: Find Patient Summary by Type
 
 When you know you want a specific document type, search directly by type:
 
@@ -74,7 +72,7 @@ GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|60591-5&s
 
 **Use case**: Retrieve the patient's International Patient Summary for unplanned care encounter.
 
-### Example 2: Find Laboratory Reports by Type
+#### Example 2: Find Laboratory Reports by Type
 
 ```http
 GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|11502-2&status=current
@@ -87,7 +85,7 @@ GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|11502-2&s
 
 **Use case**: Retrieve all laboratory reports for a patient.
 
-### Example 3: Find All Reports by Category (Coarse Search)
+#### Example 3: Find All Reports by Category (Coarse Search)
 
 When you want to discover all reports regardless of type:
 
@@ -102,7 +100,7 @@ GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19
 
 **Use case**: Discover all reports (lab, imaging, clinical) for a patient, then filter client-side by type.
 
-### Example 4: Find Imaging Reports (Category + practiceSetting)
+#### Example 4: Find Imaging Reports (Category + practiceSetting)
 
 To find specifically imaging reports, combine category with practiceSetting:
 
@@ -118,7 +116,7 @@ GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19
 
 **Use case**: Retrieve radiology reports specifically.
 
-### Example 5: Find Imaging Manifests
+#### Example 5: Find Imaging Manifests
 
 To find imaging manifests (DICOM references):
 
@@ -133,7 +131,7 @@ GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19
 
 **Use case**: Retrieve imaging study manifests for WADO retrieval.
 
-### Example 6: Find Discharge Summaries
+#### Example 6: Find Discharge Summaries
 
 ```http
 GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|18842-5&status=current
@@ -146,11 +144,11 @@ GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|18842-5&s
 
 **Use case**: Retrieve hospital discharge reports for continuity of care.
 
-## IHE MHD Transactions
+### IHE MHD Transactions
 
 This IG uses the following IHE MHD transactions without modification to the transaction mechanics:
 
-### ITI-65: Provide Document Bundle (Publish)
+#### ITI-65: Provide Document Bundle (Publish)
 
 Document Producer → Document Access Provider
 
@@ -167,7 +165,7 @@ Transaction bundle containing DocumentReference + Binary resources.
 
 See [IHE MHD ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) for transaction details.
 
-### ITI-67: Find Document References (Search)
+#### ITI-67: Find Document References (Search)
 
 Document Consumer → Document Access Provider
 
@@ -195,7 +193,7 @@ Query for DocumentReference resources.
 
 See [IHE MHD ITI-67](https://profiles.ihe.net/ITI/MHD/ITI-67.html) for transaction details.
 
-### ITI-68: Retrieve Document (Retrieve)
+#### ITI-68: Retrieve Document (Retrieve)
 
 Document Consumer → Document Access Provider
 
@@ -214,11 +212,11 @@ Retrieve document content.
 
 See [IHE MHD ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) for transaction details.
 
-## EEHRxF-Specific Constraints
+### EEHRxF-Specific Constraints
 
 While the MHD transaction mechanics are unchanged, this IG adds constraints on content:
 
-### DocumentReference Profile
+#### DocumentReference Profile
 
 Inherits from IHE MHD Comprehensive DocumentReference with additional constraints:
 - Priority category-specific type/format value sets
@@ -226,18 +224,18 @@ Inherits from IHE MHD Comprehensive DocumentReference with additional constraint
 - Content registry enforcement
 
 
-### Content Validation
+#### Content Validation
 
 Document Access Providers SHALL:
 - Validate DocumentReference.type/format against priority category value sets
 - Verify Binary content is valid EEHRxF format
 - Enforce required metadata elements
 
-## Authorization
+### Authorization
 
 All MHD transactions require authorization via [SMART Backend Services](authorization.html) with appropriate scopes as listed above.
 
-## See Also
+### See Also
 
 - [IHE MHD Specification](https://profiles.ihe.net/ITI/MHD/)
 - [ITI-65 Provide Document Bundle](https://profiles.ihe.net/ITI/MHD/ITI-65.html)

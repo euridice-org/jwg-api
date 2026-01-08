@@ -1,5 +1,3 @@
-# Change Log
-
 **January 8, 2026** - Consolidated open issues into single tracking page. Reorganized actors.md specifications list with Consistent Time/ATNA under Foundational. Updated menu ordering. Simplified authorization page by removing wildcard restrictions and error response sections, added sequence diagram. Cleaned up capability discovery page.
 
 **January 3, 2026** - Major IG restructure. Implemented new page hierarchy with Introduction, Functional, Implementation, and Priority Areas sections. Fixed image links in actors.md using Jekyll includes. Simplified use case pages to high-level overviews. Enhanced example page as "Retrieve a European Patient Summary" walkthrough. Cleaned up regulatory anchors to focus on EHDS ANNEX II core requirements. Removed 15 deprecated files and consolidated transaction content into functional pages.

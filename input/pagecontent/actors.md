@@ -1,10 +1,8 @@
-# Actors and Transactions
-
 The actor model defined here is an orchestration of existing IHE actors and specifications, combined together into high-level composite actors. Actors and transactions are inherited from dependent IHE profiles, and those actors are stacked, constrained and potentially modified.
 
 This is similar to the approach taken in the MHDS specification, but with a more narrow subset of specifications fit to the european situation.
 
-## Relevant Specifications:
+### Relevant Specifications:
 
 - Client App and User Authorization
   - [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
@@ -22,7 +20,7 @@ This is similar to the approach taken in the MHDS specification, but with a more
   - [IHE ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-8.html) - Defines secure communication and audit logging requirements for healthcare systems.
     - [RESTful ATNA](https://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_Suppl_RESTful-ATNA.pdf) - Defines the use of FHIR AuditEvent rather than the legacy audit log format.
 
-# Document Exchange
+### Document Exchange
 
 Document exchange is defined with 3 actors:
 
@@ -87,7 +85,7 @@ See the following functional pages for detailed transaction information:
 This can be combined with content profiles define by each EHDS Priority Category, for those categories that are primarily represented as a FHIR Document. For example, a system can be a **Lab Result Document Producer**, a **Patient Summary Document Consumer**, or a **Imaging Manifest Document Access Provider**. See Content Library
 
 
-# Resource Exchange
+### Resource Exchange
 
 It is also useful in many cases to transact with individual FHIR resources (note: ref other page). For this purpose, two resource-based actors are defined:
 
@@ -150,7 +148,7 @@ This leads to the following required transactions between these actors:
 
 
 
-## Example Groupings
+### Example Groupings
 
 
 <div style="text-align: center;">
@@ -162,7 +160,7 @@ This leads to the following required transactions between these actors:
 </div>
 
 
-# Use with Other IHE Profiles
+### Use with Other IHE Profiles
 
 Within this implemenation guide, we focus on the generalized document and resource access transactions - but a similar layered approach can be taken with other use case-specific IHE profiles.
 
@@ -170,11 +168,11 @@ IUA + PDQM actors can be considered an **API Base**, since most interoperabiliy 
 
 We leave the details of implementation up to individual priority category area, but here are some examples of how this could be done:
 
-## ePrescription and eDispenation with IHE MPD
+### ePrescription and eDispenation with IHE MPD
 For example, the [IHE MPD specification actors](https://profiles.ihe.net/PHARM/MPD/actors-transactions.html) could be stacked in a similar way to accomplish a prescription workflow:
 
 
-## Image Access with IHE MADO
+### Image Access with IHE MADO
 
 
 In the imaging priority category, IHE-RAD (MADO) transactions are used to provide access to DICOM images.

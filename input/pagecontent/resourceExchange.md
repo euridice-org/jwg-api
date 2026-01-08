@@ -1,5 +1,3 @@
-# Resource Exchange
-
 Resource exchange, or the exchange of FHIR resources between a Resource Producer and a Resource Access provider is more complex than document publishing. One reason is that resources are not self-contained like a document is: they are a single atomic piece of data with many cross-links. So a naive POST of a resource to a FHIR server is not sufficient - additional pre-steps are required (For example, to resolve the Medication being prescribed before submitting a medicationRequest).  
 
 Another complexity with resource exchange is that semantics and exchange patterns are likely different per resource. For an example of how complex this can get for just a Prescription workflow, see the IHE MPD specification. For another, the Clinical Order Workflow IG.
@@ -18,7 +16,7 @@ Challenges introduced with Resource PUSH:
 - Reconciliation: The receiving server needs a way to enforce validation rules on this data to avoid accepting invalid or imcomplete data, potentialy including user checking and reconciling this data against other sources before allowing it into the patient chart.
 
 
-## Possible Approaches
+### Possible Approaches
 
 We acklowledge that the community would benefit from resource-based exchange methods other than queries. The following patterns or a combination therof could make progress in addressing these needs, and could be included in a future version of this implementation guide or addressed in parallel with separately developed implementation guides.
 

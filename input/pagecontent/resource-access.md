@@ -1,27 +1,25 @@
-# Resource Access
-
-## Overview
+### Overview
 
 FHIR resource query using QEDm/IPA patterns.
 
 **Optional:** Not all implementations support resource access.
 
-## Constraints
+### Constraints
 
 - **Read/search only** (no create/update/delete)
 - **Patient-scoped queries** (patient parameter required)
 - **Curated resource set** (not a generic FHIR server)
 
-## Actors
+### Actors
 
 - **Resource Access Provider** (server): Provides resource query capabilities
 - **Resource Consumer** (client): Queries resources
 
-## Transaction
+### Transaction
 
 **PCC-44:** Mobile Query Existing Data (QEDm)
 
-## Resource Set
+### Resource Set
 
 Minimal curated set:
 - AllergyIntolerance
@@ -32,7 +30,7 @@ Minimal curated set:
 - Immunization
 - (Optional) Encounter
 
-## Search Patterns
+### Search Patterns
 
 All searches require `patient` parameter:
 
@@ -47,7 +45,7 @@ GET /Immunization?patient={id}&date=ge2024-01-01
 
 Searches without `patient` parameter are rejected (unless bulk option explicitly enabled).
 
-## Scopes
+### Scopes
 
 ```
 system/AllergyIntolerance.rs
@@ -58,7 +56,7 @@ system/MedicationRequest.rs
 system/Immunization.rs
 ```
 
-## Derived Resources
+### Derived Resources
 
 If resources are derived from documents (extracted from Bundles), Provenance SHOULD link to source DocumentReference:
 
@@ -73,11 +71,11 @@ If resources are derived from documents (extracted from Bundles), Provenance SHO
 }
 ```
 
-## How Resource Access Provider Gets Resources
+### How Resource Access Provider Gets Resources
 
 See [Actors and Transactions - Resource Exchange](actors.html#resource-exchange) for details on the actor model and how Resource Access Providers relate to underlying systems.
 
-## References
+### References
 
 - [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/)
 - [PCC-44 Mobile Query Existing Data](https://profiles.ihe.net/PCC/QEDm/PCC-44.html)

@@ -1,6 +1,6 @@
 {% include fsh-link-references.md %}
 
-# Regulatory Basis and Scope
+### Regulatory Basis and Scope
 
 The European Health Data Space (EHDS) regulation describes an obligation for EHR systems to include an Interoperability Component that does the following:
 - §2.1: "SHALL provide an **interface enabling access** to the personal electronic health data [formatted in EEHRxF]"
@@ -21,7 +21,7 @@ This Implementation Guide does **not**:
 
 See [Regulatory Anchors](regulatoryAnchors.html) page for more detail on the link to the EHDS regulation requirements, and the technical interpretation of those requirements used here.
 
-# Audience
+### Audience
 
 The intended audiences of this Implementation Guide are:
 
@@ -29,7 +29,7 @@ The intended audiences of this Implementation Guide are:
 
 - **Architects of national infrastructures:** National eHealth agencies looking to understand how to use the capabilities of EHRs required by EHDS to meet the goals of EHDS in their Member States should refer to the [Implementation](implementation.html) for examples of how the EHR APIs can be used for the EHDS use cases.
 
-# Approach
+### Approach
 
 We define exchange patterns by inheriting and defining transactions, system actors, and associated capability statements from existing IHE and HL7 specifications:
 

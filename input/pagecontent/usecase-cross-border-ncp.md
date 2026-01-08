@@ -1,20 +1,18 @@
-# Use Case: Cross-Border Exchange via National Contact Point
-
-## Overview
+### Overview
 
 Health information is exchanged across borders through National Contact Points (NCPs) using MyHealth@EU infrastructure.
 
-## Scenario
+### Scenario
 
 A patient from Country A (home country) experiences a medical emergency while traveling in Country B. The healthcare facility in Country B needs to access the patient's health records from Country A to inform emergency treatment.
 
-## Actor Roles
+### Actor Roles
 
 - Country B healthcare facility acts as [Document Consumer](actors.html#document-consumer)
 - Country A EHR system acts as [Document Access Provider](actors.html#document-access-provider)
 - National Contact Points (NCP-A and NCP-B) facilitate cross-border exchange
 
-## Cross-Border Flow
+### Cross-Border Flow
 
 1. Country B healthcare facility identifies the patient and obtains consent for cross-border data access
 2. NCP-B sends query to NCP-A via MyHealth@EU infrastructure
@@ -22,13 +20,13 @@ A patient from Country A (home country) experiences a medical emergency while tr
 4. Country A EHR system provides data via the API defined in this IG
 5. Information flows back through NCP-A and NCP-B to the Country B healthcare facility
 
-## Technical Architecture
+### Technical Architecture
 
 ```
 Country B Healthcare Facility → NCP-B → MyHealth@EU → NCP-A → National Infrastructure → EHR System API
 ```
 
-## Role of This Specification
+### Role of This Specification
 
 This IG defines the rightmost component: the API between national infrastructure and EHR systems.
 
@@ -38,7 +36,7 @@ This IG defines the rightmost component: the API between national infrastructure
 
 All layers exchange EEHRxF-formatted data to ensure semantic interoperability.
 
-## Authorization Context
+### Authorization Context
 
 - Patient consent for cross-border access
 - Healthcare professional authentication in requesting country
