@@ -24,4 +24,3 @@ After understanding the background and context:
 - Review the [Functional](functional.html) requirements to understand technical specifications
 - Explore [Implementation](implementation.html) examples and use cases
 - See [Actors and Transactions](actors.html) for the detailed actor model
-

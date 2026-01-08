@@ -29,13 +29,16 @@
 <page key="capability-discovery" name="Capability Discovery"/>
 <page key="changes" name="Change Log"/>
 <page key="document-exchange" name="Document Exchange"/>
+<page key="fhir-documents-vs-resources" name="FHIR Documents and Resources"/>
 <page key="functional" name="Functional Requirements"/>
 <page key="index" name="Home"/>
 <page key="implementation" name="Implementation"/>
 <page key="member-state-architectures" name="Member State Architectures"/>
 <page key="patient-match" name="Patient Match"/>
 <page key="regulatoryAnchors" name="Regulatory Anchors"/>
+<page key="xds-xca-bridge" name="Relationship to XDS/XCA"/>
 <page key="resource-access" name="Resource Access"/>
+<page key="resourceExchange" name="Resource Exchange Patterns"/>
 <page key="example-patient-summary" name="Retrieve a European Patient Summary"/>
 <page key="toc" name="Table of Contents"/>
 <page key="usecase-cross-border-ncp" name="Use Case - Cross-Border via NCP"/>

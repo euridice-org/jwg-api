@@ -65,3 +65,34 @@ The [FHIR Documents and Resources](input/pagecontent/fhir-documents-vs-resources
 **Status**: Non-MVP, linked from Member State Architectures
 
 The [Relationship to XDS/XCA](input/pagecontent/xds-xca-bridge.md) page provides guidance for Member States with existing XDS or XCA infrastructure. This content is not in the main navigation but is linked from Member State Architectures. Seeking feedback on whether additional bridging guidance is needed.
+
+---
+
+## Known Build Issues (Acceptable for Wide Review)
+
+The following build errors are known and acceptable for the draft/wide review version. They will be addressed before ballot.
+
+### IHE QEDm Broken Links
+**Status**: External dependency issue
+
+The IHE QEDm CapabilityStatement contains internal links to `volume-1.html#actor-options` that cannot be resolved. This is an issue with the IHE QEDm package, not this IG.
+
+### XDS ClassCode ValueSet Expansion
+**Status**: Deferred
+
+The `EEHRxFDocumentClassVS` ValueSet uses XDS ClassCode system (`urn:oid:1.3.6.1.4.1.19376.1.2.6.1`) which is not registered on tx.fhir.org. The codes are correct per IHE specifications but the terminology server cannot expand the ValueSet. This is acceptable for wide review.
+
+### Jurisdiction Declaration
+**Status**: To be fixed before ballot
+
+Some resources need explicit Europe jurisdiction declaration. Will be addressed by adding `jurisdiction: http://unstats.un.org/unsd/methods/m49/m49.htm#150 "Europe"` to sushi-config.yaml.
+
+### Jira Specification File
+**Status**: Required before ballot
+
+A Jira specification file (`FHIR-eu-euridice-api`) must be added to the HL7 Jira-Spec-Artifacts project before ballot/publication. Not required for wide review.
+
+### EU Extensions R5/R4 Mismatch
+**Status**: Known limitation
+
+The `hl7.fhir.eu.extensions#current` package is for FHIR R5 while this IG targets R4. The publisher ignores this mismatch and continues. Will monitor for issues.

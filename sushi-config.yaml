@@ -64,6 +64,10 @@ pages:
     title: Background
     regulatoryAnchors.md:
       title: Regulatory Anchors
+    fhir-documents-vs-resources.md:
+      title: FHIR Documents and Resources
+    xds-xca-bridge.md:
+      title: Relationship to XDS/XCA
     member-state-architectures.md:
       title: Member State Architectures
     actors.md:
@@ -80,6 +84,8 @@ pages:
       title: Document Exchange
     resource-access.md:
       title: Resource Access
+    resourceExchange.md:
+      title: Resource Exchange Patterns
   implementation.md:
     title: Implementation
     example-patient-summary.md:

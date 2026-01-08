@@ -63,7 +63,44 @@ GET https://provider.example.org/fhir/DocumentReference?patient=patient-123&type
 Authorization: Bearer [access_token]
 ```
 
-Response Bundle contains DocumentReference resources for available Patient Summaries.
+Response Bundle contains DocumentReference resources for available Patient Summaries. A typical DocumentReference entry looks like:
+
+```json
+{
+  "resourceType": "DocumentReference",
+  "id": "docref-eps-123",
+  "status": "current",
+  "type": {
+    "coding": [{
+      "system": "http://loinc.org",
+      "code": "60591-5",
+      "display": "Patient summary Document"
+    }]
+  },
+  "category": [{
+    "coding": [{
+      "system": "urn:oid:1.3.6.1.4.1.19376.1.2.6.1",
+      "code": "SUMMARIES",
+      "display": "Summaries"
+    }]
+  }],
+  "subject": {
+    "reference": "Patient/patient-123"
+  },
+  "date": "2024-03-15T10:30:00Z",
+  "content": [{
+    "attachment": {
+      "contentType": "application/fhir+json",
+      "url": "Binary/binary-456"
+    },
+    "format": {
+      "system": "http://ihe.net/fhir/ihe.formatcode.fhir/CodeSystem/formatcode",
+      "code": "urn:ihe:pcc:ips:2020",
+      "display": "International Patient Summary"
+    }
+  }]
+}
+```
 
 ### Step 5: Retrieve Document Content
 
@@ -78,24 +115,53 @@ Response is the Patient Summary as a FHIR Bundle (document) in JSON format.
 
 ## Sequence Diagram
 
+The following diagram illustrates the complete document retrieval flow, showing the interaction between the Document Consumer, Authorization Server, and Document Access Provider (which includes the Document Responder role).
+
+### ASCII Diagram
+
+```
+Document Consumer      Authorization Server      Document Access Provider
+        |                      |                          |
+        |--- GET /metadata ----------------------------------->|
+        |<-- CapabilityStatement ------------------------------|
+        |                      |                          |
+        |--- POST /auth/token -->|                        |
+        |    (JWT assertion)     |                        |
+        |<-- access_token -------|                        |
+        |                      |                          |
+        |--- GET /Patient?identifier=... (ITI-78) ----------->|
+        |<-- Patient Bundle -----------------------------------|
+        |                      |                          |
+        |--- GET /DocumentReference?patient=...&type=60591-5 ->|
+        |    (ITI-67: Find Document References)            |
+        |<-- DocumentReference Bundle -------------------------|
+        |                      |                          |
+        |--- GET /Binary/[id] (ITI-68: Retrieve Document) ---->|
+        |<-- Patient Summary Document -------------------------|
+        |                      |                          |
+```
+
+### Mermaid Diagram
+
 ```mermaid
 sequenceDiagram
     participant Consumer as Document Consumer
+    participant AuthZ as Authorization Server
     participant Provider as Document Access Provider
 
     Consumer->>Provider: GET /metadata
     Provider-->>Consumer: CapabilityStatement
 
-    Consumer->>Provider: POST /auth/token
-    Provider-->>Consumer: access_token
+    Consumer->>AuthZ: POST /auth/token (JWT assertion)
+    AuthZ-->>Consumer: access_token
 
-    Consumer->>Provider: GET /Patient?identifier=...
-    Provider-->>Consumer: Patient resource
+    Consumer->>Provider: GET /Patient?identifier=... (ITI-78)
+    Provider-->>Consumer: Patient Bundle
 
-    Consumer->>Provider: GET /DocumentReference?patient=...&type=...
+    Consumer->>Provider: GET /DocumentReference?patient=...&type=60591-5 (ITI-67)
     Provider-->>Consumer: DocumentReference Bundle
 
-    Consumer->>Provider: GET /Binary/[id]
+    Consumer->>Provider: GET /Binary/[id] (ITI-68)
     Provider-->>Consumer: Patient Summary Document
 ```
 
