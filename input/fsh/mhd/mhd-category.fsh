@@ -1,24 +1,78 @@
-ValueSet:   XdsClassCodeVs
-Id:	        im-xds-class-code-valueset
-Title:	    "XDS Class Codes"
-Description:   """
-A list of XDS class codes that can be used for filtering manifests (zie [XDS_classCode_MetaData_Coding_System](https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System)).
-Note a IHE needs to make a formal FHIR CodeSystem for this,
-"""
-* $xds-class-code#REPORTS	    //"Reports"	"Reports are the result of an inquiry or investigation by a licensed professional"
-* $xds-class-code#SUMMARIES	    //"Summaries"	"A record of the most salient facts known at a point in time by a licenses health professional"
-* $xds-class-code#IMAGES	    //"Images"	"An artifact that depicts or records visual perception for a subject"
-* $xds-class-code#PRESCRIPTIONS	//"Prescribed Treatments and Diagnoses"	"Description of any treatment or order for a diagnosis for a patient"
-* $xds-class-code#DISPENSATIONS	//"Dispensations"	"Acts performed by a health professional delivering a treatment"
-* $xds-class-code#PLANS	        //"Treatment Plan or Protocol"	"A set of intended treatments informing a team of health professionals about the goals, type of services,service intensity and progress indicators that are designed to reach a clinical objective"
-* $xds-class-code#HEALTH	    //"Health Certificates and Notifications"	"Health information produced by health professionals for specific use outside of healthcare"
-* $xds-class-code#PATIENT	    //"Patient Expression and Preferences"	"Statements produced by the patient expressing information/data about own health, preferences for care or any directive provided by patients in the handling of their health information."
-* $xds-class-code#WORKFLOWS	    //"Workflow Management"	"Information related to the tracking and coordination process in care delivery
+// =============================================================================
+// DocumentReference Category ValueSet (Coarse Search)
+// =============================================================================
+// Based on IHE XDS ClassCode - used for broad document classification
+// This enables "cast a wide net" searches before client-side filtering
+// See: https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System
 
-ValueSet:   EehrxfMhdDocumentReferenceTypeVs
-Title:	    "EEHRxF MHD Category Code System"
-Description:   """
-A list of codes used in MHD context to refer to document categories.
+ValueSet:   EEHRxFDocumentClassVS
+Id:         eehrxf-document-class-vs
+Title:      "EEHRxF Document Class ValueSet (Category)"
+Description: """
+Document class codes for coarse-grained document discovery searches.
+
+This ValueSet is based on the IHE XDS ClassCode Metadata Coding System and is used
+in DocumentReference.category for broad document filtering. It supports a two-step
+search approach:
+
+1. **Request Search**: Use category (this ValueSet) to cast a wide net
+2. **Response Filtering**: Use type (LOINC codes) for clinical precision
+
+For example, to find imaging reports:
+- Search: `category=REPORTS` combined with `practiceSetting` for radiology
+- Filter results client-side using DocumentReference.type
+
+See [IHE XDS ClassCode](https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System)
+for complete definitions.
 """
+* ^experimental = false
+* $xds-class-code#REPORTS "Reports"
+* $xds-class-code#SUMMARIES "Summaries"
+* $xds-class-code#IMAGES "Images"
+* $xds-class-code#PRESCRIPTIONS "Prescriptions"
+* $xds-class-code#DISPENSATIONS "Dispensations"
+* $xds-class-code#PLANS "Plans"
+* $xds-class-code#HEALTH "Health Certificates"
+* $xds-class-code#PATIENT "Patient Expressions"
+* $xds-class-code#WORKFLOWS "Workflows"
+
+
+// =============================================================================
+// DocumentReference Type ValueSet (Clinical Precision)
+// =============================================================================
+// LOINC codes for specific document types - used for precise clinical identification
+// This is NOT intended as a primary search parameter, but for client-side filtering
+
+ValueSet:   EEHRxFDocumentTypeVS
+Id:         eehrxf-document-type-vs
+Title:      "EEHRxF Document Type ValueSet"
+Description: """
+Document type codes for clinical precision in document identification.
+
+This ValueSet contains LOINC codes for specific document types used in
+DocumentReference.type. Unlike category (coarse search), type provides
+clinical precision for identifying exact document kinds.
+
+**Usage Pattern**:
+- type is primarily used for client-side filtering after a broad category search
+- type MAY be used as a search parameter when the specific document type is known
+- Multiple type codes may apply to a single document (e.g., a discharge summary
+  that is also a patient summary)
+
+**MVP Document Types** (Priority Categories):
+- Patient Summary (IPS)
+- Discharge Summary (HDR)
+- Laboratory Report
+- Diagnostic Imaging Report
+
+Note: This list will expand as additional priority categories are implemented.
+"""
+* ^experimental = false
+* insert LOINCCopyrightForVS
 * $loinc#60591-5 "Patient summary Document"
+* $loinc#18842-5 "Discharge summary"
+* $loinc#11502-2 "Laboratory report"
+* $loinc#68604-8 "Radiology Diagnostic study note"
 * $loinc#18748-4 "Diagnostic imaging study"
+
+

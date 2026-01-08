@@ -1,15 +1,10 @@
-# Actors and Transactions
-
-The actor model defined here is an orchestration of existing IHE actors and specifications, combined together into high-level composite actors. Actors and transactions are inherited from dependent IHE profiles, and those actors are stacked, constrained and potentially modified. 
+The actor model defined here is an orchestration of existing IHE actors and specifications, combined together into high-level composite actors. Actors and transactions are inherited from dependent IHE profiles, and those actors are stacked, constrained and potentially modified.
 
 This is similar to the approach taken in the MHDS specification, but with a more narrow subset of specifications fit to the european situation.
 
-## Relevant Specifications:
+### Relevant Specifications:
 
-- [IHE Consistent Time](https://profiles.ihe.net/ITI/TF/Volume1/ch-7.html) - Defines the use of Network Time Protocol (NTP) to provide consistent time across systems.
-- [IHE ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-8.html) - Defines secure communication and audit logging requirements for healthcare systems.
-  - [RESTful ATNA](https://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_Suppl_RESTful-ATNA.pdf) - Defines the use of FHIR AuditEvent rather than the legacy audit log format.
-- Client App and User Authorization  
+- Authorization
   - [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
   - [HL7 SMART Backend Services](https://hl7.org/fhir/smart-app-launch/) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and FHIR scopes.
 - Patient Identity Matching
@@ -20,8 +15,12 @@ This is similar to the approach taken in the MHDS specification, but with a more
 - Resource Exchange
   - [HL7 International Patient Access](https://hl7.org/fhir/uv/ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access.
   - [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server.
+- Foundational
+  - [IHE Consistent Time](https://profiles.ihe.net/ITI/TF/Volume1/ch-7.html) - Defines the use of Network Time Protocol (NTP) to provide consistent time across systems.
+  - [IHE ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-8.html) - Defines secure communication and audit logging requirements for healthcare systems.
+    - [RESTful ATNA](https://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_Suppl_RESTful-ATNA.pdf) - Defines the use of FHIR AuditEvent rather than the legacy audit log format.
 
-# Document Exchange
+### Document Exchange
 
 Document exchange is defined with 3 actors:
 
@@ -29,10 +28,13 @@ Document exchange is defined with 3 actors:
 {% include img.html img="docExchange_1.png" caption="Figure: Document Exchange Actors" %}
 </div>
 
+<a name="document-producer"></a>
 1. **Document Producer (client)** - Produces EEHRxF FHIR Documents, publishes those documents to a Document Access Provider. Can be grouped with Access Provider, in which case the publishing transactions are internalized.
 
+<a name="document-access-provider"></a>
 2. **Document Access Provider (server)** - Provides Access to EEHRxF FHIR Documents by offering an API which Document Consumer clients can query. Receives Documents from Document Producer (If not grouped with Document Producer).
 
+<a name="document-consumer"></a>
 3. **Document Consumer (client)** - Consumes EEHRxF FHIR documents by querying a Document Access Provider.
 
 These composite actors inherit existing actors from the IUA, PDQm, and MHD specifications:
@@ -74,14 +76,16 @@ This leads to the following required transactions between these actors:
 </figure>
 <br clear="all">
 
-TODO: Table.
 
-TODO: Link to functional subpages for authorizatation, patient search, and document exchange, with details on these transactions.
+See the following functional pages for detailed transaction information:
+- [Authorization](authorization.html) - Authentication and authorization flows
+- [Patient Match](patient-match.html) - Patient identification transactions
+- [Document Exchange](document-exchange.html) - Document query and retrieval transactions
 
 This can be combined with content profiles define by each EHDS Priority Category, for those categories that are primarily represented as a FHIR Document. For example, a system can be a **Lab Result Document Producer**, a **Patient Summary Document Consumer**, or a **Imaging Manifest Document Access Provider**. See Content Library
 
 
-# Resource Exchange
+### Resource Exchange
 
 It is also useful in many cases to transact with individual FHIR resources (note: ref other page). For this purpose, two resource-based actors are defined:
 
@@ -90,7 +94,10 @@ It is also useful in many cases to transact with individual FHIR resources (note
 </div>
 
 
+<a name="resource-access-provider"></a>
 4. **Resource Access Provider (server)** - A FHIR server providing access to FHIR resources by hosting search + read query API's.
+
+<a name="resource-consumer"></a>
 5. **Resource Consumer (client)** - A FHIR client that consumes external FHIR resources by querying a Resource Access Provider.
 
 <details>
@@ -136,17 +143,13 @@ This leads to the following required transactions between these actors:
 </figure>
 <br clear="all">
 
-TODO: Analysis of what to inherit from IPA vs IHE QEDm vs EU Core. 
-
-TODO: Choice of which resources from each priority area make sense to be in scope (NOT all of them). 
 
 
 
 
 
-## Example Groupings
+### Example Groupings
 
-TODO: Josh Add Narrative.
 
 <div style="text-align: center;">
 {% include img.html img="ExGroup_Doc.png" caption="Figure: Example Grouping - Document" %}
@@ -155,37 +158,6 @@ TODO: Josh Add Narrative.
 <div style="text-align: center;">
 {% include img.html img="ExGroup_Group.png" caption="Figure: Example Grouping - Group" %}
 </div>
-
-
-# Use with Other IHE Profiles
-
-Within this implemenation guide, we focus on the generalized document and resource access transactions - but a similar layered approach can be taken with other use case-specific IHE profiles. 
-
-IUA + PDQM actors can be considered an **API Base**, since most interoperabiliy use cases have a shared need for authorization and patient identification.
-
-We leave the details of implementation up to individual priority category area, but here are some examples of how this could be done: 
-
-## ePrescription and eDispenation with IHE MPD
-For example, the [IHE MPD specification actors](https://profiles.ihe.net/PHARM/MPD/actors-transactions.html) could be stacked in a similar way to accomplish a prescription workflow:
-
-TODO: Diagram with IUA + PDQm + MPD Actors. Similar to above, but with MPD Actors for Order Placer, Order Receiver, ....
-
-## Image Access with IHE MADO
-
-TODO: Bas/Charles/etc to review/fix my mistakes.
-
-In the imaging priority category, IHE-RAD (MADO) transactions are used to provide access to DICOM images.
-
-The IHE MADO Profile starts with a precondition that an Image Consumer has gained access to a manifest. This could be accomplished by the Image Consumer bundling with the Document Consumer actor specified here - and querying a Document Access Provider for an image manifest. Then, the Image Consumer uses the information in the Image Manifest to construct a WADO-RS query to the Imaging Source (note: Auth could get complicated here).
-
-A composite actor could be created inheriting Document Consumer + MADO Image Consumer. 
-
-TODO: Diagram: Image Consumer as Document Consumer + Image Consumer
-
-
-
-
-
 
 
 

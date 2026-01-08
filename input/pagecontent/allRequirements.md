@@ -1,5 +1,3 @@
-# Interoperability Requirements
-
 | D5.1 Req ID | D5.1 Normative Requirement | EHDS Basis | Actor | IG Section | Technical Spec |
 |-------------|----------------------------|------------|-------|------------|----------------|
 | `api-provider-general` | The EHR system acting as a provider SHALL provide access to its priority category data by offering an API that complies to the EHDS API specification. | Annex II §2.1 | Provider | [Document Access Provider](actors.html), [Resource Access Provider](actors.html) | This IG |
@@ -21,7 +19,7 @@
 
 
 
-# Logging Requirements
+### Logging Requirements
 
 | D5.1 Req ID | D5.1 Normative Requirement | EHDS Basis | Actor | IG Section | Technical Spec |
 |-------------|----------------------------|------------|-------|------------|----------------|
@@ -33,7 +31,7 @@
 | `log-Interoperability` | The EHR system SHOULD support a standardized format and exchange mechanism for audit log data to ensure interoperability between EHR systems and external log management or access services. | Annex II §3.2-3.3, Art. 9 | EHR System | **Out of Scope** - Logging component separate from interoperability | Logging component IG (IHE ATNA, FHIR AuditEvent) |
 
 
-# GENERAL REQUIREMENTS - Out of Implementation Guide Scope
+### GENERAL REQUIREMENTS - Out of Implementation Guide Scope
 
 | D5.1 Req ID | D5.1 Normative Requirement | EHDS Basis | Actor | IG Section | Technical Spec |
 |-------------|----------------------------|------------|-------|------------|----------------|

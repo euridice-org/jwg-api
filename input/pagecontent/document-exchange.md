@@ -1,10 +1,8 @@
-# Document Exchange
-
-## Overview
+### Overview
 
 Document exchange using IHE MHD (Mobile Health Documents) transactions. This IG inherits MHD transactions as-is, with constraints specific to EEHRxF content.
 
-## Actors
+### Actors
 
 - **Document Producer** (client): Publishes documents using MHD Document Source
 - **Document Access Provider** (server): Receives and serves documents using MHD Document Recipient + Document Responder
@@ -12,99 +10,106 @@ Document exchange using IHE MHD (Mobile Health Documents) transactions. This IG 
 
 See [Actors and Transactions](actors.html) for detailed actor groupings.
 
-## IHE MHD Transactions
+### IHE MHD Transactions
 
-This IG uses the following IHE MHD transactions without modification to the transaction mechanics:
+This IG uses the following IHE MHD transactions:
 
-### ITI-65: Provide Document Bundle (Publish)
+| Transaction | Direction | Description | Scope |
+|-------------|-----------|-------------|-------|
+| [ITI-67](https://profiles.ihe.net/ITI/MHD/ITI-67.html) | Consumer → Provider | Find Document References | `system/DocumentReference.rs` |
+| [ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) | Consumer → Provider | Retrieve Document | `system/Binary.r` |
+| [ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) | Producer → Provider | Provide Document Bundle | `system/DocumentReference.c`, `system/Binary.c` |
 
-Document Producer → Document Access Provider
+### Sequence Diagram
 
-Transaction bundle containing DocumentReference + Binary resources.
+```mermaid
+sequenceDiagram
+    participant Consumer as Document Consumer
+    participant Provider as Document Access Provider
 
-**Endpoint**: `POST [base]` (transaction bundle)
+    Consumer->>Provider: GET /DocumentReference?patient=...&type=... (ITI-67)
+    Provider-->>Consumer: Bundle of DocumentReferences
 
-**Scope**: `system/DocumentReference.c`, `system/Binary.c`
+    Consumer->>Provider: GET /Binary/[id] (ITI-68)
+    Provider-->>Consumer: Document content
+```
 
-**Constraints**:
-- DocumentReference SHALL conform to EEHRxF DocumentReference profile for declared priority category
-- Binary content SHALL be valid EEHRxF content (FHIR document Bundle)
-- DocumentReference.type and .format SHALL match priority category value sets
+### Examples
 
-See [IHE MHD ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) for transaction details.
+#### Patient Summary
 
-### ITI-67: Find Document References (Search)
+```http
+GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|60591-5&status=current
+```
 
-Document Consumer → Document Access Provider
+#### Medical Test Results
 
-Query for DocumentReference resources.
+```http
+GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|11502-2&status=current
+```
 
-**Endpoint**: `GET [base]/DocumentReference?[parameters]`
+#### Imaging Reports
 
-**Required Parameters**:
-- `patient` (required)
-- `_count` (for paging)
+```http
+GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|REPORTS&context.practiceSetting=http://snomed.info/sct|394914008&status=current
+```
 
-**Optional Parameters**:
-- `type` - Document type (e.g., Patient Summary LOINC code)
-- `date` - Creation date range
-- `category` - Document category
-- `format` - Format code
-- `status` - Document status
+#### Imaging Manifests
 
-**Scope**: `system/DocumentReference.rs`, `system/Patient.rs`
+```http
+GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|IMAGES&status=current
+```
 
-**Paging**: Response includes `link` with `relation="next"` when more results available.
+#### Hospital Discharge Reports
 
-See [IHE MHD ITI-67](https://profiles.ihe.net/ITI/MHD/ITI-67.html) for transaction details.
+```http
+GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|18842-5&status=current
+```
 
-### ITI-68: Retrieve Document (Retrieve)
+### Document Publication (ITI-65)
 
-Document Consumer → Document Access Provider
+Document Producers publish documents by POSTing a transaction Bundle:
 
-Retrieve document content.
+```http
+POST [base]
+Content-Type: application/fhir+json
+```
 
-**Endpoint**: `GET [base]/Binary/[id]`
+The Bundle contains DocumentReference + Binary resources. See [IHE MHD ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) for details.
 
-**Scope**: `system/Binary.r`
+### Document Search Strategy
 
-**Response**: Binary content with `Content-Type` matching DocumentReference.content.attachment.contentType
+This IG follows the [IHE approach for document discovery](https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System):
 
-**Supported Formats** (per priority category):
-- `application/fhir+json` (FHIR Bundle - document)
-- `application/pdf` (optional, for rendering)
-- `text/xml` (CDA, if supported)
+1. **Category** (coarse search): XDS ClassCode for broad classification
+2. **Type** (clinical precision): LOINC codes for specific document types
+3. **practiceSetting**: Differentiate clinical specialty (e.g., lab vs radiology)
 
-See [IHE MHD ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) for transaction details.
+#### Category Values (XDS ClassCode)
 
-## EEHRxF-Specific Constraints
+| Code | Use For |
+|------|---------|
+| `REPORTS` | Medical test results, imaging reports |
+| `SUMMARIES` | Patient summaries, discharge summaries |
+| `IMAGES` | Imaging manifests |
+| `PRESCRIPTIONS` | Medication prescriptions |
+| `DISPENSATIONS` | Medication dispensation records |
 
-While the MHD transaction mechanics are unchanged, this IG adds constraints on content:
+See [EEHRxFDocumentClassVS](ValueSet-eehrxf-document-class-vs.html) for the complete list.
 
-### DocumentReference Profile
+#### Type Values (LOINC)
 
-Inherits from IHE MHD Comprehensive DocumentReference with additional constraints:
-- Priority category-specific type/format value sets
-- Required metadata elements for EEHRxF
-- Content registry enforcement
+| LOINC Code | Priority Category |
+|------------|-------------------|
+| `60591-5` | Patient Summary |
+| `18842-5` | Hospital Discharge Report |
+| `11502-2` | Medical Test Results |
+| `68604-8` | Diagnostic Imaging Report |
 
-TODO: Define specific DocumentReference profiles per priority area.
+See [EEHRxFDocumentTypeVS](ValueSet-eehrxf-document-type-vs.html) for the complete list.
 
-### Content Validation
-
-Document Access Providers SHALL:
-- Validate DocumentReference.type/format against priority category value sets
-- Verify Binary content is valid EEHRxF format
-- Enforce required metadata elements
-
-## Authorization
-
-All MHD transactions require authorization via [SMART Backend Services](authorization.html) with appropriate scopes as listed above.
-
-## See Also
+### References
 
 - [IHE MHD Specification](https://profiles.ihe.net/ITI/MHD/)
-- [ITI-65 Provide Document Bundle](https://profiles.ihe.net/ITI/MHD/ITI-65.html)
-- [ITI-67 Find Document References](https://profiles.ihe.net/ITI/MHD/ITI-67.html)
-- [ITI-68 Retrieve Document](https://profiles.ihe.net/ITI/MHD/ITI-68.html)
+- [IHE XDS ClassCode Metadata](https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System)
 - [Actors and Transactions](actors.html)

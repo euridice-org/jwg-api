@@ -1,21 +1,19 @@
-# Patient Match
-
-## Overview
+### Overview
 
 Patient identification using IHE PDQm (Patient Demographics Query for Mobile). This transaction allows consumers to locate the correct Patient resource on a provider before querying for health information.
 
-## Actor Roles
+### Actor Roles
 
 | Actor | Role |
 |-------|------|
 | Consumer | Find a patient based on either identifier or demographics information |
 | Provider | Return information on supported patients and allow for searching of specific patients |
 
-## Transaction Options
+### Transaction Options
 
 Providers support one or more of the following patient identification mechanisms:
 
-### 1. Basic Patient Demographics Query (Required)
+#### 1. Basic Patient Demographics Query (Required)
 
 Identifier-based patient lookup using FHIR search. This option is suitable for well-established infrastructures where identifier-based matching is sufficient.
 
@@ -33,7 +31,7 @@ Providers implementing this transaction SHALL indicate the main identifiers used
 
 It is RECOMMENDED that identifier-based searches use one of the identifier systems declared in the provider's CapabilityStatement.
 
-### 2. Mobile Patient Demographics Query [ITI-78] (Optional)
+#### 2. Mobile Patient Demographics Query [ITI-78] (Optional)
 
 Full IHE PDQm demographics search supporting multiple search parameters:
 
@@ -43,7 +41,7 @@ GET [base]/Patient?family=Smith&given=John&birthdate=1970-01-01
 
 See [IHE PDQm ITI-78](https://profiles.ihe.net/ITI/PDQm/ITI-78.html) for full parameter list.
 
-### 3. Patient Demographics Match [ITI-119] (Optional)
+#### 3. Patient Demographics Match [ITI-119] (Optional)
 
 Patient $match operation for fuzzy demographic matching:
 
@@ -55,7 +53,7 @@ Body contains a Parameters resource with demographic information. The server res
 
 See [IHE PDQm ITI-119](https://profiles.ihe.net/ITI/PDQm/ITI-119.html) for details.
 
-## Provider Requirements
+### Provider Requirements
 
 | Actor | Transaction | Optionality |
 |-------|-------------|-------------|
@@ -68,13 +66,13 @@ See [IHE PDQm ITI-119](https://profiles.ihe.net/ITI/PDQm/ITI-119.html) for detai
 
 Providers are RECOMMENDED to implement either the Demographics Query or Match operation in addition to the Basic Demographics Query.
 
-## Authorization
+### Authorization
 
 When grouped with IUA actors:
 - Consumer uses Get Access Token [ITI-71] with appropriate scope
 - Provider enforces authorization via Incorporate Access Token [ITI-72]
 
-## Example Flow
+### Example
 
 ```mermaid
 sequenceDiagram
@@ -87,7 +85,7 @@ sequenceDiagram
     Note over Consumer: Consumer uses Patient.id<br/>for subsequent queries
 ```
 
-## References
+### References
 
 - [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html)
 - [ITI-78 Mobile Patient Demographics Query](https://profiles.ihe.net/ITI/PDQm/ITI-78.html)

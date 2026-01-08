@@ -1,10 +1,8 @@
-# Capability Discovery
-
-## Overview
+### Overview
 
 Systems discover capabilities via FHIR CapabilityStatement (`GET /metadata`). This allows consumers to inspect what functionality a provider supports before attempting transactions.
 
-## Transaction
+### Transaction
 
 Capability discovery uses the standard FHIR capabilities interaction:
 
@@ -19,14 +17,16 @@ The server returns a CapabilityStatement resource that declares:
 - Supported search parameters
 - Priority category support (see below)
 
-## Actor Roles
+### Provider Actors
 
-| Actor | Role |
-|-------|------|
-| Consumer | Inspect the capabilities of a provider |
-| Provider | Provide information on its capabilities via CapabilityStatement |
+Different provider actors advertise different capabilities:
 
-## Priority Category Support
+- **Document Access Provider**: Advertises document exchange capabilities (MHD ITI-65, ITI-67, ITI-68 transactions)
+- **Resource Access Provider**: Advertises resource query capabilities (QEDm PCC-44 transactions)
+
+A system may implement one or both sets of capabilities depending on its role.
+
+### Priority Category Support
 
 Servers declare which EHDS ANNEX II priority categories they support using `CapabilityStatement.instantiates` to reference the appropriate capability statements defined in this IG:
 
@@ -37,7 +37,7 @@ Servers declare which EHDS ANNEX II priority categories they support using `Capa
 - Imaging Reports
 - Imaging Manifests (R5, future extension)
 
-**Mechanism**: 
+**Mechanism**:
 
 Providers instantiate one or more of the following CapabilityStatements:
 - Document Access Provider for [Priority Area] (references DocumentReference profiles, MHD transactions)
@@ -45,25 +45,7 @@ Providers instantiate one or more of the following CapabilityStatements:
 
 Consumers inspect `CapabilityStatement.instantiates` to determine which priority categories are supported and which exchange patterns (document vs resource) are available.
 
-TODO: Define specific CapabilityStatement resources and profile references for each priority area.
-
-## Content Registry
-
-Priority categories link to external HL7 EU IGs defining the content profiles:
-- Category → IG canonical URL + version
-- DocumentReference.type/format allowed value sets per category
-- Servers enforce content registry on publication and query
-
-## Provider Actors
-
-Different provider actors advertise different capabilities:
-
-- **Document Access Provider**: Advertises document exchange capabilities (MHD ITI-65, ITI-67, ITI-68 transactions)
-- **Resource Access Provider**: Advertises resource query capabilities (QEDm PCC-44 transactions)
-
-A system may implement one or both sets of capabilities depending on its role.
-
-## Example Capability Discovery Flow
+### Example Capability Discovery Flow
 
 ```mermaid
 sequenceDiagram
@@ -76,7 +58,7 @@ sequenceDiagram
     Note over Consumer: Consumer inspects:<br/>- instantiates (priority categories)<br/>- rest.resource (supported resources)<br/>- rest.interaction (MHD/QEDm support)
 ```
 
-## See Also
+### See Also
 - [FHIR CapabilityStatement](https://hl7.org/fhir/R4/capabilitystatement.html)
 - [Actors and Transactions](actors.html)
 - [IHE MHD](https://profiles.ihe.net/ITI/MHD/)

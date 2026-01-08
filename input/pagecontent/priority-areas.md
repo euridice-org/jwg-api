@@ -5,5 +5,5 @@ This specification contains detailed API requirement for the specifications of t
 * [Hospital Discharge Reports](priority-area-hdr.html)
 * Imaging
   * [Imaging manifests](priority-area-imaging-manifest.html)
-  * [Imaging reports](priority-area-imaging-r4.html)
+  * [Imaging reports](priority-area-imaging-report.html)
 * [Medication prescription and dispense](priority-area-mpd.html)
