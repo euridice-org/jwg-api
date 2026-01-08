@@ -1,5 +1,18 @@
 # Retrieve a European Patient Summary
 
+This example walks through a complete workflow for accessing a Patient Summary document for a known patient.
+
+## Scenario
+
+A Document Consumer needs to access the European Patient Summary for a patient who is being seen in their facility. The patient has received care in another organization that operates a Document Access Provider system with the patient's health data.
+
+## Actors
+
+- **[Document Consumer](actors.html#document-consumer)** - The healthcare provider's system requesting the Patient Summary
+- **[Document Access Provider](actors.html#document-access-provider)** - The system holding the patient's health data
+
+## Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Consumer as Document Consumer
@@ -21,17 +34,6 @@ sequenceDiagram
     Consumer->>Provider: GET /Binary/[id] (ITI-68)
     Provider-->>Consumer: Patient Summary Document
 ```
-
-This example walks through a complete workflow for accessing a Patient Summary document for a known patient.
-
-## Scenario
-
-A Document Consumer needs to access the European Patient Summary for a patient who is being seen in their facility. The patient has received care in another organization that operates a Document Access Provider system with the patient's health data.
-
-## Actors
-
-- **[Document Consumer](actors.html#document-consumer)** - The healthcare provider's system requesting the Patient Summary
-- **[Document Access Provider](actors.html#document-access-provider)** - The system holding the patient's health data
 
 ## Prerequisites
 

@@ -4,19 +4,6 @@
 
 Authorization is required for all API transactions. This IG uses SMART Backend Services for system-to-system authorization, grouped with IHE IUA actors.
 
-```mermaid
-sequenceDiagram
-    participant Client as IUA Authorization Client
-    participant AuthZ as IUA Authorization Server
-    participant Resource as IUA Resource Server
-
-    Client->>AuthZ: POST /token (client_credentials, signed JWT)
-    AuthZ-->>Client: Access Token
-
-    Client->>Resource: GET /Patient?identifier=... (Bearer token)
-    Resource-->>Client: Bundle (search results)
-```
-
 ## Scope: System-to-System Authorization
 
 This specification defines **system-to-system** authorization only:
@@ -118,6 +105,21 @@ Scopes follow [SMART v2 conventions](https://build.fhir.org/ig/HL7/smart-app-lau
 - **Document/Resource Producer:** IUA Authorization Client
 - **Document/Resource Consumer:** IUA Authorization Client
 - **Document/Resource Access Provider:** IUA Authorization Server + Resource Server
+
+## Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as IUA Authorization Client
+    participant AuthZ as IUA Authorization Server
+    participant Resource as IUA Resource Server
+
+    Client->>AuthZ: POST /token (client_credentials, signed JWT)
+    AuthZ-->>Client: Access Token
+
+    Client->>Resource: GET /Patient?identifier=... (Bearer token)
+    Resource-->>Client: Bundle (search results)
+```
 
 ## Transport Security {#transport-security}
 
