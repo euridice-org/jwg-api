@@ -41,4 +41,3 @@ The following actors are defined:
 
 Note: EPS Document Consumer and Providers SHALL use the [EPS MHD DocumentReference](StructureDefinition-EpsMhdDocumentReference.html) profile to represent EPS documents.
 
-> **Open Issue:** How to best reflect this in CapabilityStatement. All the combinations of options make this difficult to express without generating a massive amount of CapabilityStatements. Would a CapabilityStatement profile be an option?

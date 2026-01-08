@@ -42,7 +42,7 @@ For the complete step-by-step workflow with authorization details and example re
 
 For retrieval of imaging studies (DICOM images) as opposed to textual reports, see [Document Exchange - Example 5: Find Imaging Manifests](document-exchange.html#example-5-find-imaging-manifests).
 
-> **Open Issue**: The coding approach for imaging manifests is an open issue. See [Open Issues](open-issues.html) for details.
+See [Open Issues](open-issues.html) for notes on imaging manifest coding.
 
 ## See Also
 

@@ -136,8 +136,8 @@ menu:
   Home: index.html
   Background:
     Regulatory Anchors: regulatoryAnchors.html
-    Member State Architectures: member-state-architectures.html
     Actors and Transactions: actors.html
+    Member State Architectures: member-state-architectures.html
   Functional Requirements:
     Capability Discovery: capability-discovery.html
     Authorization: authorization.html

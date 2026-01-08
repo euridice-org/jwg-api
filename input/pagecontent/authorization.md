@@ -4,6 +4,48 @@
 
 Authorization is required for all API transactions. This IG uses SMART Backend Services for system-to-system authorization, grouped with IHE IUA actors.
 
+```
+┌──────────────────┐                              ┌──────────────────┐
+│                  │                              │                  │
+│  Authorization   │                              │    Resource      │
+│     Client       │                              │     Server       │
+│                  │                              │                  │
+└────────┬─────────┘                              └────────┬─────────┘
+         │                                                 │
+         │  1. POST /token                                 │
+         │     grant_type=client_credentials               │
+         │     client_assertion=<signed JWT>               │
+         │  ─────────────────────────────────────────►     │
+         │                                                 │
+         │  2. Access Token                                │
+         │  ◄─────────────────────────────────────────     │
+         │                                                 │
+         │  3. GET /Patient?identifier=...                 │
+         │     Authorization: Bearer <token>               │
+         │  ─────────────────────────────────────────►     │
+         │                                                 │
+         │  4. Bundle (search results)                     │
+         │  ◄─────────────────────────────────────────     │
+         │                                                 │
+```
+
+## Scope: System-to-System Authorization
+
+This specification defines **system-to-system** authorization only:
+- Client systems authenticate with client credentials
+- No user-level authentication is required at the API level
+- User-level access decisions are the responsibility of national infrastructure
+
+### Out of Scope for This Version
+
+The following are explicitly out of scope for this version of the specification:
+- User-facing OAuth2 flows (authorization_code grant)
+- EIDAS authentication integration
+- EU Digital Identity Wallet integration
+- Patient-facing application authorization
+
+These may be addressed in future versions. Member States MAY layer user-level authorization on top of system-to-system authorization as appropriate for their national infrastructure.
+
 ## Client Registration
 
 Out of band, the Consumer registers identity credentials (public key, client identifier) with the Access Provider.
@@ -77,10 +119,6 @@ Scopes follow SMART v2 conventions and align with required MHD and QEDm transact
 - `system/Patient.rs` - Read/search Patient
 - Additional scopes per resource type: `system/Observation.rs`, `system/Condition.rs`, `system/DiagnosticReport.rs`, etc.
 
-**Note**: Scopes are examples aligned with typical MHD/QEDm interactions. Actual scope enforcement depends on deployment context and authorization server policy.
-
-> **Open Issue:** Define normative scope requirements per actor and transaction.
-
 ### Scope Matrix
 
 The following table defines the required scopes for each actor and interaction. Authorization servers SHALL enforce these scope requirements.
@@ -99,16 +137,6 @@ Scope conventions follow the [SMART Backend Services specification](https://buil
 - `.s` = search
 - `.rs` = read and search
 - `.c` = create
-
-### Wildcard Scope Restrictions
-
-Wildcard scopes SHALL NOT be requested or granted. The following patterns are explicitly prohibited:
-
-- `system/*.*` (all resources, all operations)
-- `system/*.rs` (all resources, read/search operations)
-- `system/*.cruds` (all resources, all CRUDS operations)
-
-**Rationale**: Wildcard scopes violate the principle of least privilege and prevent meaningful access control. Clients SHALL request only the specific resource-level scopes required for their use case.
 
 ## IHE IUA Actor Groupings
 
@@ -130,80 +158,6 @@ All API communications SHALL use TLS 1.2 or higher.
 - Certificates SHALL be issued by a trusted Certificate Authority (CA)
 - Self-signed certificates SHALL NOT be used in production environments
 - Certificates SHOULD use a minimum key size of 2048 bits for RSA or 256 bits for ECDSA
-
-## Error Responses
-
-- `401 Unauthorized` - Missing or invalid token
-- `403 Forbidden` - Insufficient scopes
-
-### Error Response Examples
-
-Authorization failures SHALL return an OperationOutcome resource with appropriate error details.
-
-#### 401 Unauthorized - Missing or Invalid Token
-
-```json
-{
-  "resourceType": "OperationOutcome",
-  "issue": [
-    {
-      "severity": "error",
-      "code": "security",
-      "details": {
-        "coding": [
-          {
-            "system": "http://terminology.hl7.org/CodeSystem/operation-outcome",
-            "code": "MSG_AUTH_REQUIRED"
-          }
-        ],
-        "text": "Authentication required. No valid access token provided."
-      },
-      "diagnostics": "The request did not include a valid Bearer token in the Authorization header."
-    }
-  ]
-}
-```
-
-#### 403 Forbidden - Insufficient Scope
-
-```json
-{
-  "resourceType": "OperationOutcome",
-  "issue": [
-    {
-      "severity": "error",
-      "code": "forbidden",
-      "details": {
-        "coding": [
-          {
-            "system": "http://terminology.hl7.org/CodeSystem/operation-outcome",
-            "code": "MSG_NO_ACCESS"
-          }
-        ],
-        "text": "Insufficient scope for this operation."
-      },
-      "diagnostics": "The access token does not include the required scope: system/DocumentReference.c"
-    }
-  ]
-}
-```
-
-## Scope: System-to-System Authorization
-
-This specification defines **system-to-system** authorization only:
-- Client systems authenticate with client credentials
-- No user-level authentication is required at the API level
-- User-level access decisions are the responsibility of national infrastructure
-
-### Out of Scope for This Version
-
-The following are explicitly out of scope for this version of the specification:
-- User-facing OAuth2 flows (authorization_code grant)
-- EIDAS authentication integration
-- EU Digital Identity Wallet integration
-- Patient-facing application authorization
-
-These may be addressed in future versions. Member States MAY layer user-level authorization on top of system-to-system authorization as appropriate for their national infrastructure.
 
 ## References
 

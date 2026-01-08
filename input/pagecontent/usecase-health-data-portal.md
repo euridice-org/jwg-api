@@ -33,4 +33,3 @@ The portal implements Consumer actors with patient-specific authorization:
 - Portal queries only for data belonging to the authenticated patient
 - Patient consent preferences are enforced
 
-> **Open Issue:** Add guidance on patient-scoped authorization and consent enforcement mechanisms.

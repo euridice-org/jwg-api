@@ -119,6 +119,6 @@ Jan 6, 2026 - Initial IG Publication: In order to harmonize with XT-EHR Work pac
 
 # Patient Rights
 
-> **Open Issue:** How patient rights are upheld depends on the context of the member state interoperability network. Further guidance needed.
+Patient rights under EHDS (such as the right to access data, right to restriction, and right to opt-out) are exercised through national infrastructure, not through the EHR API directly. See [Open Issues](open-issues.html) for additional guidance needed.
 
 

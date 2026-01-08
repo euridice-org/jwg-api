@@ -36,4 +36,3 @@ The portal may query:
 - National infrastructure that federates queries
 - Regional health information exchange systems
 
-> **Open Issue:** Add deployment architecture diagram and detailed authorization flow.

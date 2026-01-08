@@ -31,6 +31,3 @@ Member States can choose the approach that best fits their current infrastructur
 - Pure FHIR implementation
 - MHD facade over XDS/XCA
 - Hybrid approaches
-
-> **Open Issue:** Add architectural diagrams showing different implementation patterns and mappings.
-

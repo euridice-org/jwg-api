@@ -6,9 +6,6 @@ This is similar to the approach taken in the MHDS specification, but with a more
 
 ## Relevant Specifications:
 
-- [IHE Consistent Time](https://profiles.ihe.net/ITI/TF/Volume1/ch-7.html) - Defines the use of Network Time Protocol (NTP) to provide consistent time across systems.
-- [IHE ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-8.html) - Defines secure communication and audit logging requirements for healthcare systems.
-  - [RESTful ATNA](https://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_Suppl_RESTful-ATNA.pdf) - Defines the use of FHIR AuditEvent rather than the legacy audit log format.
 - Client App and User Authorization
   - [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
   - [HL7 SMART Backend Services](https://hl7.org/fhir/smart-app-launch/) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and FHIR scopes.
@@ -20,6 +17,10 @@ This is similar to the approach taken in the MHDS specification, but with a more
 - Resource Exchange
   - [HL7 International Patient Access](https://hl7.org/fhir/uv/ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access.
   - [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server.
+- Foundational
+  - [IHE Consistent Time](https://profiles.ihe.net/ITI/TF/Volume1/ch-7.html) - Defines the use of Network Time Protocol (NTP) to provide consistent time across systems.
+  - [IHE ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-8.html) - Defines secure communication and audit logging requirements for healthcare systems.
+    - [RESTful ATNA](https://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_Suppl_RESTful-ATNA.pdf) - Defines the use of FHIR AuditEvent rather than the legacy audit log format.
 
 # Document Exchange
 
@@ -77,7 +78,6 @@ This leads to the following required transactions between these actors:
 </figure>
 <br clear="all">
 
-> **Open Issue:** Add transaction table for document exchange actors.
 
 See the following functional pages for detailed transaction information:
 - [Authorization](authorization.html) - Authentication and authorization flows
@@ -145,9 +145,6 @@ This leads to the following required transactions between these actors:
 </figure>
 <br clear="all">
 
-> **Open Issue:** Analysis of what to inherit from IPA vs IHE QEDm vs EU Core.
-
-> **Open Issue:** Determine which resources from each priority area should be in scope for resource exchange (not all resources are appropriate for granular exchange).
 
 
 
@@ -155,7 +152,6 @@ This leads to the following required transactions between these actors:
 
 ## Example Groupings
 
-> **Open Issue:** Add narrative explaining the example groupings below.
 
 <div style="text-align: center;">
 {% include img.html img="ExGroup_Doc.png" caption="Figure: Example Grouping - Document" %}
@@ -177,11 +173,9 @@ We leave the details of implementation up to individual priority category area, 
 ## ePrescription and eDispenation with IHE MPD
 For example, the [IHE MPD specification actors](https://profiles.ihe.net/PHARM/MPD/actors-transactions.html) could be stacked in a similar way to accomplish a prescription workflow:
 
-> **Open Issue:** Add diagram with IUA + PDQm + MPD Actors showing Order Placer, Order Receiver groupings.
 
 ## Image Access with IHE MADO
 
-> **Open Issue:** Review imaging actor groupings with imaging experts.
 
 In the imaging priority category, IHE-RAD (MADO) transactions are used to provide access to DICOM images.
 
@@ -189,4 +183,3 @@ The IHE MADO Profile starts with a precondition that an Image Consumer has gaine
 
 A composite actor could be created inheriting Document Consumer + MADO Image Consumer.
 
-> **Open Issue:** Add diagram showing Image Consumer as composite of Document Consumer + MADO Image Consumer.

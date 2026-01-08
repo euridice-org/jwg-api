@@ -43,5 +43,3 @@ All layers exchange EEHRxF-formatted data to ensure semantic interoperability.
 - Patient consent for cross-border access
 - Healthcare professional authentication in requesting country
 - Authorization decisions at multiple levels (NCP, national infrastructure, EHR system)
-
-> **Open Issue:** Add detailed architecture diagram showing all layers and data flow.
