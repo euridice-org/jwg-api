@@ -77,6 +77,8 @@ pages:
       title: Actors and Transactions
     changes.md:
       title: Change Log
+    open-issues.md:
+      title: Open Issues
   functional.md:
     title: Functional Requirements
     capability-discovery.md:
@@ -142,6 +144,7 @@ menu:
     Actors and Transactions: actors.html
     Member State Architectures: member-state-architectures.html
     Change Log: changes.html
+    Open Issues: open-issues.html
   Functional Requirements:
     Capability Discovery: capability-discovery.html
     Authorization: authorization.html
