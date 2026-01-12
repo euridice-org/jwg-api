@@ -39,7 +39,7 @@ sequenceDiagram
 
 ### Core Resources
 
-The following resources are available for read/search access. Data models inherit from [HL7 Europe Base](https://build.fhir.org/ig/hl7-eu/base/).
+The following resources are available for read/search access. Data models inherit from [HL7 Europe Core](https://build.fhir.org/ig/hl7-eu/base/).
 
 | Resource | Search Parameters |
 |----------|-------------------|
