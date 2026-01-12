@@ -66,6 +66,8 @@ See [IHE PDQm ITI-119](https://profiles.ihe.net/ITI/PDQm/ITI-119.html) for detai
 
 Providers are RECOMMENDED to implement either the Demographics Query or Match operation in addition to the Basic Demographics Query.
 
+> **Open Issue #2**: We are seeking input on how patient lookup should work in the European context. See [Patient Lookup Strategy](open-issues.html#issue-2-patient-lookup-strategy) for discussion.
+
 ### Authorization
 
 When grouped with IUA actors:

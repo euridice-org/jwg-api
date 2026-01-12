@@ -93,6 +93,8 @@ GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19
 GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|IMAGES&status=current
 ```
 
+> **Open Issue #8**: We are seeking input on how imaging manifests should be coded. See [Imaging Manifest Coding](open-issues.html#issue-8-imaging-manifest-coding) for discussion.
+
 #### Hospital Discharge Reports
 
 ```
@@ -109,6 +111,8 @@ Content-Type: application/fhir+json
 ```
 
 The Bundle contains DocumentReference + Binary resources. See [IHE MHD ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) for details.
+
+> **Open Issue #3**: We are seeking input on MHD publication transaction options. See [MHD Publication Transaction Options](open-issues.html#issue-3-mhd-publication-transaction-options) for discussion.
 
 ### References
 

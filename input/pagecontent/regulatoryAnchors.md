@@ -52,28 +52,17 @@ Xt-EHR deliverable 5.1 interpreted the EHDS Annex II requirements for EHR system
 
 [diagram]
 
-This Implementation Guide has adjusted the D5.1 actor model ((based on feedback from member state stakeholders and harmonization with the priority category Xt-EHR work packages) to ren
+This Implementation Guide refines the D5.1 actor model by separating the **Producer** role into a **[Document Producer](actors.html#document-producer)** (which creates and publishes documents) and a **[Document Access Provider](actors.html#document-access-provider)** (which hosts APIs for document query and retrieval). The Access Provider assumes the server-side responsibilities from the original Producer role.
 
-- Accordingly, D5.1's "Producer" role has been refined in this IG as **Provider**, with more specific actor types including Document Access Provider, Resource Access Provider, and Document Producer.
-- S can act as [Document Producers](actors.html#document-producer) that supply content to a separate [Document Access Provider](actors.html#document-access-provider)
+This adjustment addresses real-world deployment scenarios:
 
-The Consumer role is similarly refined into Document Consumer and Resource Consumer. See the [Actors page](actors.html) for complete actor definitions.
+1. **Fit to real-world system architectures**: The system that creates clinical data is not necessarily the system that typically hosts API access to that data, and not all EHR systems are well-fit to serving real-time queries 24/7. For example, an iPad clinician app may produce documents but does not make a good server. Such a system may "make its data available" by publishing documents to a hospital-level Document Access Provider that hosts an API to provide access to Consumers.
 
+2. **Aggregation at hospital scale**: A hospital document management system (Document Access Provider) aggregates data from departmental modules (Document Producers) to offer a single entry point for clinicians or a single access point for external consumers.
 
+3. **Aggregation at national scale**: In many EU member states, healthcare organization EHRs (Document Producers) submit documents to a national repository (Document Access Provider), which provides access to data across the region.
 
-This accomplishes the following:
-
-
-
- to address real-world implementation requirements identified through Xt-EHR work packages 6 and 7 (priority category specifications) and feedback from member states. The refined actor model accounts for:
-- Aggregation at hospital and national scale: Recognizes that providing access to EHR data may be accomplished by intermediary systems (hospital data aggregators, national health information exchanges) rather than solely by individual EHR systems.
-- Separation of data production from data access: It is not necessarily true that the system that produces/stores clinical data is the same system that provides API access to that data. This enables centralized API gateways and data repositories.
-- Not all EHR systems are well-suited to serving real-time queries 24/7. This enables those systems
-
-
-4. **Priority category exchange patterns**: Aligns with the specific data exchange needs defined in Xt-EHR work packages 6 and 7, where some priority categories are best exchanged as documents while others benefit from resource-level queries.
-
-
+See [Actors](actors.html) for complete definitions and [Example Groupings](actors.html#example-groupings) for deployment illustrations.
 
 ### Requirements Table
 

@@ -61,6 +61,8 @@ These composite actors inherit existing actors from the IUA, PDQm, and MHD speci
 - [MHD Document Recipient](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentRecipient.html))
 - [MHD Document Responder](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentResponder.html))
 
+> **Open Issue #6**: Should the Authorization Server be assumed as part of the Document Access Provider? See [Authorization Server Deployment](open-issues.html#issue-6-authorization-server-deployment) for discussion.
+
 **Document Consumer**
 
 - [IUA Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client)
