@@ -23,7 +23,7 @@ Laboratory reports are retrieved using the same pattern as other documents. The 
 
 #### Example Query
 
-```http
+```
 GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|11502-2&status=current
 ```
 

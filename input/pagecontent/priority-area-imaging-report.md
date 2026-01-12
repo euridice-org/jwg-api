@@ -24,13 +24,13 @@ Imaging reports are retrieved using the same pattern as other documents. The ret
 
 #### Example Query
 
-```http
+```
 GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|68604-8&status=current
 ```
 
 Alternatively, you can search by category and practiceSetting to find all radiology reports:
 
-```http
+```
 GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|REPORTS&context.practiceSetting=http://snomed.info/sct|394914008&status=current
 ```
 

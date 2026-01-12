@@ -39,18 +39,19 @@ sequenceDiagram
 
 ### Core Resources
 
-The following resources are available for read/search access. Data models inherit from [HL7 Europe Base](https://build.fhir.org/ig/hl7-eu/base/).
+The following resources are available for read/search access. Data models inherit from [HL7 Europe Core](https://build.fhir.org/ig/hl7-eu/base/).
 
-| Resource | Search Parameters |
-|----------|-------------------|
-| AllergyIntolerance | `patient` |
-| Condition | `patient`, `clinical-status` |
-| Observation | `patient`, `category`, `date` |
-| DiagnosticReport | `patient`, `category` |
-| MedicationRequest | `patient`, `status` |
-| MedicationStatement | `patient`, `status` |
-| Immunization | `patient`, `date` |
-| Encounter | `patient`, `date` |
+- AllergyIntolerance
+- Condition
+- Observation
+- DiagnosticReport
+- MedicationRequest
+- MedicationDispense
+- MedicationStatement
+- Immunization
+- Encounter
+
+> **Open Issue #9**: We are seeking validation of this core resource set. See [Core Resource Set Validation](open-issues.html#issue-9-core-resource-set-validation) for discussion.
 
 ### Scopes
 
@@ -66,7 +67,7 @@ system/Encounter.rs
 
 ### Example Queries
 
-```http
+```
 GET /AllergyIntolerance?patient=123
 GET /Condition?patient=123&clinical-status=active
 GET /Observation?patient=123&category=vital-signs&date=ge2024-01-01
@@ -99,3 +100,5 @@ If resources are derived from documents, Provenance SHOULD link to source Docume
 ### IPA vs QEDm
 
 Both IPA and QEDm define similar resource access patterns. This IG uses IPA as the primary reference for CapabilityStatements and aligns with QEDm transaction semantics. The approaches are compatible and complementary.
+
+> **Open Issue #4**: We are seeking input on IPA vs QEDm inheritance. See [Resource Access and Inheritance](open-issues.html#issue-4-resource-access-and-inheritance) for discussion.

@@ -16,7 +16,7 @@ European Patient Summary data can be accessed using either document or resource 
 
 For document-based access, use the [Document Exchange](document-exchange.html) transactions:
 
-```http
+```
 GET /DocumentReference?patient=123&type=http://loinc.org|60591-5&status=current
 ```
 

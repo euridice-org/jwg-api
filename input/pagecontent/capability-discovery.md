@@ -45,6 +45,8 @@ Providers instantiate one or more of the following CapabilityStatements:
 
 Consumers inspect `CapabilityStatement.instantiates` to determine which priority categories are supported and which exchange patterns (document vs resource) are available.
 
+> **Open Issue #5**: We are seeking input on how servers should declare priority category support. See [CapabilityStatement and Priority Category Declaration](open-issues.html#issue-5-capabilitystatement-and-priority-category-declaration) for discussion.
+
 ### Example Capability Discovery Flow
 
 ```mermaid

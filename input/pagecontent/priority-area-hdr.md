@@ -25,7 +25,7 @@ Hospital discharge reports are retrieved using the same pattern as other documen
 
 #### Example Query
 
-```http
+```
 GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|18842-5&status=current
 ```
 
