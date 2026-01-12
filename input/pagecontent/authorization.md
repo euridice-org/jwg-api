@@ -1,23 +1,16 @@
 ### Overview
 
-Authorization is required for all API transactions. This IG uses SMART Backend Services for system-to-system authorization, grouped with IHE IUA actors.
+Authorization is required for all API transactions. This IG inherits [SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) for system-to-system authorization, grouped with IHE IUA actors.
+
+We adopt SMART Backend Services as specified—including token formats, JWT requirements, and authentication methods—to align with globally recognized specifications and reduce implementation burden.
 
 ### Scope: System-to-System Authorization
 
 This specification defines **system-to-system** authorization only:
 - Client systems authenticate with client credentials
 - No user-level authentication is required at the API level
-- User-level access decisions are the responsibility of national infrastructure
 
-#### Out of Scope for This Version
-
-The following are explicitly out of scope for this version of the specification:
-- User-facing OAuth2 flows (authorization_code grant)
-- EIDAS authentication integration
-- EU Digital Identity Wallet integration
-- Patient-facing application authorization
-
-These may be addressed in future versions. Member States MAY layer user-level authorization on top of system-to-system authorization as appropriate for their national infrastructure.
+User-level authorization requirements are not initial scope for this Implementation Guide.
 
 ### Sequence Diagram
 
@@ -133,6 +126,12 @@ All API communications SHALL use TLS 1.2 or higher.
 - Certificates SHALL be issued by a trusted Certificate Authority (CA)
 - Self-signed certificates SHALL NOT be used in production environments
 - Certificates SHOULD use a minimum key size of 2048 bits for RSA or 256 bits for ECDSA
+
+### Potential Future Work: User-Level Authorization
+
+User-level authorization (including patient-mediated access) is out of scope for this version of the implementation Guide. For patient-mediated access patterns, readers are encouraged to consider [SMART on FHIR App Launch](https://build.fhir.org/ig/HL7/smart-app-launch/) and [International Patient Access](https://build.fhir.org/ig/HL7/fhir-ipa/). Integration with the EU Digital Identity Wallet and eIDAS framework may be addressed in future editions.
+
+Member States MAY layer user-level authorization on top of system-to-system authorization as appropriate for their national infrastructure.
 
 ### References
 

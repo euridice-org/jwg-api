@@ -1,66 +1,18 @@
 # Open Issues
 
-This page tracks open issues requiring reviewer feedback. We encourage reviewers to provide comments via [GitHub Issues](https://github.com/euridice-org/jwg-api/issues) so that discussion can be centralized and tracked.
+## How to Provide Feedback
 
-For each issue below, we provide context and seek input from Member States, implementers, and Priority Category experts.
-
----
-
-## Issue 1: Patient Lookup Strategy
-
-**Status:** Decision needed
-**Priority:** High
-**GitHub:** [Create Issue](#)
-
-### Context
-
-Patient lookup is fundamental to all EHR API transactions. Currently, the IG references both PDQm and PIXm for patient lookup, creating "all of the above" interoperability which reduces clarity for implementers.
-
-### Current Approach
-
-The IG currently supports:
-- [PDQm](https://profiles.ihe.net/ITI/PDQm/) - Demographics-based patient search
-- [PIXm](https://profiles.ihe.net/ITI/PIXm/) - Identifier cross-reference lookup
-- Patient `$match` operation - Fuzzy matching
-
-### Proposed Simplification
-
-Reduce to two primary options:
-
-1. **Identifier Lookup** (covers ~90% of use cases)
-   - MRN or national ID based lookup
-   - May be a profile/constraint on ITI-78
-   - Simple and predictable
-
-2. **Patient $match** (fallback when identifier unknown)
-   - For fuzzy matching on demographics
-   - Used when patient identifier is not available
-
-Patient.search with name parameters should NOT be a third option—use `$match` instead when demographics-based matching is needed.
-
-### Related Questions
-
-- How should we formally model the identifier lookup transaction with IHE ITI?
-- Should CapabilityStatement advertise which national ID systems are supported for lookup?
-- Which Patient profile should be used: EU Core or FHIR base? (Recommendation: EU Core)
-
-### Seeking Input On
-
-- Is the two-option approach (identifier lookup + $match) appropriate for European use cases?
-- What identifier systems are commonly used across Member States?
-- Are there use cases requiring full PDQm demographics search that $match doesn't cover?
+We welcome feedback via [GitHub Issues](https://github.com/euridice-org/jwg-api/issues) or by attending the weekly [HL7 Europe API Workgroup Meetings](https://confluence.hl7.org/spaces/HEU/pages/345086021/EU+Health+Data+API+Edition+1).
 
 ---
 
-## Issue 2: Document Search and Priority Category Differentiation
+## Issue 1: Document Search and Priority Category Differentiation
 
-**Status:** Seeking guidance
-**Priority:** High (Chief Issue)
-**GitHub:** [Create Issue](#)
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/11) | **Priority:** High
 
-### Context
+How do we differentiate documents by EHDS Priority Category? Patient Summary, Imaging Results, Medical Test Results, and Hospital Discharge Reports are all FHIR Documents exposed via DocumentReference and MHD. How do we differentiate one from the other for systems that support multiple categories?
 
-A core challenge is how to differentiate documents by EHDS Priority Category. This is particularly complex for Laboratory and Imaging, which are families of tests with many sub-types.
+This is particularly complex for Medical Test Results and Imaging Results, which are families of many different types (cardiology studies, radiology reports, various lab panels, etc.).
 
 ### Current Approach
 
@@ -68,28 +20,19 @@ Following the [IHE XDS Metadata Coding White Paper](https://wiki.ihe.net/index.p
 
 | Parameter | Purpose | Coding System |
 |-----------|---------|---------------|
-| `category` | Coarse search | XDS ClassCode (REPORTS, SUMMARIES, IMAGES, etc.) |
+| `category` | Coarse search | XDS ClassCode (REPORTS, SUMMARIES, IMAGES) |
 | `type` | Clinical precision | LOINC codes |
 | `practiceSetting` | Differentiate within category | Healthcare setting codes |
-
-For example, to differentiate Laboratory Reports from Imaging Reports:
-- Both may have `category` = REPORTS
-- `type` uses different LOINC codes
-- `practiceSetting` indicates lab vs. radiology setting
 
 ### Open Questions
 
 1. **Value Sets**: Should we define local value sets for category/type, or inherit directly from IHE class codes and LOINC? What benefit does local definition provide?
 
-2. **Priority Category Alignment**: Current LOINC codes don't perfectly align with EEHRxF priority category names:
-   - "Laboratory Report" (LOINC 11502-2) vs. "Medical Test Results" priority category
-   - How should we handle this terminology gap?
+2. **Priority Category Alignment**: Current LOINC codes may be one step too specific for some categories (e.g., labs have many sub-types). How should we handle this terminology gap?
 
-3. **DocumentReference Profiles**: Should there be one shared DocumentReference profile for all priority categories, or separate profiles per priority area?
-   - Recommendation: One shared profile with example instances for each priority category
-   - Trade-off: Flexibility vs. explicit validation
+3. **DocumentReference Profiles**: Should there be one shared DocumentReference profile for all priority categories, or separate profiles per priority area? (Recommendation: one shared profile with example instances)
 
-4. **Imaging Manifest Coding**: No clean LOINC code exists for imaging manifests (DICOM references). Current approach uses `category`=IMAGES with format indicating DICOM content. Is this appropriate?
+4. **Imaging Manifest Coding**: See [Issue 8](#issue-8-imaging-manifest-coding) for specific imaging manifest questions.
 
 ### Seeking Input On
 
@@ -99,215 +42,250 @@ For example, to differentiate Laboratory Reports from Imaging Reports:
 
 ---
 
-## Issue 3: MHD Transaction Options
+## Issue 2: Patient Lookup Strategy
 
-**Status:** Decision needed
-**Priority:** High
-**GitHub:** [Create Issue](#)
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/12) | **Priority:** High
 
-### Context
+How should patient lookup work in the European context? In most EU situations, we expect patient identifiers (MRN, national ID) to be available. Demographic-based matching is needed when identifiers are not available.
 
-MHD offers multiple transaction options for document publication. Having multiple options creates complexity and interoperability challenges.
+### Current Approach
 
-### Current State
+The IG currently references three mechanisms:
+- [PDQm ITI-78](https://profiles.ihe.net/ITI/PDQm/) - Demographics-based patient search. Currently required in PDQm.
+- [PDQm Patient Demographics Match ITI-119](https://profiles.ihe.net/ITI/PDQm/ITI-119.html) - FHIR $match fuzzy matching operation (currently optional in PDQm)
+- [PIXm](https://profiles.ihe.net/ITI/PIXm/) - Identifier cross-reference (mentioned but not fully modeled)
 
-MHD provides:
-- **ITI-65 Provide Document Bundle** - Full publication with metadata
-- **ITI-106 Generate Metadata** - Server generates metadata from document
-- Other options...
+### Proposed Simplification
 
-### Proposal
+Reduce to two primary options:
 
-Pick one primary approach to reduce optionality and simplify implementation guidance.
+1. **Identifier Lookup** - MRN or national ID based lookup (covers ~90% of EU use cases). Question: how do we formally model this with IHE ITI? May be a constrained profile of ITI-78.
+
+2. **Patient $match** - For demographic-based fuzzy matching when identifier is not available. This is the existing PDQm $match operation.
+
+### Open Questions
+
+- How should we model the identifier lookup transaction formally with IHE?
+- Should CapabilityStatement advertise which national ID systems are supported for lookup?
+- We should inherit Patient from EU Core. Does this change anything about the transaction definitions?
 
 ### Seeking Input On
 
-- Which MHD transaction pattern is most appropriate for European EHR systems?
-- Are there use cases requiring Generate Metadata vs. Provide Document Bundle?
-- Should we mandate one and make others optional/discouraged?
+- Does the two-option approach (identifier lookup + $match) cover European use cases?
+- Are there use cases requiring full PDQm demographics search that $match doesn't cover?
+- Is PIXm needed, or can we achieve the same with constrained PDQm?
+
+---
+
+## Issue 3: MHD Publication Transaction Options
+
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/13) | **Priority:** High
+
+MHD offers multiple transaction options for document publication. We want to reduce optionality and avoid introducing XDS dependencies where possible (For example: native FHIR servers don't need XDS submission set constructs).
+
+### MHD Options
+
+- [ITI-65 Provide Document Bundle](https://profiles.ihe.net/ITI/MHD/ITI-65.html) - Full publication with metadata (required in IHE)
+- [ITI-105 Simplified Publish](https://profiles.ihe.net/ITI/MHD/ITI-105.html) - Simplified publication
+- [ITI-106 Generate Metadata](https://profiles.ihe.net/ITI/MHD/ITI-106.html) - Server generates metadata from the document (needed?)
+
+### Proposal
+
+Use ITI-65 Provide Document Bundle as the primary approach since it's required in IHE MHD. This provides a clear, single path for implementers.
+
+### Seeking Input On
+
+- Is ITI-65 appropriate as the primary/only publication mechanism?
+- Does this introduce XDS SubmissionSet dependancies that don't make sense to FHIR servers?
+- Are there use cases requiring Generate Metadata or Simplified Publish?
 
 ---
 
 ## Issue 4: Resource Access and Inheritance
 
-**Status:** Analysis needed
-**Priority:** High
-**GitHub:** [Create Issue](#)
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/14) | **Priority:** High
 
-### Context
+Resource access (granular RESTful FHIR resource queries) could inherit from multiple specifications (IPA, QEDM). We need to clarify the inheritance. 
 
-Resource access (granular FHIR resource queries) can inherit from multiple specifications: IPA, QEDm, and EU Core. We need to clarify the inheritance hierarchy and identify any conflicts.
+We should inherit resource models from [EU Core](https://build.fhir.org/ig/hl7-eu/base/index.html) - and in this IG we need to define (1) Resource search parameters and (2) CapabilityStatements.
+
+IPA and QEDm are similar, but use slightly different search parameters (analysis needs to be done). Both profiles seem to be open to alignment with each other. Group generally prefers IPA - more adoption and maintenance.
 
 ### Current Approach
 
 - **Data Models**: Inherit from EU Core profiles
-- **Search Parameters**: Currently borrowed from IPA
-- **Transactions**: Reference both IPA and QEDm
+- **Search Parameters**: Copied from IPA
+- **Transactions**: Reference both IPA and QEDm, preferencing IPA
 
 ### Proposed Approach
 
+Start with IPA as foundation:
 1. **EU Core** for data models (profile definitions)
 2. **IPA** for search parameters and CapabilityStatement patterns
-3. **QEDm** alignment where possible (need conflict analysis)
+3. **QEDm** alignment where needed (comparison analysis required)
 
-### Core Resources
-
-The following resources are in scope for resource access:
-- Patient, Practitioner, Organization
-- Condition, AllergyIntolerance
-- MedicationRequest, MedicationStatement
-- Observation, DiagnosticReport
-- Encounter, Immunization
-
-### Open Questions
-
-1. **IPA vs QEDm**: Are there conflicts between IPA and QEDm requirements? Need comparison analysis.
-2. **Search Parameters**: Are IPA search parameters appropriate, or do we need European-specific additions?
-3. **Encounter**: Should Encounter be required (current recommendation) or optional?
+A separate issue ([Issue 9](#issue-9-core-resource-set-validation)) tracks validation of the core resource set.
 
 ### Seeking Input On
 
-- Is IPA the right foundation for search parameters?
-- What QEDm requirements should we incorporate?
-- Are there European-specific search needs not covered by IPA?
+- Here is the IPA foundation approach. Does it make sense for European use cases?
+- A comparison analysis between IPA and QEDm is needed. How should we handle differences?
 
 ---
 
 ## Issue 5: CapabilityStatement and Priority Category Declaration
 
-**Status:** Seeking guidance
-**Priority:** Medium
-**GitHub:** [Create Issue](#)
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/15) | **Priority:** Medium
 
-### Context
-
-How should servers declare which EHDS Priority Categories they support? The current CapabilityStatement approach may not adequately express this.
+Should servers declare which EHDS Priority Categories they support? How? Should this be in CapabilityStatement?
 
 ### Options
 
-1. **CapabilityStatement.instantiates** - Reference priority-category-specific CapabilityStatements
+1. **CapabilityStatement.instantiates** - Reference priority-category-specific CapabilityStatements (these would be example instances)
 2. **CapabilityStatement extensions** - Custom extensions declaring supported categories
 3. **Supported document type ValueSets** - Declare via supported DocumentReference.type bindings
-4. **Priority category-specific CapabilityStatements** - Separate CapabilityStatement per category
 
 ### Seeking Input On
 
 - Is priority category declaration needed at the CapabilityStatement level?
 - Which approach best balances expressiveness with implementation simplicity?
-- How do existing Member State systems declare document type support?
 
 ---
 
 ## Issue 6: Authorization Server Deployment
 
-**Status:** Seeking feedback
-**Priority:** Medium
-**GitHub:** [Create Issue](#)
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/16) | **Priority:** Medium
+
+The Document Access Provider composite actor currently groups several IHE actors, including IUA Authorization Server. The key question is whether the Authorization Server should be assumed as part of the Document Access Provider?
+
+Consider from the perspective of the EHR system evaluating conformance of their interoperability Component.
+
+### Current Grouping
+
+The Document Access Provider includes:
+- IUA Resource Server
+- **IUA Authorization Server** (under consideration here)
+- MHD Document Responder
+- MHD Document Recipient
+- PDQm Patient Demographics Supplier
 
 ### Context
 
-Implementation examples assume the authorization server is grouped with (part of) the Document Access Provider. This may not hold in all deployments.
+For EHR systems seeking conformance: are you bundling an authorization server, or using an external one?
 
-### Current Assumption
-
-The Document Access Provider composite actor includes:
-- IUA Authorization Server
-- IUA Resource Server
-- MHD Document Responder
-- PDQm Patient Demographics Supplier
-
-### Open Questions
-
-- Is this assumption valid for most European deployments?
-- How should we handle distributed authorization server scenarios?
-- Should diagrams show this as optional grouping?
+Authorization may be handled external to the EHR at a Member State level - with the EHR system acting as a *Document Producer* (authorization client) and the Member State infrastructure acts as the *Document Access Provider* with an authorization server.
 
 ### Seeking Input On
 
-- Do your systems have separate authorization servers from EHR/document servers?
-- What authorization architecture patterns are common in your Member State?
+- Is the assumption that Authorization Server is grouped with Document Access Provider valid for your deployment?
+- Should we reconsider this as an optional grouping?
 
 ---
 
-## Issue 7: Imaging Manifest and R4/R5 Harmonization
+## Issue 7: R4/R5 Harmonization
 
-**Status:** Seeking guidance
-**Priority:** Medium
-**GitHub:** [Create Issue](#)
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/17) | **Priority:** Medium
 
-### Context
+This IG targets FHIR R4, but some European specifications are R5-based. The EU Extensions package is R5, creating warnings in the R4 build. The HL7 Europe Imaging Study Manifest is also R5-based.
 
-This IG targets FHIR R4, but some European specifications (including HL7 Europe Imaging Study Manifest) are R5-based. Additionally, imaging manifests require special handling.
+### Seeking Input On
 
-### Imaging Manifest Approach (R4)
+- How should we handle R5 dependencies in an R4 IG?
 
-Current approach for imaging manifests (DICOM references):
+---
+
+## Issue 8: Imaging Manifest Coding
+
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/18) | **Priority:** Medium
+
+Imaging manifests (DICOM study references) need more detail on how they are exposed in document searches. No standard LOINC code exists for imaging manifests. How should a consumer search for Imaging Manifests, and how are they differentiated from other documents?
+
+### Current Approach
+
 - Delivered via MHD transactions
 - Use `category` = IMAGES (XDS ClassCode)
 - Use `format` to indicate DICOM content
-- No standard LOINC code exists for imaging manifests
 
-### R4/R5 Considerations
-
-- EU Extensions package is R5, creating warnings in R4 build
-- HL7 Europe Imaging Study Manifest is R5-based
-- Need harmonization strategy
+This is related to [Issue 1](#issue-1-document-search-and-priority-category-differentiation) but specific to imaging.
 
 ### Seeking Input On
 
-- Is the R4-first approach appropriate, with R5 as future direction?
-- How should we handle R5 dependencies in an R4 IG?
-- What imaging manifest coding approach works for your systems?
+- Is the current coding approach (category + format) appropriate for imaging manifests?
+- What coding approach should be used?
 
 ---
 
-## Issue 8: JWT Algorithm Requirements
+## Issue 9: Core Resource Set Validation
 
-**Status:** Seeking guidance
-**Priority:** Low
-**GitHub:** [Create Issue](#)
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/19) | **Priority:** Medium
 
-### Context
+The following resources are proposed as the core set for resource access (e.g. resource search entry points specifically, not all included resources). This needs validation from Priority Category owners.
 
-For SMART Backend Services authorization, should we require strict JWT signing algorithms or allow flexibility?
+Shared
+- Patient
+- Practitioner
+- Organization
 
-### Options
+Patient Summary
+- Condition
+- AllergyIntolerance
+- MedicationRequest
+- MedicationStatement
+- Immunization
 
-1. **Strict**: Require RS384 or ES384 only (stronger security)
-2. **Flexible**: Allow multiple algorithms per SMART Backend Services spec
+ePrescription/eDispensation
+- MedicationRequest
+- MedicationDispense
+
+Medical Test Results
+- Observation
+- DiagnosticReport
+
+Imaging Results
+- DiagnosticReport
+- ImagingStudy (note: R5 resource, linked to [Issue 7](#issue-7-r4r5-harmonization)
+
+Discharge Reports
+- Encounter
+
 
 ### Seeking Input On
 
-- What JWT algorithms are your systems currently using?
-- Are there regulatory requirements for specific algorithms in your Member State?
+- Is this resource set appropriate for the priority categories?
+- Are any resources missing that should be included?
+- Should Encounter be required?
 
 ---
 
-## Issue 9: FHIR Documents vs. Resources Guidance
+## Issue 10: FHIR Documents vs Resources Guidance
 
-**Status:** Content needed
-**Priority:** Low
-**GitHub:** [Create Issue](#)
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/20) | **Priority:** Low
 
-### Context
-
-The IG supports both document exchange (FHIR Documents via MHD) and resource access (granular FHIR resources). Guidance is needed on when to use each pattern.
+The IG supports both document exchange (FHIR Documents via MHD) and resource access (granular FHIR resources). A documentation page explaining when to use each pattern would be helpful.
 
 ### Seeking Input On
 
-- What use cases require document exchange vs. resource access in your context?
-- Would expanded guidance on choosing between patterns be helpful?
+- What use cases require document exchange vs resource access in your context?
+- Would you be interested in contributing this documentation?
 
 ---
 
-## How to Provide Feedback
+## Issue 11: MPD Workflow vs MedicationRequest Resource Access
 
-We welcome feedback through:
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/21) | **Priority:** Medium
 
-1. **GitHub Issues** (preferred): [https://github.com/euridice-org/jwg-api/issues](https://github.com/euridice-org/jwg-api/issues)
-2. **Email**: For those without GitHub access, contact the working group via [HL7 Europe](http://hl7.eu)
+The IG needs to clearly distinguish between medication resource access (in scope) and prescription workflow orchestration (out of scope, handled by MPD). Also this scope line should be reviewed with MPD Priority Category owners.
 
-When providing feedback, please:
-- Reference the issue number (e.g., "Issue 2: Document Search")
-- Describe your use case or context
-- Provide specific recommendations where possible
+### In Scope (This IG)
+
+Resource access queries like "which medications is this patient taking?" - reading MedicationRequest, MedicationStatement, and MedicationDispense resources.
+
+### Out of Scope (MPD)
+
+Prescription workflow orchestration like "transfer prescription authorization for dispense" - the workflow transactions for ePrescription and eDispensation are handled by [IHE MPD](https://profiles.ihe.net/PHARM/MPD/index.html)
+
+### Seeking Input On
+
+- Is this distinction clear in the current IG?
+- Are there medication-related use cases that fall between these two categories?
+- Should we handle it differently?

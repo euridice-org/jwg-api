@@ -79,7 +79,7 @@ The Bundle contains DocumentReference + Binary resources. See [IHE MHD ITI-65](h
 
 ### Document Search Strategy
 
-This IG follows the [IHE approach for document discovery](https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System):
+This IG follows the [IHE approach for document discovery](https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System). See [Open Issues](open-issues.html#issue-1-document-search-and-priority-category-differentiation) for discussion on this approach.
 
 1. **Category** (coarse search): XDS ClassCode for broad classification
 2. **Type** (clinical precision): LOINC codes for specific document types
