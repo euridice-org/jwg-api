@@ -66,7 +66,7 @@ system/Encounter.rs
 
 ### Example Queries
 
-```http
+```
 GET /AllergyIntolerance?patient=123
 GET /Condition?patient=123&clinical-status=active
 GET /Observation?patient=123&category=vital-signs&date=ge2024-01-01
