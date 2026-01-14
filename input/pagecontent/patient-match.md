@@ -81,13 +81,15 @@ When grouped with IUA actors:
 ```mermaid
 sequenceDiagram
     participant Consumer
-    participant Access Provider
+    participant Provider as Access Provider
 
-    Consumer->>Access Provider: GET /Patient?identifier=urn:oid:...|12345
+    Consumer->>Provider: GET /Patient?identifier=urn:oid:...|12345
     Provider-->>Consumer: Bundle with Patient resource(s)
 
     Note over Consumer: Consumer uses Patient.id<br/>for subsequent queries
 ```
+
+*Patient lookup applies to both [Document Exchange](document-exchange.html) and [Resource Access](resource-access.html) patterns.*
 
 ### References
 
