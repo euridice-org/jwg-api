@@ -2,7 +2,7 @@ This example walks through a complete workflow for accessing a Patient Summary d
 
 ### Scenario
 
-A **Document Consumer** needs to access the European Patient Summary for a patient being seen in their facility. The patient has received care in another organization that operates a **Document Access Provider** system with the patient's health data.
+A patient presents to a care provider, but his data is in another system. The current care provider is a **Document Consumer**, and the system with his data is a **Document Access Provider**.
 
 ### Actors
 
@@ -23,20 +23,27 @@ sequenceDiagram
     participant AuthZ as Authorization Server
     participant Provider as Document Access Provider
 
+    rect rgb(240, 248, 255)
+    Note over Consumer,Provider: Authorization
     Consumer->>Provider: GET /metadata
     Provider-->>Consumer: CapabilityStatement
-
     Consumer->>AuthZ: POST /auth/token (JWT assertion)
     AuthZ-->>Consumer: access_token
+    end
 
+    rect rgb(240, 255, 240)
+    Note over Consumer,Provider: Patient Lookup
     Consumer->>Provider: GET /Patient?identifier=... (ITI-78)
     Provider-->>Consumer: Patient Bundle
+    end
 
+    rect rgb(255, 248, 240)
+    Note over Consumer,Provider: Document Exchange
     Consumer->>Provider: GET /DocumentReference?patient=...&type=60591-5 (ITI-67)
     Provider-->>Consumer: DocumentReference Bundle
-
     Consumer->>Provider: GET /Binary/[id] (ITI-68)
     Provider-->>Consumer: Patient Summary Document
+    end
 ```
 
 ### Step-by-Step Flow
