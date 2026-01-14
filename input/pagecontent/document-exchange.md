@@ -16,9 +16,9 @@ This IG uses the following IHE MHD transactions:
 
 | Transaction | Direction | Description | Scope |
 |-------------|-----------|-------------|-------|
-| [ITI-67](https://profiles.ihe.net/ITI/MHD/ITI-67.html) | Consumer → Provider | Find Document References | `system/DocumentReference.rs` |
-| [ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) | Consumer → Provider | Retrieve Document | `system/Binary.r` |
-| [ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) | Producer → Provider | Provide Document Bundle | `system/DocumentReference.c`, `system/Binary.c` |
+| [ITI-67](https://profiles.ihe.net/ITI/MHD/ITI-67.html) | Document Consumer → Document Access Provider | Find Document References | `system/DocumentReference.rs` |
+| [ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) | Document Consumer → Document Access Provider | Retrieve Document | `system/Binary.r` |
+| [ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) | Document Producer → Document Access Provider | Provide Document Bundle | `system/DocumentReference.c`, `system/Binary.c` |
 
 ### Sequence Diagram
 
@@ -27,11 +27,17 @@ sequenceDiagram
     participant Consumer as Document Consumer
     participant Provider as Document Access Provider
 
-    Consumer->>Provider: GET /DocumentReference?patient=...&type=... (ITI-67)
+    rect rgb(255, 248, 240)
+    Note over Consumer,Provider: Find Document References (MHD ITI-67)
+    Consumer->>Provider: GET /DocumentReference?patient=...&type=...
     Provider-->>Consumer: Bundle of DocumentReferences
+    end
 
-    Consumer->>Provider: GET /Binary/[id] (ITI-68)
+    rect rgb(255, 245, 238)
+    Note over Consumer,Provider: Retrieve Document (MHD ITI-68)
+    Consumer->>Provider: GET /Binary/[id]
     Provider-->>Consumer: Document content
+    end
 ```
 
 ### Document Search Strategy

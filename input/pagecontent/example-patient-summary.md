@@ -2,7 +2,7 @@ This example walks through a complete workflow for accessing a Patient Summary d
 
 ### Scenario
 
-A **Document Consumer** needs to access the European Patient Summary for a patient being seen in their facility. The patient has received care in another organization that operates a **Document Access Provider** system with the patient's health data.
+A patient presents to a care provider, but his data is in another system. The current care provider is a **Document Consumer**, and the system with his data is a **Document Access Provider**.
 
 ### Actors
 
@@ -23,21 +23,30 @@ sequenceDiagram
     participant AuthZ as Authorization Server
     participant Provider as Document Access Provider
 
+    rect rgb(240, 248, 255)
+    Note over Consumer,Provider: Authorization (IUA)
     Consumer->>Provider: GET /metadata
     Provider-->>Consumer: CapabilityStatement
-
     Consumer->>AuthZ: POST /auth/token (JWT assertion)
     AuthZ-->>Consumer: access_token
+    end
 
-    Consumer->>Provider: GET /Patient?identifier=... (ITI-78)
+    rect rgb(240, 255, 240)
+    Note over Consumer,Provider: Patient Lookup (PDQm ITI-78)
+    Consumer->>Provider: GET /Patient?identifier=...
     Provider-->>Consumer: Patient Bundle
+    end
 
-    Consumer->>Provider: GET /DocumentReference?patient=...&type=60591-5 (ITI-67)
+    rect rgb(255, 248, 240)
+    Note over Consumer,Provider: Document Exchange (MHD ITI-67, ITI-68)
+    Consumer->>Provider: GET /DocumentReference?patient=...&type=60591-5
     Provider-->>Consumer: DocumentReference Bundle
-
-    Consumer->>Provider: GET /Binary/[id] (ITI-68)
+    Consumer->>Provider: GET /Binary/[id]
     Provider-->>Consumer: Patient Summary Document
+    end
 ```
+
+*Note: This diagram assumes the Authorization Server is grouped with the Document Access Provider. See [Issue 6: Authorization Server Deployment](open-issues.html#issue-6-authorization-server-deployment) for discussion of alternative deployments.*
 
 ### Step-by-Step Flow
 

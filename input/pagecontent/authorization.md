@@ -27,6 +27,12 @@ sequenceDiagram
     Resource-->>Client: Bundle (search results)
 ```
 
+### IHE IUA Actor Groupings
+
+- **Document/Resource Producer:** IUA Authorization Client
+- **Document/Resource Consumer:** IUA Authorization Client
+- **Document/Resource Access Provider:** IUA Authorization Server + Resource Server
+
 ### Client Registration
 
 Out of band, the Consumer registers identity credentials (public key, client identifier) with the Access Provider.
@@ -105,12 +111,6 @@ Scopes follow [SMART v2 conventions](https://build.fhir.org/ig/HL7/smart-app-lau
 - `.s` = search
 - `.rs` = read and search
 - `.c` = create
-
-### IHE IUA Actor Groupings
-
-- **Document/Resource Producer:** IUA Authorization Client
-- **Document/Resource Consumer:** IUA Authorization Client
-- **Document/Resource Access Provider:** IUA Authorization Server + Resource Server
 
 ### Transport Security {#transport-security}
 
