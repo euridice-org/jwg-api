@@ -16,7 +16,7 @@ Laboratory reports in this IG follow the [EU Laboratory Report Implementation Gu
 
 Laboratory reports are retrieved using the same pattern as other documents. The retrieval workflow follows the standard sequence:
 
-1. **Authorization** - Obtain access token with `system/DocumentReference.rs system/Binary.r` scopes
+1. **Authorization** - Obtain access token with `system/DocumentReference.rs` and document retrieval scope (see [Document Exchange](document-exchange.html#fhir-documents-vs-binary))
 2. **Patient Lookup** - Identify the patient using ITI-78 (PDQm)
 3. **Document Search** - Search for laboratory reports using ITI-67 with `type=http://loinc.org|11502-2`
 4. **Document Retrieval** - Retrieve the document content using ITI-68

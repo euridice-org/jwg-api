@@ -17,8 +17,10 @@ This IG uses the following IHE MHD transactions:
 | Transaction | Direction | Description | Scope |
 |-------------|-----------|-------------|-------|
 | [ITI-67](https://profiles.ihe.net/ITI/MHD/ITI-67.html) | Document Consumer → Document Access Provider | Find Document References | `system/DocumentReference.rs` |
-| [ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) | Document Consumer → Document Access Provider | Retrieve Document | `system/Binary.r` |
-| [ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) | Document Producer → Document Access Provider | Provide Document Bundle | `system/DocumentReference.c`, `system/Binary.c` |
+| [ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) | Document Consumer → Document Access Provider | Retrieve Document | See note below |
+| [ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) | Document Producer → Document Access Provider | Provide Document Bundle | `system/DocumentReference.c`, `system/Binary.c` or `system/Bundle.c` |
+
+> **ITI-68 Scope Note:** The required scope depends on the document format. For non-FHIR documents (PDF), use `system/Binary.r`. For FHIR Documents (IPS, laboratory reports as FHIR Bundles), use `system/Bundle.r`. See [FHIR Documents vs Binary](#fhir-documents-vs-binary) below.
 
 ### Sequence Diagram
 
@@ -35,10 +37,23 @@ sequenceDiagram
 
     rect rgb(255, 245, 238)
     Note over Consumer,Provider: Retrieve Document (MHD ITI-68)
-    Consumer->>Provider: GET /Binary/[id]
+    Consumer->>Provider: GET [attachment.url from DocumentReference]
     Provider-->>Consumer: Document content
     end
 ```
+
+#### FHIR Documents vs Binary
+
+ITI-68 retrieves the document from the URL specified in `DocumentReference.content.attachment.url`. The URL format depends on the document type:
+
+| Document Format | attachment.url | Content-Type |
+|-----------------|----------------|--------------|
+| PDF and other non-FHIR | `/Binary/[id]` | `application/pdf`, etc. |
+| FHIR Document (IPS, etc.) | `/Bundle/[id]` | `application/fhir+json` or `application/fhir+xml` |
+
+This follows [MHD Section 2:3.65.4.1.2.1](https://profiles.ihe.net/ITI/MHD/ITI-65.html#236541-message-semantics), which specifies the **FHIR Document Publish Option**: when the `DocumentReference.content.attachment.url` points at a FHIR Document Bundle, that Bundle is retrieved directly without Binary encoding.
+
+> **Implementation Note:** FHIR Documents do not require base64 encoding into a Binary resource. The document Bundle is stored and retrieved as a native FHIR Bundle resource.
 
 ### Document Search Strategy
 
