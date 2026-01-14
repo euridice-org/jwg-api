@@ -1,72 +1,73 @@
 ### Overview
 
-Patient identification using IHE PDQm (Patient Demographics Query for Mobile). This transaction allows consumers to locate the correct Patient resource on a provider before querying for health information.
+Patient lookup using IHE PDQm (Patient Demographics Query for Mobile). This transaction allows consumers to locate the correct Patient resource on a provider before querying for health information.
+
+This specification inherits directly from [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) with one constraint: the `identifier` search parameter is required for patient search.
 
 ### Actor Roles
 
 | Actor | Role |
 |-------|------|
-| Consumer | Find a patient based on either identifier or demographics information |
+| Consumer | Find a patient based on identifier or demographics information |
 | Provider | Return information on supported patients and allow for searching of specific patients |
 
 ### Transaction Options
 
-Providers support one or more of the following patient identification mechanisms:
+Providers support one or both of the following patient identification mechanisms:
 
-#### 1. Basic Patient Demographics Query (Required)
+#### 1. Mobile Patient Demographics Query [ITI-78] (Required)
 
-Identifier-based patient lookup using FHIR search. This option is suitable for well-established infrastructures where identifier-based matching is sufficient.
+Patient search using the [IHE PDQm ITI-78](https://profiles.ihe.net/ITI/PDQm/ITI-78.html) transaction. This specification constrains ITI-78 to require the `identifier` parameter.
 
 ```
 GET [base]/Patient?identifier=[system]|[value]
 ```
 
-Providers implementing this transaction SHALL indicate the main identifiers used via the `supported-identifier` extension in their CapabilityStatement.
+This approach covers the majority of European use cases where patient identifiers (MRN, national ID) are available.
 
-**Search Parameters:**
+**Required Search Parameters:**
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| identifier | token | Identifier associated with the patient (e.g., national ID, MRN) |
+| Parameter | Type | Expectation | Description |
+|-----------|------|-------------|-------------|
+| identifier | token | SHALL | Patient identifier (e.g., national ID, MRN) |
 
-It is RECOMMENDED that identifier-based searches use one of the identifier systems declared in the provider's CapabilityStatement.
+**Optional Search Parameters:**
 
-#### 2. Mobile Patient Demographics Query [ITI-78] (Optional)
+Providers MAY support additional PDQm search parameters per [ITI-78](https://profiles.ihe.net/ITI/PDQm/ITI-78.html):
 
-Full IHE PDQm demographics search supporting multiple search parameters:
+| Parameter | Type | Expectation | Description |
+|-----------|------|-------------|-------------|
+| family | string | SHOULD | Patient family name |
+| given | string | SHOULD | Patient given name |
+| birthdate | date | SHOULD | Patient date of birth |
+| _id | token | SHOULD | Patient logical ID |
 
-```
-GET [base]/Patient?family=Smith&given=John&birthdate=1970-01-01
-```
+Providers implementing this transaction SHOULD indicate supported identifier systems via the CapabilityStatement.
 
-See [IHE PDQm ITI-78](https://profiles.ihe.net/ITI/PDQm/ITI-78.html) for full parameter list.
+#### 2. Patient Demographics Match [ITI-119] (Optional)
 
-#### 3. Patient Demographics Match [ITI-119] (Optional)
-
-Patient $match operation for fuzzy demographic matching:
+Patient $match operation for fuzzy demographic matching using [IHE PDQm ITI-119](https://profiles.ihe.net/ITI/PDQm/ITI-119.html):
 
 ```
 POST [base]/Patient/$match
 ```
 
-Body contains a Parameters resource with demographic information. The server responds with candidate matches and match scores.
+The request body contains a Parameters resource with demographic information. The server responds with candidate matches and confidence scores.
 
-See [IHE PDQm ITI-119](https://profiles.ihe.net/ITI/PDQm/ITI-119.html) for details.
+This option is used when identifier-based lookup is not possible (e.g., cross-border scenarios where the consumer does not have the patient's local identifier).
 
 ### Provider Requirements
 
 | Actor | Transaction | Optionality |
 |-------|-------------|-------------|
-| Consumer | Basic Patient Demographics Query | O |
-|  | Mobile Patient Demographics Query [ITI-78] | O |
-|  | Mobile Patient Match [ITI-119] | O |
-| Provider | Basic Patient Demographics Query | R |
-|  | Mobile Patient Demographics Query [ITI-78] | O |
-|  | Mobile Patient Match [ITI-119] | O |
+| Consumer | Mobile Patient Demographics Query [ITI-78] | O |
+|  | Patient Demographics Match [ITI-119] | O |
+| Provider | Mobile Patient Demographics Query [ITI-78] | R |
+|  | Patient Demographics Match [ITI-119] | O |
 
-Providers are RECOMMENDED to implement either the Demographics Query or Match operation in addition to the Basic Demographics Query.
+Providers are RECOMMENDED to implement the $match operation in addition to the patient search for scenarios where identifier is not available.
 
-> **Open Issue #2**: We are seeking input on how patient lookup should work in the European context. See [Patient Lookup Strategy](open-issues.html#issue-2-patient-lookup-strategy) for discussion.
+> **Open Issue #2**: We are seeking input on this patient lookup approach. See [Patient Lookup Strategy](open-issues.html#issue-2-patient-lookup-strategy) for discussion.
 
 ### Authorization
 
@@ -80,10 +81,10 @@ When grouped with IUA actors:
 sequenceDiagram
     participant Consumer
     participant Provider
-    
+
     Consumer->>Provider: GET /Patient?identifier=urn:oid:...|12345
     Provider-->>Consumer: Bundle with Patient resource(s)
-    
+
     Note over Consumer: Consumer uses Patient.id<br/>for subsequent queries
 ```
 

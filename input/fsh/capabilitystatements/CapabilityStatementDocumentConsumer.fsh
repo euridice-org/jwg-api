@@ -137,13 +137,13 @@ ITI-68 Retrieve Document transaction.
 * rest[=].resource[=].interaction[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].interaction[=].documentation = "Retrieve document content (ITI-68)"
 
-// Patient resource - for patient context lookup
+// Patient resource - PDQm ITI-78 patient lookup
 * rest[=].resource[+].type = #Patient
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].documentation = """
 Patient resources are searched to establish patient context before querying for documents.
-This aligns with PDQm [ITI-78] for patient discovery.
+This uses PDQm [ITI-78] with identifier as a required search parameter.
 """
 * rest[=].resource[=].interaction[+].code = #search-type
 * rest[=].resource[=].interaction[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
@@ -155,4 +155,4 @@ This aligns with PDQm [ITI-78] for patient discovery.
 * rest[=].resource[=].searchParam[=].type = #token
 * rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].searchParam[=].extension[=].valueCode = #SHALL
-* rest[=].resource[=].searchParam[=].documentation = "Patient identifier (e.g., national ID, MRN)"
+* rest[=].resource[=].searchParam[=].documentation = "Patient identifier (e.g., national ID, MRN) - required for patient lookup"

@@ -46,30 +46,23 @@ How should patient lookup work in the European context? In most EU situations, w
 
 **Current Approach**
 
-The IG currently references three mechanisms:
-- [PDQm ITI-78](https://profiles.ihe.net/ITI/PDQm/) - Demographics-based patient search. Currently required in PDQm.
-- [PDQm Patient Demographics Match ITI-119](https://profiles.ihe.net/ITI/PDQm/ITI-119.html) - FHIR $match fuzzy matching operation (currently optional in PDQm)
-- [PIXm](https://profiles.ihe.net/ITI/PIXm/) - Identifier cross-reference (mentioned but not fully modeled)
+The IG inherits directly from [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/) with two transaction options:
 
-**Proposed Simplification**
+1. **[ITI-78] Mobile Patient Demographics Query** (Required) - Patient search with `identifier` as a required parameter. This constrains the standard PDQm transaction to require identifier-based lookup, covering the majority of EU use cases.
 
-Reduce to two primary options:
+2. **[ITI-119] Patient Demographics Match** (Optional) - FHIR $match operation for fuzzy demographic matching when identifier is not available.
 
-1. **Identifier Lookup** - MRN or national ID based lookup (covers ~90% of EU use cases). Question: how do we formally model this with IHE ITI? May be a constrained profile of ITI-78.
-
-2. **Patient $match** - For demographic-based fuzzy matching when identifier is not available. This is the existing PDQm $match operation.
+This simplification removes the middle option of full demographics-based search (family + given + birthdate), which is not suitable for safe clinical patient matching.
 
 **Open Questions**
 
-- How should we model the identifier lookup transaction formally with IHE?
 - Should CapabilityStatement advertise which national ID systems are supported for lookup?
 - We should inherit Patient from EU Core. Does this change anything about the transaction definitions?
 
 **Seeking Input On**
 
-- Does the two-option approach (identifier lookup + $match) cover European use cases?
-- Are there use cases requiring full PDQm demographics search that $match doesn't cover?
-- Is PIXm needed, or can we achieve the same with constrained PDQm?
+- Does the two-option approach (ITI-78 with identifier required + ITI-119 $match) cover European use cases?
+- Are there scenarios where identifier-based lookup is insufficient and $match is not appropriate?
 
 ---
 

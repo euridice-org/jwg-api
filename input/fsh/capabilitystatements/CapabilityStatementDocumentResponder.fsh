@@ -170,22 +170,22 @@ ITI-68 Retrieve Document transaction.
 * rest[=].resource[=].conditionalUpdate = false
 * rest[=].resource[=].conditionalDelete = #not-supported
 
-// Patient resource - for patient context support
+// Patient resource - PDQm ITI-78 patient lookup
 * rest[=].resource[+].type = #Patient
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].extension[=].valueCode = #SHOULD
+* rest[=].resource[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].documentation = """
-Patient resources support patient context lookup. This aligns with PDQm [ITI-78]
-for patient discovery operations.
+Patient resources support patient context lookup per PDQm [ITI-78]. The identifier
+search parameter is required; additional demographics parameters are optional.
 """
 * rest[=].resource[=].interaction[+].code = #read
 * rest[=].resource[=].interaction[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].interaction[=].extension[=].valueCode = #SHOULD
+* rest[=].resource[=].interaction[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].interaction[=].documentation = "Read Patient by logical ID"
 
 * rest[=].resource[=].interaction[+].code = #search-type
 * rest[=].resource[=].interaction[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].interaction[=].extension[=].valueCode = #SHOULD
+* rest[=].resource[=].interaction[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].interaction[=].documentation = "Search for patients (PDQm ITI-78)"
 
 * rest[=].resource[=].updateCreate = false
@@ -198,8 +198,8 @@ for patient discovery operations.
 * rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/Patient-identifier"
 * rest[=].resource[=].searchParam[=].type = #token
 * rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].searchParam[=].extension[=].valueCode = #SHOULD
-* rest[=].resource[=].searchParam[=].documentation = "Patient identifier (e.g., national ID, MRN)"
+* rest[=].resource[=].searchParam[=].extension[=].valueCode = #SHALL
+* rest[=].resource[=].searchParam[=].documentation = "Patient identifier (e.g., national ID, MRN) - required for patient lookup"
 
 * rest[=].resource[=].searchParam[+].name = "_id"
 * rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/Resource-id"
