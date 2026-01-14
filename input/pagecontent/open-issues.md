@@ -106,7 +106,7 @@ Resource access (granular RESTful FHIR resource queries) could inherit from mult
 A separate issue ([Issue 9](#issue-9-core-resource-set-validation)) tracks validation of the core resource set.
 
 **Seeking Input On**
-- Do the implemented IPA search parameters
+- Do the implemented IPA search parameters work for Europe's needs?
 - What are the differences compared to QEDm, and how should those be handled?
 
 ---
