@@ -9,7 +9,6 @@ This is similar to the approach taken in the MHDS specification, but with a more
   - [HL7 SMART Backend Services](https://hl7.org/fhir/smart-app-launch/) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and FHIR scopes.
 - Patient Identity Matching
   - [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) - Defines how a client can perform patient lookup given demographics against a server.
-  - [IHE PIXm](https://profiles.ihe.net/ITI/PIXm/index.html) - Defines how a client can perform patient lookup given only identifiers.
 - Document Exchange
   - [IHE MHD](https://profiles.ihe.net/ITI/MHD/) - Defines exchange of Documents, which we use to exchange FHIR document content. (note: no XDS dependencies)
 - Resource Exchange
@@ -49,7 +48,6 @@ These composite actors inherit existing actors from the IUA, PDQm, and MHD speci
 
 - [IUA Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client)
 - [PDQm Patient Demographics Consumer](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsConsumerQuery.html))
-- [PIXm Patient Identifier Cross-reference Consumer](https://profiles.ihe.net/ITI/PIXm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PIXm/CapabilityStatement-IHE.PIXm.Consumer.html))
 - [MHD Document Source](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentSource.html))
 
 **Document Access Provider**
@@ -57,7 +55,6 @@ These composite actors inherit existing actors from the IUA, PDQm, and MHD speci
 - [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server)
 - [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server)
 - [PDQm Patient Demographics Supplier](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsSupplier.html))
-- [PIXm Patient Identifier Cross-reference Manager](https://profiles.ihe.net/ITI/PIXm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PIXm/CapabilityStatement-IHE.PIXm.Manager.html))
 - [MHD Document Recipient](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentRecipient.html))
 - [MHD Document Responder](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentResponder.html))
 
@@ -67,7 +64,6 @@ These composite actors inherit existing actors from the IUA, PDQm, and MHD speci
 
 - [IUA Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client)
 - [PDQm Patient Demographics Consumer](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsConsumerQuery.html))
-- [PIXm Patient Identifier Cross-reference Consumer](https://profiles.ihe.net/ITI/PIXm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PIXm/CapabilityStatement-IHE.PIXm.Consumer.html))
 - [MHD Document Consumer](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentConsumer.html))
 
 This leads to the following required transactions between these actors:
@@ -123,7 +119,6 @@ These composite actors inherit existing actors from the IUA, PDQm, and QEDm/IPA 
 - [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server)
 - [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server)
 - [PDQm Patient Demographics Supplier](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsSupplier.html))
-- [PIXm Patient Identifier Cross-reference Manager](https://profiles.ihe.net/ITI/PIXm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PIXm/CapabilityStatement-IHE.PIXm.Manager.html))
 - Resource Access
   - [Clinical Data Source](https://profiles.ihe.net/PCC/QEDm/volume-1.html#actors-and-transactions) ([CapabilityStatement](https://profiles.ihe.net/PCC/QEDm/CapabilityStatement-IHE.QEDm.Clinical-Data-Source.html))
   - [HL7 International Patient Access Server](https://build.fhir.org/ig/HL7/fhir-ipa/index.html) ([CapabilityStatement](https://build.fhir.org/ig/HL7/fhir-ipa/CapabilityStatement-ipa-server.html)
@@ -132,10 +127,9 @@ These composite actors inherit existing actors from the IUA, PDQm, and QEDm/IPA 
 
 - [IUA Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client)
 - [PDQm Patient Demographics Consumer](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsConsumerQuery.html))
-- [PIXm Patient Identifier Cross-reference Consumer](https://profiles.ihe.net/ITI/PIXm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PIXm/CapabilityStatement-IHE.PIXm.Consumer.html))
 - Resource Access
   - [Clinical Data Consumer](https://profiles.ihe.net/PCC/QEDm/volume-1.html#actors-and-transactions) ([CapabilityStatement](https://profiles.ihe.net/PCC/QEDm/CapabilityStatement-IHE.QEDm.Clinical-Data-Consumer.html))
-  - [HL7 International Patient Access Client](https://profiles.ihe.net/ITI/PIXm/volume-1.html) ([CapabilityStatement](https://build.fhir.org/ig/HL7/fhir-ipa/CapabilityStatement-ipa-client.html))
+  - [HL7 International Patient Access Client](https://build.fhir.org/ig/HL7/fhir-ipa/index.html) ([CapabilityStatement](https://build.fhir.org/ig/HL7/fhir-ipa/CapabilityStatement-ipa-client.html))
 
 This leads to the following required transactions between these actors:
 
