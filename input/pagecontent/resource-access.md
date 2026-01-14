@@ -14,8 +14,8 @@ See [Actors and Transactions](actors.html) for detailed actor groupings.
 This IG aligns with:
 
 - [HL7 International Patient Access (IPA)](https://build.fhir.org/ig/HL7/fhir-ipa/) - Resource access patterns and CapabilityStatements
-- [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/) - Query Existing Data mobile
-- [PCC-44](https://profiles.ihe.net/PCC/QEDm/PCC-44.html) - Mobile Query Existing Data transaction
+- [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/) - Query Existing Data mobile, where compatible with IPA. QEDm has a goal of aligning with IPA.
+  - [PCC-44](https://profiles.ihe.net/PCC/QEDm/PCC-44.html) - Mobile Query Existing Data transaction
 
 ### Sequence Diagram
 
@@ -39,17 +39,19 @@ sequenceDiagram
 
 ### Core Resources
 
-The following resources are available for read/search access. Data models inherit from [HL7 Europe Core](https://build.fhir.org/ig/hl7-eu/base/).
+The following resources are available for read/search access. Data models inherit from [HL7 Europe Core](https://build.fhir.org/ig/hl7-eu/base/). Required search parameters are from IPA.
 
-- AllergyIntolerance
-- Condition
-- Observation
-- DiagnosticReport
-- MedicationRequest
-- MedicationDispense
-- MedicationStatement
-- Immunization
-- Encounter
+| Resource | Required Search Parameters |
+|----------|---------------------------|
+| AllergyIntolerance | `patient` |
+| Condition | `patient` |
+| Observation | `patient`, `category` |
+| DiagnosticReport | `patient`, `category` |
+| MedicationRequest | `patient` |
+| MedicationDispense | `patient` |
+| MedicationStatement | `patient` |
+| Immunization | `patient` |
+| Encounter | `patient` |
 
 > **Open Issue #9**: We are seeking validation of this core resource set. See [Core Resource Set Validation](open-issues.html#issue-9-core-resource-set-validation) for discussion.
 
@@ -92,13 +94,13 @@ If resources are derived from documents, Provenance SHOULD link to source Docume
 
 ### References
 
-- [HL7 International Patient Access](https://build.fhir.org/ig/HL7/fhir-ipa/)
+- [HL7 International Patient Access (IPA)](https://build.fhir.org/ig/HL7/fhir-ipa/)
 - [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/)
-- [PCC-44 Mobile Query Existing Data](https://profiles.ihe.net/PCC/QEDm/PCC-44.html)
+  - [PCC-44 Mobile Query Existing Data](https://profiles.ihe.net/PCC/QEDm/PCC-44.html)
 - [Actors and Transactions](actors.html)
 
 ### IPA vs QEDm
 
-Both IPA and QEDm define similar resource access patterns. This IG uses IPA as the primary reference for CapabilityStatements and aligns with QEDm transaction semantics. The approaches are compatible and complementary.
+This IG uses [IPA](https://build.fhir.org/ig/HL7/fhir-ipa/) as the primary reference for CapabilityStatements and search parameters. QEDm is referenced where compatible with IPA - and QEDm has a stated goal of aligning with IPA.
 
 > **Open Issue #4**: We are seeking input on IPA vs QEDm inheritance. See [Resource Access and Inheritance](open-issues.html#issue-4-resource-access-and-inheritance) for discussion.

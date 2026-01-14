@@ -2,14 +2,16 @@
 
 Patient lookup using IHE PDQm (Patient Demographics Query for Mobile). This transaction allows consumers to locate the correct Patient resource on a provider before querying for health information.
 
-This specification inherits directly from [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) with one constraint: the `identifier` search parameter is required for patient search.
+This specification inherits directly from [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) with one constraint: the `identifier` search parameter is required for patient search. 
+
+Patient.Search should be used when a patient identifier (e.g. National ID) is available and trusted. If an identifier is not available, Patient.$match should be used to perform a demographics search operation.
 
 ### Actor Roles
 
 | Actor | Role |
 |-------|------|
-| Consumer | Find a patient based on identifier or demographics information |
-| Provider | Return information on supported patients and allow for searching of specific patients |
+| Consumer | Find a patient record in the Access Provider system based on identifier or demographics information |
+| Document/Resource Access Provider | Return it's patient record information based on identifier or demographics queries from a consumer. |
 
 ### Transaction Options
 
@@ -42,7 +44,6 @@ Providers MAY support additional PDQm search parameters per [ITI-78](https://pro
 | birthdate | date | SHOULD | Patient date of birth |
 | _id | token | SHOULD | Patient logical ID |
 
-Providers implementing this transaction SHOULD indicate supported identifier systems via the CapabilityStatement.
 
 #### 2. Patient Demographics Match [ITI-119] (Optional)
 
@@ -80,9 +81,9 @@ When grouped with IUA actors:
 ```mermaid
 sequenceDiagram
     participant Consumer
-    participant Provider
+    participant Access Provider
 
-    Consumer->>Provider: GET /Patient?identifier=urn:oid:...|12345
+    Consumer->>Access Provider: GET /Patient?identifier=urn:oid:...|12345
     Provider-->>Consumer: Bundle with Patient resource(s)
 
     Note over Consumer: Consumer uses Patient.id<br/>for subsequent queries
@@ -91,6 +92,6 @@ sequenceDiagram
 ### References
 
 - [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html)
-- [ITI-78 Mobile Patient Demographics Query](https://profiles.ihe.net/ITI/PDQm/ITI-78.html)
-- [ITI-119 Patient Demographics Match](https://profiles.ihe.net/ITI/PDQm/ITI-119.html)
+    - [ITI-78 Mobile Patient Demographics Query](https://profiles.ihe.net/ITI/PDQm/ITI-78.html)
+    - [ITI-119 Patient Demographics Match](https://profiles.ihe.net/ITI/PDQm/ITI-119.html)
 - [FHIR Patient.$match](https://hl7.org/fhir/R4/patient-operation-match.html)

@@ -28,8 +28,8 @@ We define exchange patterns by inheriting and defining transactions, system acto
 - [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
 - [HL7 SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and FHIR scopes.
 - [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) - Defines how a client can perform patient lookup against a server.
-- [HL7 International Patient Access](https://build.fhir.org/ig/HL7/fhir-ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access.
-- [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server.
+- [HL7 International Patient Access (IPA)](https://build.fhir.org/ig/HL7/fhir-ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access. IPA is the primary reference for resource access.
+- [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server. Referenced where compatible with IPA.
 
 We define composite actors that inherit and combine actors defined in these existing specifications. See [Actors and Transactions](actors.html) for detailed actor definitions, transactions, and actor grouping.
 
@@ -58,7 +58,7 @@ These resource actors are initially scoped for search + read. See [Resource Acce
 - **[Authorization](authorization.html)** - SMART Backend Services + IUA (required)
 - **[Patient Matching](patient-match.html)** - PDQm Patient Demographics Query
 - **[Document Exchange](document-exchange.html)** - MHD transactions (ITI-65, ITI-67, ITI-68)
-- **[Resource Access](resource-access.html)** - QEDm resource query (PCC-44)
+- **[Resource Access](resource-access.html)** - IPA resource query patterns
 
 ## 6. Authors
 

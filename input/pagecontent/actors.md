@@ -12,8 +12,8 @@ This is similar to the approach taken in the MHDS specification, but with a more
 - Document Exchange
   - [IHE MHD](https://profiles.ihe.net/ITI/MHD/) - Defines exchange of Documents, which we use to exchange FHIR document content. (note: no XDS dependencies)
 - Resource Exchange
-  - [HL7 International Patient Access](https://hl7.org/fhir/uv/ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access.
-  - [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server.
+  - [HL7 International Patient Access (IPA)](https://hl7.org/fhir/uv/ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access. IPA is the primary reference for resource access patterns.
+  - [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server. Referenced where compatible with IPA.
 - Foundational
   - [IHE Consistent Time](https://profiles.ihe.net/ITI/TF/Volume1/ch-7.html) - Defines the use of Network Time Protocol (NTP) to provide consistent time across systems.
   - [IHE ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-8.html) - Defines secure communication and audit logging requirements for healthcare systems.
@@ -106,7 +106,7 @@ Resource exchange is more complex than document publication, and in many cases h
 </details>
 
 
-These composite actors inherit existing actors from the IUA, PDQm, and QEDm/IPA specifications:
+These composite actors inherit existing actors from the IUA, PDQm, and IPA specifications (with QEDm alignment where compatible):
 
 <figure>
 {% include simplified-resource-actors.svg%}
@@ -120,16 +120,16 @@ These composite actors inherit existing actors from the IUA, PDQm, and QEDm/IPA 
 - [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server)
 - [PDQm Patient Demographics Supplier](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsSupplier.html))
 - Resource Access
-  - [Clinical Data Source](https://profiles.ihe.net/PCC/QEDm/volume-1.html#actors-and-transactions) ([CapabilityStatement](https://profiles.ihe.net/PCC/QEDm/CapabilityStatement-IHE.QEDm.Clinical-Data-Source.html))
-  - [HL7 International Patient Access Server](https://build.fhir.org/ig/HL7/fhir-ipa/index.html) ([CapabilityStatement](https://build.fhir.org/ig/HL7/fhir-ipa/CapabilityStatement-ipa-server.html)
+  - [HL7 International Patient Access Server](https://build.fhir.org/ig/HL7/fhir-ipa/index.html) ([CapabilityStatement](https://build.fhir.org/ig/HL7/fhir-ipa/CapabilityStatement-ipa-server.html))
+  - [QEDm Clinical Data Source](https://profiles.ihe.net/PCC/QEDm/volume-1.html#actors-and-transactions) ([CapabilityStatement](https://profiles.ihe.net/PCC/QEDm/CapabilityStatement-IHE.QEDm.Clinical-Data-Source.html)) - where compatible with IPA
 
 **Resource Consumer**
 
 - [IUA Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client)
 - [PDQm Patient Demographics Consumer](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsConsumerQuery.html))
 - Resource Access
-  - [Clinical Data Consumer](https://profiles.ihe.net/PCC/QEDm/volume-1.html#actors-and-transactions) ([CapabilityStatement](https://profiles.ihe.net/PCC/QEDm/CapabilityStatement-IHE.QEDm.Clinical-Data-Consumer.html))
   - [HL7 International Patient Access Client](https://build.fhir.org/ig/HL7/fhir-ipa/index.html) ([CapabilityStatement](https://build.fhir.org/ig/HL7/fhir-ipa/CapabilityStatement-ipa-client.html))
+  - [QEDm Clinical Data Consumer](https://profiles.ihe.net/PCC/QEDm/volume-1.html#actors-and-transactions) ([CapabilityStatement](https://profiles.ihe.net/PCC/QEDm/CapabilityStatement-IHE.QEDm.Clinical-Data-Consumer.html)) - where compatible with IPA
 
 This leads to the following required transactions between these actors:
 
