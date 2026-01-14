@@ -94,31 +94,21 @@ Use ITI-65 Provide Document Bundle as the primary approach since it's required i
 
 [GitHub Issue](https://github.com/euridice-org/jwg-api/issues/14) | **Priority:** High
 
-Resource access (granular RESTful FHIR resource queries) could inherit from multiple specifications (IPA, QEDM). We need to clarify the inheritance.
-
-We should inherit resource models from [EU Core](https://build.fhir.org/ig/hl7-eu/base/index.html) - and in this IG we need to define (1) Resource search parameters and (2) CapabilityStatements.
-
-IPA and QEDm are similar, but use slightly different search parameters (analysis needs to be done). Both profiles seem to be open to alignment with each other. Group generally prefers IPA - more adoption and maintenance.
+Resource access (granular RESTful FHIR resource queries) could inherit from multiple specifications (IPA, QEDm). This issue tracks the inheritance approach.
 
 **Current Approach**
 
 - **Data Models**: Inherit from EU Core profiles
-- **Search Parameters**: Copied from IPA
-- **Transactions**: Reference both IPA and QEDm, preferencing IPA
-
-**Proposed Approach**
-
-Start with IPA as foundation:
-1. **EU Core** for data models (profile definitions)
-2. **IPA** for search parameters and CapabilityStatement patterns
-3. **QEDm** alignment where needed (comparison analysis required)
+- **Search Parameters**: From IPA (required parameters listed in [Resource Access](resource-access.html))
+- **CapabilityStatements**: Instantiate IPA Server/Client
+- **QEDm**: Referenced where compatible with IPA. QEDm has a stated goal of aligning with IPA.
 
 A separate issue ([Issue 9](#issue-9-core-resource-set-validation)) tracks validation of the core resource set.
 
 **Seeking Input On**
 
-- Here is the IPA foundation approach. Does it make sense for European use cases?
-- A comparison analysis between IPA and QEDm is needed. How should we handle differences?
+- Does the IPA-first approach make sense for European use cases?
+- Are there QEDm requirements that conflict with IPA that we should be aware of?
 
 ---
 
