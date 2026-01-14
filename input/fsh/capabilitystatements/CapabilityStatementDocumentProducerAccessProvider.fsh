@@ -1,36 +1,66 @@
-// CapabilityStatement for EEHRxF Document Consumer Actor
-// Composite actor grouping MHD Document Consumer + PDQm Consumer + IUA Authorization Client
+// CapabilityStatement for Grouped EEHRxF Document Producer + Document Access Provider
+// For deployments where document production and access are co-located (ITI-65 is internal)
 
-Instance: EEHRxF-DocumentConsumer
+Instance: EEHRxF-DocumentProducerAccessProvider
 InstanceOf: CapabilityStatement
-Title: "EEHRxF Document Consumer CapabilityStatement"
+Title: "EEHRxF Grouped Document Producer/Access Provider CapabilityStatement"
 Usage: #definition
 Description: """
-CapabilityStatement for the EEHRxF Document Consumer actor. This composite actor
-consumes EEHRxF FHIR Documents by querying a Document Access Provider.
+CapabilityStatement for the grouped EEHRxF Document Producer and Document Access Provider
+actors. This represents a deployment where document production and access provision are
+co-located in the same system.
+
+### Deployment Pattern
+
+This CapabilityStatement applies when:
+- An EHR system both produces documents AND provides access to them
+- Document submission (ITI-65) is handled internally
+- External clients only need to query and retrieve documents
+
+In this grouped deployment, the ITI-65 Provide Document Bundle transaction is internal
+to the system and not exposed externally. The external API provides only document
+discovery (ITI-67) and retrieval (ITI-68) capabilities.
 
 ### Actor Grouping
 
-This composite actor groups the following IHE actors:
-- [IUA Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client)
-- [PDQm Patient Demographics Consumer](https://profiles.ihe.net/ITI/PDQm/volume-1.html)
-- [MHD Document Consumer](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html)
+This grouped actor combines:
+- **Document Producer** (internal) - Produces and stores documents internally
+- **Document Access Provider** (external-facing) - Serves documents to Document Consumers
 
-### Transactions
+The underlying IHE actors are:
+- [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server)
+- [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server)
+- [PDQm Patient Demographics Supplier](https://profiles.ihe.net/ITI/PDQm/volume-1.html)
+- [MHD Document Responder](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html)
+
+Note: MHD Document Recipient is not listed because ITI-65 is internal.
+
+### External Transactions
 
 | Transaction | Description | Optionality |
 |-------------|-------------|-------------|
-| ITI-67 Find Document References | Query for document metadata from Document Access Provider | R |
-| ITI-68 Retrieve Document | Retrieve document content from Document Access Provider | R |
-| ITI-78 Patient Demographics Query | Query for patient demographics to establish patient context | R |
-| Get Access Token | Obtain authorization token for API access | R |
+| ITI-67 Find Document References | Respond to document metadata queries from Document Consumers | R |
+| ITI-68 Retrieve Document | Serve document content to Document Consumers | R |
+| ITI-78 Patient Demographics Query | Respond to patient demographics queries | R |
+| Get Access Token | Issue authorization tokens to clients | R |
 
 ### Security
 Systems SHALL support SMART Backend Services authorization for all transactions.
+
+### When to Use This CapabilityStatement
+
+Use this CapabilityStatement when implementing:
+- Hospital EHR systems that produce and serve their own documents
+- Regional health information exchanges with integrated document repositories
+- Any system where document creation and access are tightly coupled
+
+For systems that need to receive documents from external sources, use the separate
+[Document Access Provider CapabilityStatement](CapabilityStatement-EEHRxF-DocumentAccessProvider.html)
+which includes ITI-65 support.
 """
 
-* name = "EEHRxFDocumentConsumer"
-* title = "EEHRxF Document Consumer CapabilityStatement"
+* name = "EEHRxFDocumentProducerAccessProvider"
+* title = "EEHRxF Grouped Document Producer/Access Provider CapabilityStatement"
 * status = #active
 * experimental = false
 * date = "2026-01-14"
@@ -40,11 +70,13 @@ Systems SHALL support SMART Backend Services authorization for all transactions.
 * format[+] = #json
 * format[+] = #xml
 
-// Security requirements - SMART Backend Services
-* rest[+].mode = #client
+// Server mode - external-facing API
+* rest[+].mode = #server
 * rest[=].documentation = """
-The Document Consumer actor queries for document metadata and retrieves documents
-from a Document Access Provider. It also queries for patient context using PDQm.
+This grouped actor provides document access to external Document Consumers.
+Document production (ITI-65) is internal and not exposed. The external API
+supports document discovery (ITI-67), retrieval (ITI-68), and patient lookup (ITI-78).
+
 All transactions require SMART Backend Services authorization.
 """
 
@@ -53,36 +85,51 @@ All transactions require SMART Backend Services authorization.
 * rest[=].security.description = """
 SMART Backend Services authorization is REQUIRED for all transactions.
 Systems SHALL:
-- Authenticate using JWT client credentials (RFC 7523)
-- Request appropriate scopes for document access
+- Validate JWT client credentials (RFC 7523)
+- Verify appropriate scopes for document access
 - Use TLS 1.2 or higher for all communications
 
-Required scopes:
+Required scopes to accept:
 - system/DocumentReference.rs (search and read DocumentReference - ITI-67)
-- system/Binary.r (read Binary for document retrieval - ITI-68)
-- system/Patient.rs (search and read Patient for context - ITI-78)
+- system/Binary.r (read Binary - ITI-68)
+- system/Patient.rs (search and read Patient - ITI-78)
 """
 
+// System-level search interaction
+* rest[=].interaction[+].code = #search-system
+* rest[=].interaction[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+* rest[=].interaction[=].extension[=].valueCode = #MAY
+* rest[=].interaction[=].documentation = "System-wide search support"
+
 // ============================================================================
-// DocumentReference resource - ITI-67 Find Document References
+// DocumentReference resource - ITI-67 Find Document References (query only)
 // ============================================================================
 * rest[=].resource[+].type = #DocumentReference
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].documentation = """
-DocumentReference resources are queried using the ITI-67 Find Document References
-transaction to discover available documents for a patient.
+DocumentReference resources are served via ITI-67 Find Document References.
+Document creation is internal; no external create operation is supported.
 """
 
+// ITI-67: Read DocumentReference by ID
 * rest[=].resource[=].interaction[+].code = #read
 * rest[=].resource[=].interaction[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].interaction[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].interaction[=].documentation = "Read DocumentReference by logical ID"
 
+// ITI-67: Search DocumentReference
 * rest[=].resource[=].interaction[+].code = #search-type
 * rest[=].resource[=].interaction[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].interaction[=].extension[=].valueCode = #SHALL
-* rest[=].resource[=].interaction[=].documentation = "Search DocumentReference (ITI-67)"
+* rest[=].resource[=].interaction[=].documentation = "Search for DocumentReference resources (ITI-67)"
+
+* rest[=].resource[=].updateCreate = false
+* rest[=].resource[=].conditionalCreate = false
+* rest[=].resource[=].conditionalUpdate = false
+* rest[=].resource[=].conditionalDelete = #not-supported
+* rest[=].resource[=].referencePolicy = #resolves
+* rest[=].resource[=].searchRevInclude = "Provenance:target"
 
 // Search parameters for DocumentReference - SHALL support
 * rest[=].resource[=].searchParam[+].name = "patient"
@@ -90,7 +137,7 @@ transaction to discover available documents for a patient.
 * rest[=].resource[=].searchParam[=].type = #reference
 * rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].searchParam[=].extension[=].valueCode = #SHALL
-* rest[=].resource[=].searchParam[=].documentation = "The patient the document is about (SHALL support)"
+* rest[=].resource[=].searchParam[=].documentation = "The patient the document is about. The server SHALL support at least id value and MAY support both Type and id values."
 
 * rest[=].resource[=].searchParam[+].name = "type"
 * rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/clinical-type"
@@ -119,7 +166,7 @@ transaction to discover available documents for a patient.
 * rest[=].resource[=].searchParam[=].type = #date
 * rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].searchParam[=].extension[=].valueCode = #SHOULD
-* rest[=].resource[=].searchParam[=].documentation = "When this document reference was created"
+* rest[=].resource[=].searchParam[=].documentation = "When this document reference was created. The date modifiers ge, le, gt, lt SHOULD be supported."
 
 * rest[=].resource[=].searchParam[+].name = "status"
 * rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-status"
@@ -135,21 +182,43 @@ transaction to discover available documents for a patient.
 * rest[=].resource[=].searchParam[=].extension[=].valueCode = #SHOULD
 * rest[=].resource[=].searchParam[=].documentation = "Master Version Specific Identifier"
 
+// Search parameters for DocumentReference - MAY support
+* rest[=].resource[=].searchParam[+].name = "period"
+* rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-period"
+* rest[=].resource[=].searchParam[=].type = #date
+* rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+* rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
+* rest[=].resource[=].searchParam[=].documentation = "Time of service that is being documented"
+
+* rest[=].resource[=].searchParam[+].name = "format"
+* rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-format"
+* rest[=].resource[=].searchParam[=].type = #token
+* rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+* rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
+* rest[=].resource[=].searchParam[=].documentation = "Format/content rules for the document"
+
 // ============================================================================
-// Binary resource - ITI-68 Retrieve Document
+// Binary resource - ITI-68 Retrieve Document (read only)
 // ============================================================================
 * rest[=].resource[+].type = #Binary
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].documentation = """
-Binary resources contain the actual document content and are retrieved using the
-ITI-68 Retrieve Document transaction.
+Binary resources contain the actual document content and are served via ITI-68
+Retrieve Document. Document content is created internally; no external create
+operation is supported.
 """
 
+// ITI-68: Retrieve document content
 * rest[=].resource[=].interaction[+].code = #read
 * rest[=].resource[=].interaction[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].interaction[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].interaction[=].documentation = "Retrieve document content (ITI-68)"
+
+* rest[=].resource[=].updateCreate = false
+* rest[=].resource[=].conditionalCreate = false
+* rest[=].resource[=].conditionalUpdate = false
+* rest[=].resource[=].conditionalDelete = #not-supported
 
 // ============================================================================
 // Patient resource - PDQm ITI-78 patient lookup
@@ -158,8 +227,8 @@ ITI-68 Retrieve Document transaction.
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].documentation = """
-Patient resources are searched to establish patient context before querying for documents.
-This uses PDQm [ITI-78] with identifier as a required search parameter.
+Patient resources support patient context lookup per PDQm [ITI-78]. The identifier
+search parameter is required; additional demographics parameters are optional.
 """
 
 * rest[=].resource[=].interaction[+].code = #read
@@ -171,6 +240,12 @@ This uses PDQm [ITI-78] with identifier as a required search parameter.
 * rest[=].resource[=].interaction[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].interaction[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].interaction[=].documentation = "Search for patients (PDQm ITI-78)"
+
+* rest[=].resource[=].updateCreate = false
+* rest[=].resource[=].conditionalCreate = false
+* rest[=].resource[=].conditionalUpdate = false
+* rest[=].resource[=].conditionalDelete = #not-supported
+* rest[=].resource[=].referencePolicy = #resolves
 
 * rest[=].resource[=].searchParam[+].name = "identifier"
 * rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/Patient-identifier"

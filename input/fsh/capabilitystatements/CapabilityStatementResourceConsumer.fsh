@@ -79,15 +79,15 @@ Required scopes to request:
 """
 
 // ============================================================================
-// Patient Resource - Lookup Only (search and read)
+// Patient Resource - PDQm ITI-78 patient lookup
 // ============================================================================
 * rest[=].resource[+].type = #Patient
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].documentation = """
-Patient resources are queried for patient lookup operations. This aligns with PDQm [ITI-78]
-for patient discovery. Note: Patient is used for lookup context, not as a primary
-clinical data resource in this actor.
+Patient resources are queried for patient lookup per PDQm [ITI-78] with identifier
+as a required search parameter. Note: Patient is used for lookup context, not as
+a primary clinical data resource in this actor.
 """
 
 * rest[=].resource[=].interaction[+].code = #read
@@ -112,7 +112,7 @@ clinical data resource in this actor.
 * rest[=].resource[=].searchParam[=].type = #token
 * rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].searchParam[=].extension[=].valueCode = #SHALL
-* rest[=].resource[=].searchParam[=].documentation = "Patient identifier (e.g., national ID, MRN)"
+* rest[=].resource[=].searchParam[=].documentation = "Patient identifier (e.g., national ID, MRN) - required for patient lookup"
 
 * rest[=].resource[=].searchParam[+].name = "family"
 * rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/individual-family"

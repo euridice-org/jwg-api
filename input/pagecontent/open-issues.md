@@ -46,30 +46,23 @@ How should patient lookup work in the European context? In most EU situations, w
 
 **Current Approach**
 
-The IG currently references three mechanisms:
-- [PDQm ITI-78](https://profiles.ihe.net/ITI/PDQm/) - Demographics-based patient search. Currently required in PDQm.
-- [PDQm Patient Demographics Match ITI-119](https://profiles.ihe.net/ITI/PDQm/ITI-119.html) - FHIR $match fuzzy matching operation (currently optional in PDQm)
-- [PIXm](https://profiles.ihe.net/ITI/PIXm/) - Identifier cross-reference (mentioned but not fully modeled)
+The IG inherits directly from [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/) with two transaction options:
 
-**Proposed Simplification**
+1. **[ITI-78] Mobile Patient Demographics Query** (Required) - Patient search with `identifier` as a required parameter. This constrains the standard PDQm transaction to require identifier-based lookup, covering the majority of EU use cases.
 
-Reduce to two primary options:
+2. **[ITI-119] Patient Demographics Match** (Optional) - FHIR $match operation for fuzzy demographic matching when identifier is not available.
 
-1. **Identifier Lookup** - MRN or national ID based lookup (covers ~90% of EU use cases). Question: how do we formally model this with IHE ITI? May be a constrained profile of ITI-78.
-
-2. **Patient $match** - For demographic-based fuzzy matching when identifier is not available. This is the existing PDQm $match operation.
+This simplification removes the middle option of full demographics-based search (family + given + birthdate), which is not suitable for safe clinical patient matching.
 
 **Open Questions**
 
-- How should we model the identifier lookup transaction formally with IHE?
 - Should CapabilityStatement advertise which national ID systems are supported for lookup?
 - We should inherit Patient from EU Core. Does this change anything about the transaction definitions?
 
 **Seeking Input On**
 
-- Does the two-option approach (identifier lookup + $match) cover European use cases?
-- Are there use cases requiring full PDQm demographics search that $match doesn't cover?
-- Is PIXm needed, or can we achieve the same with constrained PDQm?
+- Does the two-option approach (ITI-78 with identifier required + ITI-119 $match) cover European use cases?
+- Are there scenarios where identifier-based lookup is insufficient and $match is not appropriate?
 
 ---
 
@@ -99,33 +92,22 @@ Use ITI-65 Provide Document Bundle as the primary approach since it's required i
 
 ### Issue 4: Resource Access and Inheritance
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/14) | **Priority:** High
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/14) | **Priority:** Medium
 
-Resource access (granular RESTful FHIR resource queries) could inherit from multiple specifications (IPA, QEDM). We need to clarify the inheritance.
-
-We should inherit resource models from [EU Core](https://build.fhir.org/ig/hl7-eu/base/index.html) - and in this IG we need to define (1) Resource search parameters and (2) CapabilityStatements.
-
-IPA and QEDm are similar, but use slightly different search parameters (analysis needs to be done). Both profiles seem to be open to alignment with each other. Group generally prefers IPA - more adoption and maintenance.
+Resource access (granular RESTful FHIR resource queries) could inherit from multiple specifications (IPA, QEDm). This issue tracks the inheritance approach.
 
 **Current Approach**
 
 - **Data Models**: Inherit from EU Core profiles
-- **Search Parameters**: Copied from IPA
-- **Transactions**: Reference both IPA and QEDm, preferencing IPA
-
-**Proposed Approach**
-
-Start with IPA as foundation:
-1. **EU Core** for data models (profile definitions)
-2. **IPA** for search parameters and CapabilityStatement patterns
-3. **QEDm** alignment where needed (comparison analysis required)
+- **Search Parameters**: From IPA (required parameters listed in [Resource Access](resource-access.html))
+- **CapabilityStatements**: Instantiate IPA Server/Client
+- **QEDm**: Referenced where compatible with IPA. QEDm has a stated goal of aligning with IPA.
 
 A separate issue ([Issue 9](#issue-9-core-resource-set-validation)) tracks validation of the core resource set.
 
 **Seeking Input On**
-
-- Here is the IPA foundation approach. Does it make sense for European use cases?
-- A comparison analysis between IPA and QEDm is needed. How should we handle differences?
+- Do the implemented IPA search parameters work for Europe's needs?
+- What are the differences compared to QEDm, and how should those be handled?
 
 ---
 
