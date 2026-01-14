@@ -41,8 +41,8 @@ sequenceDiagram
     Note over Consumer,Provider: Document Exchange (MHD ITI-67, ITI-68)
     Consumer->>Provider: GET /DocumentReference?patient=...&type=60591-5
     Provider-->>Consumer: DocumentReference Bundle
-    Consumer->>Provider: GET /Binary/[id]
-    Provider-->>Consumer: Patient Summary Document
+    Consumer->>Provider: GET /Bundle/[id]
+    Provider-->>Consumer: Patient Summary (FHIR Document)
     end
 ```
 
@@ -69,7 +69,7 @@ POST https://provider.example.org/auth/token
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=client_credentials
-&scope=system/Patient.rs system/DocumentReference.rs system/Binary.r
+&scope=system/Patient.rs system/DocumentReference.rs system/Bundle.r
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=[signed JWT]
 ```
@@ -122,7 +122,7 @@ Response Bundle contains DocumentReference resources for available Patient Summa
   "content": [{
     "attachment": {
       "contentType": "application/fhir+json",
-      "url": "Binary/binary-456"
+      "url": "Bundle/ips-bundle-456"
     },
     "format": {
       "system": "http://ihe.net/fhir/ihe.formatcode.fhir/CodeSystem/formatcode",
@@ -135,21 +135,23 @@ Response Bundle contains DocumentReference resources for available Patient Summa
 
 #### Step 5: Retrieve Document Content
 
-Document Consumer retrieves the document content using **IHE MHD ITI-68** (Retrieve Document) transaction.
+Document Consumer retrieves the document content using **IHE MHD ITI-68** (Retrieve Document) transaction. The URL is taken from `DocumentReference.content.attachment.url`.
 
 ```
-GET https://provider.example.org/fhir/Binary/binary-456
+GET https://provider.example.org/fhir/Bundle/ips-bundle-456
 Authorization: Bearer [access_token]
 ```
 
-Response is the Patient Summary as a FHIR Bundle (document) in JSON format.
+Response is the Patient Summary as a FHIR Document (Bundle of type `document`) in JSON format.
+
+> **Note:** Patient Summary (IPS) is a FHIR Document, so it is retrieved as a Bundle resource, not a Binary. See [Document Exchange - FHIR Documents vs Binary](document-exchange.html#fhir-documents-vs-binary) for details.
 
 ### Key Points
 
 - All resource access requires [authorization](authorization.html)
 - Patient identification precedes health data queries
 - DocumentReference contains metadata about documents
-- Binary resource contains the actual document content
+- FHIR Documents (IPS, etc.) are retrieved as Bundle resources; non-FHIR documents (PDF) are retrieved as Binary resources
 - All transactions use standard FHIR RESTful interactions
 
 ### Variations
