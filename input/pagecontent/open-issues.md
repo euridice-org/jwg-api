@@ -92,7 +92,7 @@ Use ITI-65 Provide Document Bundle as the primary approach since it's required i
 
 ### Issue 4: Resource Access and Inheritance
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/14) | **Priority:** High
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/14) | **Priority:** Medium
 
 Resource access (granular RESTful FHIR resource queries) could inherit from multiple specifications (IPA, QEDm). This issue tracks the inheritance approach.
 
@@ -106,9 +106,8 @@ Resource access (granular RESTful FHIR resource queries) could inherit from mult
 A separate issue ([Issue 9](#issue-9-core-resource-set-validation)) tracks validation of the core resource set.
 
 **Seeking Input On**
-
-- Does the IPA-first approach make sense for European use cases?
-- Are there QEDm requirements that conflict with IPA that we should be aware of?
+- Do the implemented IPA search parameters
+- What are the differences compared to QEDm, and how should those be handled?
 
 ---
 
