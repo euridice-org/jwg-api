@@ -101,7 +101,7 @@ It is also useful in many cases to transact with individual FHIR resources (note
 <details>
 <summary><i>Note: What about Resource Producer?</i></summary>
 
-Resource exchange is more complex than document publication, and in many cases has resource and use-case specific considerations. Within the scope of this version of the IG, we assume a precondition that the Resource Access Provider has access to resources and focus on defining how the Resource Access Provider enables a consumer to search and read those resources. For more details and possible approaches, see the [Resource Exchange](resourceExchange.html) page.
+Resource exchange is more complex than document publication, and in many cases has resource and use-case specific considerations. Within the scope of this version of the IG, we assume a precondition that the Resource Access Provider has access to resources and focus on defining how the Resource Access Provider enables a consumer to search and read those resources. For more details and possible approaches, see the <a href="resourceExchange.html">Resource Exchange</a> page.
 
 </details>
 
@@ -110,7 +110,7 @@ These composite actors inherit existing actors from the IUA, PDQm, and IPA speci
 
 <figure>
 {% include simplified-resource-actors.svg%}
-<figcaption><b>Figure: Resource Exchange - Actor Groupings</b></figcaption>
+<figcaption><b>Figure: Resource Access - Actor Groupings</b></figcaption>
 </figure>
 <br clear="all">
 

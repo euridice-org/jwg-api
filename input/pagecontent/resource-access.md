@@ -37,9 +37,16 @@ sequenceDiagram
 - **Patient-scoped queries** - `patient` parameter required on all searches
 - Searches without `patient` parameter are rejected
 
+<details>
+<summary><i>Note: What about Resource Producer?</i></summary>
+
+Resource exchange is more complex than document publication, and in many cases has resource and use-case specific considerations. Within the scope of this version of the IG, we assume a precondition that the Resource Access Provider has access to resources and focus on defining how the Resource Access Provider enables a consumer to search and read those resources. For more details and possible approaches, see the <a href="resourceExchange.html">Resource Exchange</a> page.
+
+</details>
+
 ### Core Resources
 
-The following resources are available for read/search access. Data models inherit from [HL7 Europe Core](https://build.fhir.org/ig/hl7-eu/base/). Required search parameters are from IPA.
+The following resources are available for read/search access. Data models inherit from [HL7 Europe Core](https://build.fhir.org/ig/hl7-eu/base/). Required search parameters are from [IPA](https://build.fhir.org/ig/HL7/fhir-ipa/).
 
 | Resource | Required Search Parameters |
 |----------|---------------------------|
@@ -91,6 +98,9 @@ If resources are derived from documents, Provenance SHOULD link to source Docume
   }]
 }
 ```
+
+The [IHE mXDE](https://profiles.ihe.net/ITI/mXDE/index.html) profile provides more detail on how to extra resources from documents while maintaining provenance.  
+
 
 ### References
 
