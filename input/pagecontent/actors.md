@@ -99,11 +99,12 @@ It is also useful in many cases to transact with individual FHIR resources (note
 5. **Resource Consumer (client)** - A FHIR client that consumes external FHIR resources by querying a Resource Access Provider.
 
 <details>
-<summary><i>Note: What about Resource Producer?</i></summary>
+<summary><i>Note: What about Resource Producer? Click for more</i></summary>
 
 Resource exchange is more complex than document publication, and in many cases has resource and use-case specific considerations. Within the scope of this version of the IG, we assume a precondition that the Resource Access Provider has access to resources and focus on defining how the Resource Access Provider enables a consumer to search and read those resources. For more details and possible approaches, see the <a href="resourceExchange.html">Resource Exchange</a> page.
 
 </details>
+
 
 
 These composite actors inherit existing actors from the IUA, PDQm, and IPA specifications (with QEDm alignment where compatible):

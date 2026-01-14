@@ -9,6 +9,13 @@ FHIR resource query for direct access to clinical data. This capability is **opt
 
 See [Actors and Transactions](actors.html) for detailed actor groupings.
 
+<details>
+<summary><i>Note: What about Resource Producer? Click for more</i></summary>
+
+Resource exchange is more complex than document publication, and in many cases has resource and use-case specific considerations. Within the scope of this version of the IG, we assume a precondition that the Resource Access Provider has access to resources and focus on defining how the Resource Access Provider enables a consumer to search and read those resources. For more details and possible approaches, see the <a href="resourceExchange.html">Resource Exchange</a> page.
+
+</details>
+
 ### Specifications
 
 This IG aligns with:
@@ -33,16 +40,10 @@ sequenceDiagram
 
 ### Constraints
 
-- **Read/search only** - No create/update/delete operations
+- **Read/search only** - No create/update/delete operations. 
 - **Patient-scoped queries** - `patient` parameter required on all searches
 - Searches without `patient` parameter are rejected
 
-<details>
-<summary><i>Note: What about Resource Producer?</i></summary>
-
-Resource exchange is more complex than document publication, and in many cases has resource and use-case specific considerations. Within the scope of this version of the IG, we assume a precondition that the Resource Access Provider has access to resources and focus on defining how the Resource Access Provider enables a consumer to search and read those resources. For more details and possible approaches, see the <a href="resourceExchange.html">Resource Exchange</a> page.
-
-</details>
 
 ### Core Resources
 
