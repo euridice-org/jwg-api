@@ -33,10 +33,15 @@
 <page key="fhir-documents-vs-resources" name="FHIR Documents and Resources"/>
 <page key="functional" name="Functional Requirements"/>
 <page key="index" name="Home"/>
+<page key="priority-area-hdr" name="Hospital Discharge Report"/>
 <page key="implementation" name="Implementation"/>
+<page key="priority-area-imaging-manifest" name="Medical Imaging Manifest"/>
+<page key="priority-area-laboratory" name="Medical Test Results (Laboratory)"/>
 <page key="member-state-architectures" name="Member State Architectures"/>
 <page key="open-issues" name="Open Issues"/>
 <page key="patient-match" name="Patient Match"/>
+<page key="priority-area-eps" name="Patient Summary (EPS)"/>
+<page key="priority-categories" name="Priority Categories"/>
 <page key="regulatoryAnchors" name="Regulatory Anchors"/>
 <page key="xds-xca-bridge" name="Relationship to XDS/XCA"/>
 <page key="resource-access" name="Resource Access"/>
@@ -46,4 +51,5 @@
 <page key="usecase-cross-border-ncp" name="Use Case - Cross-Border via NCP"/>
 <page key="usecase-health-data-portal" name="Use Case - Health Data Access Service"/>
 <page key="usecase-health-professional-portal" name="Use Case - Health Professional Access Service"/>
+<page key="priority-area-mpd" name="ePrescription / eDispensation (MPD)"/>
 </specification>
