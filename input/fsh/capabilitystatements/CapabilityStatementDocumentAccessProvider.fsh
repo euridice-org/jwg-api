@@ -194,6 +194,74 @@ metadata for subsequent queries.
 * rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
 * rest[=].resource[=].searchParam[=].documentation = "Format/content rules for the document"
 
+// Additional MHD-aligned search parameters
+* rest[=].resource[=].searchParam[+].name = "_lastupdated"
+* rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated"
+* rest[=].resource[=].searchParam[=].type = #date
+* rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+* rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
+* rest[=].resource[=].searchParam[=].documentation = "When the resource version last changed"
+
+* rest[=].resource[=].searchParam[+].name = "creation"
+* rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-creation"
+* rest[=].resource[=].searchParam[=].type = #date
+* rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+* rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
+* rest[=].resource[=].searchParam[=].documentation = "Document creation time"
+
+* rest[=].resource[=].searchParam[+].name = "setting"
+* rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-setting"
+* rest[=].resource[=].searchParam[=].type = #token
+* rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+* rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
+* rest[=].resource[=].searchParam[=].documentation = "Additional details about where the content was created (e.g. clinical specialty)"
+
+* rest[=].resource[=].searchParam[+].name = "facility"
+* rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-facility"
+* rest[=].resource[=].searchParam[=].type = #token
+* rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+* rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
+* rest[=].resource[=].searchParam[=].documentation = "Kind of facility where patient was seen"
+
+* rest[=].resource[=].searchParam[+].name = "event"
+* rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-event"
+* rest[=].resource[=].searchParam[=].type = #token
+* rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+* rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
+* rest[=].resource[=].searchParam[=].documentation = "Main clinical acts documented"
+
+* rest[=].resource[=].searchParam[+].name = "security-label"
+* rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-security-label"
+* rest[=].resource[=].searchParam[=].type = #token
+* rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+* rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
+* rest[=].resource[=].searchParam[=].documentation = "Document security-tags"
+
+* rest[=].resource[=].searchParam[+].name = "related"
+* rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-related"
+* rest[=].resource[=].searchParam[=].type = #reference
+* rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+* rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
+* rest[=].resource[=].searchParam[=].documentation = "Related identifiers or resources"
+
+* rest[=].resource[=].searchParam[+].name = "author.given"
+* rest[=].resource[=].searchParam[=].type = #string
+* rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+* rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
+* rest[=].resource[=].searchParam[=].documentation = "Given name of document author"
+
+* rest[=].resource[=].searchParam[+].name = "author.family"
+* rest[=].resource[=].searchParam[=].type = #string
+* rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+* rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
+* rest[=].resource[=].searchParam[=].documentation = "Family name of document author"
+
+* rest[=].resource[=].searchParam[+].name = "patient.identifier"
+* rest[=].resource[=].searchParam[=].type = #token
+* rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+* rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
+* rest[=].resource[=].searchParam[=].documentation = "Patient identifier (chained search)"
+
 // ============================================================================
 // Binary resource - ITI-65 receive and ITI-68 retrieve
 // ============================================================================

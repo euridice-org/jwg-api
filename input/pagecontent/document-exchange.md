@@ -114,7 +114,7 @@ GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19
 GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|IMAGES&status=current
 ```
 
-> **Open Issue #8**: We are seeking input on how imaging manifests should be coded. See [Imaging Manifest Coding](open-issues.html#issue-8-imaging-manifest-coding) for discussion.
+> **Note:** Imaging manifests use formatCode + mimeType for specific identification. See [Imaging Manifest](priority-area-imaging-manifest.html) for the recommended coding approach.
 
 #### Hospital Discharge Reports
 
