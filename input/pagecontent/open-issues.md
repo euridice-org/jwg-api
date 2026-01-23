@@ -14,11 +14,9 @@ This is particularly complex for Medical Test Results and Imaging Results, which
 
 **Current Approach**
 
-Following the [IHE XDS Metadata Coding White Paper](https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System):
-
 | Parameter | Purpose | Coding System |
 |-----------|---------|---------------|
-| `category` | Coarse search | XDS ClassCode (REPORTS, SUMMARIES, IMAGES) |
+| `category` | Coarse search | EHDS Document Priority Category CodeSystem |
 | `type` | Clinical precision | LOINC codes |
 | `practiceSetting` | Differentiate within category | Healthcare setting codes |
 

@@ -1,40 +1,63 @@
 // =============================================================================
 // DocumentReference Category ValueSet (Coarse Search)
 // =============================================================================
-// Based on IHE XDS ClassCode - used for broad document classification
-// This enables "cast a wide net" searches before client-side filtering
-// See: https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System
+// EHDS Regulation defined priority document categories for cross-border primary use
 
-ValueSet:   EEHRxFDocumentClassVS
-Id:         eehrxf-document-class-vs
-Title:      "EEHRxF Document Class ValueSet (Category)"
+CodeSystem: EEHRxFDocumentPriorityCategoryCS
+Id:         eehrxf-document-priority-category-cs
+Title:      "EEHRxF Document Priority Category CodeSystem"
 Description: """
-Document class codes for coarse-grained document discovery searches.
+CodeSystem for priority document categories in EEHRxF as the document categories as defined in the EHDS regulation.
 
-This ValueSet is based on the IHE XDS ClassCode Metadata Coding System and is used
-in DocumentReference.category for broad document filtering. It supports a two-step
-search approach:
+The codes defined here are directly linked to the Priority Categories defined in the EHDS regulation. The meaning of these codes is directly linked to the meaning given to the concepts in the EHDS regulation.
 
-1. **Request Search**: Use category (this ValueSet) to cast a wide net
-2. **Response Filtering**: Use type (LOINC codes) for clinical precision
+The EHDS Regulation initially defines six priority categories of electronic health data that all Member States must support first for cross-border primary use. These categories are explicitly listed in [Article 14](https://eur-lex.europa.eu/eli/reg/2025/327/oj#d1e2289-1-1) of Regulation (EU) 2025/327.
 
-For example, to find imaging reports:
-- Search: `category=REPORTS` combined with `practiceSetting` for radiology
-- Filter results client-side using DocumentReference.type
+[Article 105](https://eur-lex.europa.eu/eli/reg/2025/327/oj#d1e6862-1-1) specifies the date when support for these priority categories is required: 26 March 2029 for categories (a), (b) and (c); 28 march 2031 for (d), (e) and (f).
 
-See [IHE XDS ClassCode](https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System)
-for complete definitions.
+EHDS empowers the EU Commission to make changes to the list of priority categories at any point in time by means of a Delegated Act (Article 14(2)). There will be a minimum 1-year lead time between the decision to add a new priority category and the initial date when support ahs to be implemented.
+
+The definitions of the priority categories comes from [ANNEX I](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32025R0327#annex-I) of the EHDS Regulation.
 """
 * ^experimental = false
-* $xds-class-code#REPORTS "Reports"
-* $xds-class-code#SUMMARIES "Summaries"
-* $xds-class-code#IMAGES "Images"
-* $xds-class-code#PRESCRIPTIONS "Prescriptions"
-* $xds-class-code#DISPENSATIONS "Dispensations"
-* $xds-class-code#PLANS "Plans"
-* $xds-class-code#HEALTH "Health Certificates"
-* $xds-class-code#PATIENT "Patient Expressions"
-* $xds-class-code#WORKFLOWS "Workflows"
+* ^caseSensitive = true
+* #Patient-Summaries "patient summaries" """
+Electronic health data that include significant clinical facts related to an identified natural person and that are essential for the provision of safe and efficient healthcare to that person. The following information is part of a patient summary:
+
+1. Personal details.
+2. Contact information.
+3. Information on insurance.
+4. Allergies.
+5. Medical alerts.
+6. Vaccination/prophylaxis information, possibly in the form of a vaccination card.
+7. Current, resolved, closed or inactive problems, including in an international classification coding.
+8. Textual information related to medical history.
+9. Medical devices and implants.
+10. Medical or care procedures.
+11. Functional status.
+12. Current and relevant past medicines.
+13. Social history observations related to health.
+14. Pregnancy history.
+15. Patient-provided data.
+16. Observation results pertaining to the health condition.
+17. Plan of care.
+18. Information on a rare disease, such as details about the impact or characteristics of the disease.
+"""
+* #Electronic-Prescriptions "electronic prescriptions" "Electronic health data constituting a prescription for a medicinal product as defined in Article 3, point (k), of Directive 2011/24/EU."
+* #Electronic-Dispensations "electronic dispensations" "Information on the supply of a medicinal product to a natural person by a pharmacy based on an electronic prescription."
+* #Medical-Imaging "medical imaging studies and related imaging reports" "Electronic health data related to the use of or produced by technologies that are used to view the human body in order to prevent, diagnose, monitor or treat medical conditions."
+* #Laboratory-Reports "medical test results, including laboratory and other diagnostic results and related reports" "Electronic health data representing results of studies performed in particular through in vitro diagnostics such as clinical biochemistry, haematology, transfusion medicine, microbiology, immunology and others, and including, where relevant, reports supporting the interpretation of the results."
+* #Discharge-Reports "discharge reports" "Electronic health data related to a healthcare encounter or episode of care and including essential information about admission, treatment and discharge of a natural person."
+
+ValueSet:  EEHRxFDocumentPriorityCategoryVS
+Id:        eehrxf-document-priority-category-vs
+Title:     "EEHRxF Document Priority Category ValueSet"
+Description: """
+ValueSet for priority document categories in EEHRxF as the document categories as defined in the EHDS regulation. See [EEHRxFDocumentPriorityCategoryCS](CodeSystem-eehrxf-document-priority-category-cs.html) for the complete list and background.
+"""
+* ^experimental = false
+* codes from system EEHRxFDocumentPriorityCategoryCS
+
 
 
 // =============================================================================
@@ -66,6 +89,8 @@ clinical precision for identifying exact document kinds.
 - Diagnostic Imaging Report
 
 Note: This list will expand as additional priority categories are implemented.
+
+JFM: This ValueSet should be made up of other ValueSets, with each of them assigned to one of the priority categories. Thus it is clear what document types are within each category. Is this the place to find all of them? https://confluence.hl7.org/spaces/HEU/pages/358255737/Implementation+Guides
 """
 * ^experimental = false
 * insert LOINCCopyrightForVS

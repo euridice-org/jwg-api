@@ -57,25 +57,19 @@ This follows [MHD Section 2:3.65.4.1.2.1](https://profiles.ihe.net/ITI/MHD/ITI-6
 
 ### Document Search Strategy
 
-This IG follows the [IHE approach for document discovery](https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System):
+This IG follows the [IHE approach for document discovery](https://profiles.ihe.net/ITI/HIE-Whitepaper/index.html#26-value-of-metadata):
 
-1. **Category** (coarse search): XDS ClassCode for broad classification
-2. **Type** (clinical precision): LOINC codes for specific document types
+1. **category** (coarse search): (aka, XDS `classCode`) : are used for broad classification of the content based on EHDS priority categories.
+2. **type** (clinical precision): (aka, XDS `typeCode`): are codes for specific document types. Typically LOINC codes.
 3. **practiceSetting**: Differentiate clinical specialty (e.g., lab vs radiology)
 
 > **Open Issue #1**: We are seeking input on the document search approach. See [Document Search and Priority Category Differentiation](open-issues.html#issue-1-document-search-and-priority-category-differentiation) for discussion and alternatives.
 
 #### Category Values (XDS ClassCode)
 
-| Code | Use For |
-|------|---------|
-| `REPORTS` | Medical test results, imaging reports |
-| `SUMMARIES` | Patient summaries, discharge summaries |
-| `IMAGES` | Imaging manifests |
-| `PRESCRIPTIONS` | Medication prescriptions |
-| `DISPENSATIONS` | Medication dispensation records |
+The EHDS priority areas are defined by the regulation and thus have specific meaning as defined there. For this reason we create new codes specifically for EEHRxF rather than reusing existing XDS class codes.
 
-See [EEHRxFDocumentClassVS](ValueSet-eehrxf-document-class-vs.html) for the complete list.
+See [EEHRxFDocumentPriorityCategoryCS](CodeSystem-eehrxf-document-priority-category-cs.html) for the complete list.
 
 #### Type Values (LOINC)
 
@@ -138,5 +132,5 @@ The Bundle contains DocumentReference + Binary resources. See [IHE MHD ITI-65](h
 ### References
 
 - [IHE MHD Specification](https://profiles.ihe.net/ITI/MHD/)
-- [IHE XDS ClassCode Metadata](https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System)
+- [IHE Document Sharing](https://profiles.ihe.net/ITI/HIE-Whitepaper/index.html)
 - [Actors and Transactions](actors.html)
