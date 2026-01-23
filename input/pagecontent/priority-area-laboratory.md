@@ -1,36 +1,27 @@
-This priority area covers the exchange of laboratory reports as documents.
+{% include variable-definitions.md %}
+This section defines the API requirements for EHR systems that provide laboratory reports conforming to the {{hl7EuLabs}} content profile.
 
-### Content Specification
+### Actors
 
-Laboratory reports in this IG follow the [EU Laboratory Report Implementation Guide](https://hl7.eu/fhir/laboratory/).
+Laboratory Reports can be accessed via document exchange.
 
-### Document Type
+| Actor | Description | CapabilityStatement |
+|-------|-------------|---------------------|
+| Document Consumer | Retrieves laboratory reports | [EEHRxF Document Consumer](CapabilityStatement-EEHRxF-DocumentConsumer.html) |
+| Document Access Provider | Serves laboratory reports | [EEHRxF Document Responder](CapabilityStatement-EEHRxF-DocumentResponder.html) |
 
-| Element | Value |
-|---------|-------|
-| `type` | `http://loinc.org\|11502-2` (Laboratory report) |
-| `category` | `urn:oid:1.3.6.1.4.1.19376.1.2.6.1\|REPORTS` |
-| `format` | As defined in EU Laboratory IG |
+### Document Exchange
 
-### How to Retrieve Laboratory Reports
+For document-based access, use the [Document Exchange](document-exchange.html) transactions.
 
-Laboratory reports are retrieved using the same pattern as other documents. The retrieval workflow follows the standard sequence:
+The Laboratory Report is differentiated via the following DocumentReference fields:
+- **type**: `11502-2` (Laboratory report)
+- **category**: `REPORTS` (XDS ClassCode)
 
-1. **Authorization** - Obtain access token with `system/DocumentReference.rs` and document retrieval scope (see [Document Exchange](document-exchange.html#fhir-documents-vs-binary))
-2. **Patient Lookup** - Identify the patient using ITI-78 (PDQm)
-3. **Document Search** - Search for laboratory reports using ITI-67 with `type=http://loinc.org|11502-2`
-4. **Document Retrieval** - Retrieve the document content using ITI-68
-
-#### Example Query
+### Example Query
 
 ```
-GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|11502-2&status=current
+GET /DocumentReference?patient=123&type=http://loinc.org|11502-2&status=current
 ```
 
-For the complete step-by-step workflow with authorization details and example responses, see [Retrieve a European Patient Summary](example-patient-summary.html). The pattern is identical - only the `type` parameter changes.
-
-### See Also
-
-- [EU Laboratory Report IG](https://hl7.eu/fhir/laboratory/)
-- [Document Exchange](document-exchange.html) - Query patterns and search strategy
-- [Example: Patient Summary Retrieval](example-patient-summary.html) - Complete workflow example
+See [Example: Retrieve A European Patient Summary](example-patient-summary.html) for a complete workflow example (the pattern is identical).

@@ -1,5 +1,34 @@
-https://hl7.eu/fhir/imaging-manifest-r4/
+{% include variable-definitions.md %}
+This section defines the API requirements for EHR systems that provide imaging study manifests (references to DICOM imaging studies).
 
-> **Open Issue #7**: The EU Imaging Study Manifest is R5-based, but this IG targets R4. See [R4/R5 Harmonization](open-issues.html#issue-7-r4r5-harmonization) for discussion.
+For detailed content profiles, see the [EU Imaging Study Manifest IG](https://hl7.eu/fhir/imaging-manifest-r4/).
 
-> **Open Issue #8**: We are seeking input on how imaging manifests should be coded for document search. See [Imaging Manifest Coding](open-issues.html#issue-8-imaging-manifest-coding) for discussion.
+### Actors
+
+Imaging Manifests can be accessed via document exchange.
+
+| Actor | Description | CapabilityStatement |
+|-------|-------------|---------------------|
+| Document Consumer | Retrieves imaging manifests | [EEHRxF Document Consumer](CapabilityStatement-EEHRxF-DocumentConsumer.html) |
+| Document Access Provider | Serves imaging manifests | [EEHRxF Document Responder](CapabilityStatement-EEHRxF-DocumentResponder.html) |
+
+### Document Exchange
+
+For document-based access, use the [Document Exchange](document-exchange.html) transactions.
+
+The Imaging Manifest is differentiated via the following DocumentReference fields:
+- **category**: `IMAGES` (XDS ClassCode)
+- **type**: 19005-8
+
+### Example Query
+
+```
+GET /DocumentReference?patient=123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|IMAGES&status=current
+```
+
+See [Example: Retrieve A European Patient Summary](example-patient-summary.html) for a complete workflow example (the pattern is similar, with different documentReference parameters).
+
+
+### IHE MADO
+
+DICOM Image access is in scope for EHDS and is covered by the EURIDICE MADO profile. It is supported by MHD-defined delivery of the imaging manifest, but the image access methods are handled within the MADO profile and not in this IG.

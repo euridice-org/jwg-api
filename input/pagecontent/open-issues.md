@@ -174,22 +174,18 @@ This IG targets FHIR R4, but some European specifications are R5-based. The EU E
 
 ### Issue 8: Imaging Manifest Coding
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/18) | **Priority:** Medium
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/18) | **Priority:** Medium | **Status:** Resolved
 
-Imaging manifests (DICOM study references) need more detail on how they are exposed in document searches. No standard LOINC code exists for imaging manifests. How should a consumer search for Imaging Manifests, and how are they differentiated from other documents?
+Imaging manifests (DICOM study references) are differentiated from other documents using formatCode + mimeType coding.
 
-**Current Approach**
+**Resolution**
 
-- Delivered via MHD transactions
-- Use `category` = IMAGES (XDS ClassCode)
-- Use `format` to indicate DICOM content
+The agreed approach uses:
+- `category` = IMAGES (XDS ClassCode) for coarse classification
+- `format` = MADO-defined formatCode for specific manifest identification
+- `content.attachment.contentType` for technical format
 
-This is related to [Issue 1](#issue-1-document-search-and-priority-category-differentiation) but specific to imaging.
-
-**Seeking Input On**
-
-- Is the current coding approach (category + format) appropriate for imaging manifests?
-- What coding approach should be used?
+Imaging manifests cannot be reliably identified by category alone (IMAGES may include TIFF, JPEG, manifests, etc.). The formatCode provides the needed specificity. See [Imaging Manifest](priority-area-imaging-manifest.html) for full details.
 
 ---
 

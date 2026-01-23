@@ -15,6 +15,7 @@ Other Member States use federated architectures where data remains at the source
 - EHR systems retain data locally
 - Queries are federated across multiple systems
 - National infrastructure routes queries to appropriate sources
+- Some national infrastructures mimic a virtual national EHR by broadcasting the inbound request to all systems that have records to share for the patient and requested resource (using a record locator service) and aggregates a concatenated response on the fly
 
 ### Fitting This Specification to Different Architectures
 

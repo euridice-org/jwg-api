@@ -67,14 +67,26 @@ pages:
       title: Regulatory Anchors
       ehds-annex-ii.md:
         title: EHDS Annex II - Essential Requirements
-    fhir-documents-vs-resources.md:
-      title: FHIR Documents and Resources
-    xds-xca-bridge.md:
-      title: Relationship to XDS/XCA
-    member-state-architectures.md:
-      title: Member State Architectures
     actors.md:
       title: Actors and Transactions
+    priority-categories.md:
+      title: Priority Categories
+      priority-area-eps.md:
+        title: Patient Summary (EPS)
+      priority-area-mpd.md:
+        title: ePrescription / eDispensation (MPD)
+      priority-area-laboratory.md:
+        title: Medical Test Results (Laboratory)
+      priority-area-imaging-manifest.md:
+        title: Medical Imaging Manifest
+      priority-area-hdr.md:
+        title: Hospital Discharge Report
+    member-state-architectures.md:
+      title: Member State Architectures
+      fhir-documents-vs-resources.md:
+        title: FHIR Documents and Resources
+      xds-xca-bridge.md:
+        title: Relationship to XDS/XCA
     changes.md:
       title: Change Log
     open-issues.md:
@@ -142,6 +154,7 @@ menu:
   Background:
     Regulatory Anchors: regulatoryAnchors.html
     Actors and Transactions: actors.html
+    Priority Categories: priority-categories.html
     Member State Architectures: member-state-architectures.html
     Change Log: changes.html
     Open Issues: open-issues.html
@@ -206,6 +219,8 @@ parameters:
   # packages: ./package-cache
   releaselabel: 0.1.1-build
   shownav: 'true'
+  # GitHub issue tracker - used instead of Jira for this IG
+  feedback: https://github.com/euridice-org/jwg-api/issues
 
 # ╭───────────────────────────Less Common Implementation Guide Properties──────────────────────────╮
 # │  Uncomment the properties below to configure additional properties on the ImplementationGuide  │

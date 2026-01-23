@@ -15,13 +15,15 @@
 {% assign iheITI-66         = "[ITI-1](https://profiles.ihe.net/ITI/TF/Volume2/ITI-66.html)" %}
 
 {% assign iheXDEm           = "[IHE-mXDE](https://profiles.ihe.net/ITI/mXDE/)" %}
+{% assign iheMPD            = "[IHE MPD](https://profiles.ihe.net/PHARM/MPD/)" %}
 
 {% assign hl7EuBase         = "[HL7 EU Base](https://build.fhir.org/ig/hl7-eu/base-r5/)" %}
 {% assign hl7EuExtensions   = "[HL7 Europe Extensions](https://build.fhir.org/ig/hl7-eu/extensions-r5/)" %}
 {% assign hl7EuEps          = "[HL7 EU Patient Summary](https://build.fhir.org/ig/hl7-eu/eps/branches/master/index.html)" %}
 {% assign hl7EuLabs         = "[HL7 EU Laboratory Reports](https://build.fhir.org/ig/hl7-eu/laboratory/branches/master/index.html)" %}
-{% assign hl7EuHdr          = "[HL7 EU Hospital Discharge Reports](https://build.fhir.org/ig/hl7-eu/hdr/index.html)" %}
+{% assign hl7EuHdr          = "[HL7 EU Hospital Discharge Report](https://hl7.eu/fhir/hdr/index.html)" %}
 {% assign hl7EuEps          = "[HL7 Europe Patient Summary](https://build.fhir.org/ig/hl7-eu/eps/)" %}
+{% assign hl7EuMpd          = "[HL7 EU Medication Prescription and Dispense](https://hl7.eu/fhir/mpd/)" %}
 
 {% assign FHIR              = "[HL7 FHIR Release 4.0](http://www.hl7.org/FHIR/R4)" %}
 {% assign FhirBulkData      = "[FHIR bulk data access](https://build.fhir.org/ig/HL7/bulk-data/)" %}
