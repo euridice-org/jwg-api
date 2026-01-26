@@ -19,7 +19,7 @@ This includes:
 - **Resource query** (search, read)
 
 Composite actors:
-- **Document Producer** / **Document Access Provider** / **Document Consumer**
+- **Document Publisher** / **Document Access Provider** / **Document Consumer**
 - **Resource Access Provider** / **Resource Consumer**
 
 ## Specifications This Is Not:

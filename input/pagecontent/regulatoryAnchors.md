@@ -62,6 +62,16 @@ This adjustment addresses real-world deployment scenarios:
 
 See [Actors](actors.html) for complete definitions and [Example Groupings](actors.html#example-groupings) for deployment illustrations.
 
+### EHDS ANNEX II §2.2 - Receive EEHRxF
+
+Xt-EHR and this IG interpret "receive" as the ability to **query and retrieve** data from external systems—acting as an API client.
+
+This interpretation aligns with the FHIR query-based exchange model where systems actively request data they need, satisfies the regulatory intent of enabling data to flow into EHR systems, and maintains symmetry with §2.1—Provide Access.
+
+The **[Document Consumer](actors.html#document-consumer)** actor satisfies §2.2 by implementing ITI-67 and ITI-68 as a client.
+
+> **Note:** Systems that need to accept published documents (e.g., national infrastructure, integration engines) may implement the **[Document Submission Option](actors.html#document-submission-option)** on the Document Access Provider actor.
+
 ### Requirements Table
 
 The following table maps each D5.1 interoperability requirement to its implementation in this IG:

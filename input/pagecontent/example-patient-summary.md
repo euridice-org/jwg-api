@@ -144,7 +144,7 @@ Authorization: Bearer [access_token]
 
 Response is the Patient Summary as a FHIR Document (Bundle of type `document`) in JSON format.
 
-> **Note:** Patient Summary (IPS) is a FHIR Document, so it is retrieved as a Bundle resource, not a Binary. See [Document Exchange - FHIR Documents vs Binary](document-exchange.html#fhir-documents-vs-binary) for details.
+> **Note:** Patient Summary (IPS) is a FHIR Document, so it is retrieved as a Bundle resource, not a Binary. See [Document Exchange - Document Content](document-exchange.html#document-content) for details.
 
 ### Key Points
 
