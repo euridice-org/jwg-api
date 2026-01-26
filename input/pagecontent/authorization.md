@@ -121,10 +121,6 @@ Scopes follow [SMART v2 conventions](https://build.fhir.org/ig/HL7/smart-app-lau
 
 All API communications SHALL use secure transport as defined by [IHE ATNA Secure Node](https://profiles.ihe.net/ITI/TF/Volume1/ch-9.html) with the [TLS 1.2 Floor Option](https://profiles.ihe.net/ITI/TF/Volume1/ch-9.html#9.3.1.2).
 
-**Certificate Requirements**:
-- Certificates SHALL be issued by a widely trusted Certificate Authority (CA)
-- Self-signed certificates SHALL NOT be used in production environments
-
 ### Potential Future Work: User-Level Authorization
 
 User-level authorization (including patient-mediated access) is out of scope for this version of the implementation Guide. For patient-mediated access patterns, readers are encouraged to consider [SMART on FHIR App Launch](https://build.fhir.org/ig/HL7/smart-app-launch/) and [International Patient Access](https://build.fhir.org/ig/HL7/fhir-ipa/). Integration with the EU Digital Identity Wallet and eIDAS framework may be addressed in future editions.
