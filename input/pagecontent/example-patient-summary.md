@@ -69,7 +69,7 @@ POST https://provider.example.org/auth/token
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=client_credentials
-&scope=system/Patient.rs system/DocumentReference.rs system/Bundle.r
+&scope=system/Patient.read system/Patient.search system/DocumentReference.read system/DocumentReference.search system/Bundle.read
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=[signed JWT]
 ```
