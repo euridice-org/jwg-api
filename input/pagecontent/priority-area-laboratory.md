@@ -8,7 +8,7 @@ Laboratory Reports can be accessed via document exchange.
 | Actor | Description | CapabilityStatement |
 |-------|-------------|---------------------|
 | Document Consumer | Retrieves laboratory reports | [EEHRxF Document Consumer](CapabilityStatement-EEHRxF-DocumentConsumer.html) |
-| Document Access Provider | Serves laboratory reports | [EEHRxF Document Responder](CapabilityStatement-EEHRxF-DocumentResponder.html) |
+| Document Access Provider | Serves laboratory reports | [EEHRxF Document Responder](CapabilityStatement-EEHRxF-DocumentAccessProvider.html) |
 
 ### Document Exchange
 
