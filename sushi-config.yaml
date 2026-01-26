@@ -30,14 +30,14 @@ license: CC0-1.0 # https://www.hl7.org/fhir/valueset-spdx-license.html
 # use cases, the value can be an object with keys for id, uri, and version.
 #
 dependencies:
-  hl7.fhir.uv.bulkdata: current
   hl7.fhir.eu.base: current
   ihe.iti.pdqm: 3.2.x
-  ihe.iti.pixm: 3.1.x
   ihe.iti.mhd: 4.2.x
   ihe.pcc.qedm: 3.0.x
   hl7.fhir.eu.laboratory: current
   hl7.fhir.uv.ipa: 1.1.x
+# Removed: ihe.iti.pixm (Spencer S5 - not useful for this use case)
+# Removed: hl7.fhir.uv.bulkdata (bulk data out of scope v1)
 # Note: IUA is referenced conceptually but not as a package dependency
 # Authorization uses SMART Backend Services with IUA actor groupings
 #   hl7.fhir.us.core: 3.1.0

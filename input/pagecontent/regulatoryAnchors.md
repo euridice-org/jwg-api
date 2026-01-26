@@ -28,7 +28,7 @@ This table describes the bridge between the regulation text and precise and impl
 |----------|---------------------|--------------------------------|---------------------------------------------|
 | **Description** | Law. High-level description of interoperability goals. | EHDS Implementing acts. System roles and capabilities, requirements  on EHR systems to achieve those goals <br/><br/>| Strictly defined interoperability technical rules. Implementable Guide describing use FHIR (or other) specifications. <br/><br/>**Basis of interoperability conformance** |
 | **Level of Technical Detail** | low | medium | high |
-| **Example** | EHDS Annex § 2.1: The EHR system should provide access to data in the EEHRxF format | **api-access-doc**: The EHR system Interoperability Software Component SHALL offer an API that enables an external system (such as a consumer) to access and retrieve its priority category data, for categories where that data is modeled as a FHIR Document <br/> | The **api-access-doc** requirement is met by the EHR System implementing the IHE MHD ITI-67 and ITI-68 transactions as the Document Responder actor.<br/> *Example FHIR Query: GET [base]/DocumentReference?Category=123<query>*  |
+| **Example** | EHDS Annex § 2.1: The EHR system should provide access to data in the EEHRxF format | **api-access-doc**: The EHR system Interoperability Software Component SHALL offer an API that enables an external system (such as a consumer) to access and retrieve its priority category data, for categories where that data is modeled as a FHIR Document <br/> | The **api-access-doc** requirement is met by the EHR System implementing the IHE MHD ITI-67 and ITI-68 transactions as the Document Responder actor.<br/> *Example FHIR Query: GET [base]/DocumentReference?category=123*  |
 | **Owner** | European Commission | European Commission<br/>(drafted by Xt-EHR), Member States | **To be decided** by the European Commission and Member States. SDO's (HL7 EU, IHE Europe) are proposing a draft with this Implementation Guide |
 | **Notes** | | Member States have some freedom to define additional requirements here. | |
 
@@ -50,17 +50,15 @@ D5.1 defined **26 requirements** across three categories (see Xt-EHR D5.1 Annex 
 
 Xt-EHR deliverable 5.1 interpreted the EHDS Annex II requirements for EHR systems to "provide access to data" and "receive data" as a **query-based FHIR exchange architecture between systems**. D5.1 initially defined this using a two-actor model: **Producer** (providing access) and **Consumer** (receiving data). In this model, a Provider EHR system offers FHIR API(s) that enable external actors to query and retrieve data, while a Consumer EHR system supports those same FHIR API(s) as a client to receive data.
 
-[diagram]
-
-This Implementation Guide refines the D5.1 actor model by separating the **Producer** role into a **[Document Producer](actors.html#document-producer)** (which creates and publishes documents) and a **[Document Access Provider](actors.html#document-access-provider)** (which hosts APIs for document query and retrieval). The Access Provider assumes the server-side responsibilities from the original Producer role.
+This Implementation Guide refines the D5.1 actor model by separating the **Producer** role into a **[Document Publisher](actors.html#document-publisher)** (which creates and publishes documents) and a **[Document Access Provider](actors.html#document-access-provider)** (which hosts APIs for document query and retrieval). The Access Provider assumes the server-side responsibilities from the original Producer role.
 
 This adjustment addresses real-world deployment scenarios:
 
 1. **Fit to real-world system architectures**: The system that creates clinical data is not necessarily the system that typically hosts API access to that data, and not all EHR systems are well-fit to serving real-time queries 24/7. For example, an iPad clinician app may produce documents but does not make a good server. Such a system may "make its data available" by publishing documents to a hospital-level Document Access Provider that hosts an API to provide access to Consumers.
 
-2. **Aggregation at hospital scale**: A hospital document management system (Document Access Provider) aggregates data from departmental modules (Document Producers) to offer a single entry point for clinicians or a single access point for external consumers.
+2. **Aggregation at hospital scale**: A hospital document management system (Document Access Provider) aggregates data from departmental modules (Document Publishers) to offer a single entry point for clinicians or a single access point for external consumers.
 
-3. **Aggregation at national scale**: In many EU member states, healthcare organization EHRs (Document Producers) submit documents to a national repository (Document Access Provider), which provides access to data across the region.
+3. **Aggregation at national scale**: In many EU member states, healthcare organization EHRs (Document Publishers) submit documents to a national repository (Document Access Provider), which provides access to data across the region.
 
 See [Actors](actors.html) for complete definitions and [Example Groupings](actors.html#example-groupings) for deployment illustrations.
 
