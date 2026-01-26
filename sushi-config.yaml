@@ -98,7 +98,7 @@ pages:
     authorization.md:
       title: Authorization
     patient-match.md:
-      title: Patient Match
+      title: Patient Matching
     document-exchange.md:
       title: Document Exchange
     resource-access.md:
@@ -161,7 +161,7 @@ menu:
   Functional Requirements:
     Capability Discovery: capability-discovery.html
     Authorization: authorization.html
-    Patient Match: patient-match.html
+    Patient Matching: patient-match.html
     Document Exchange: document-exchange.html
     Resource Access: resource-access.html
   Implementation:

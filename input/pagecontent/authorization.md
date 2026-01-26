@@ -2,7 +2,7 @@
 
 Authorization is required for all API transactions. This IG inherits [SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) for system-to-system authorization, grouped with IHE IUA actors.
 
-We adopt SMART Backend Services as specified—including token formats, JWT requirements, and authentication methods—to align with globally recognized specifications and reduce implementation burden.
+We adopt SMART Backend Services as specified—including token formats, JWT requirements, and authentication methods—to align with globally recognized specifications and reduce implementation burden. As a profile on SMART, all underlying SMART requirements still apply; omitting a detail from this IG does not exempt implementations from SMART requirements.
 
 ### Scope: System-to-System Authorization
 
@@ -29,13 +29,13 @@ sequenceDiagram
 
 ### IHE IUA Actor Groupings
 
-- **Document/Resource Producer:** IUA Authorization Client
+- **Document/Resource Publisher:** IUA Authorization Client
 - **Document/Resource Consumer:** IUA Authorization Client
 - **Document/Resource Access Provider:** IUA Authorization Server + Resource Server
 
 ### Client Registration
 
-Out of band, the Consumer registers identity credentials (public key, client identifier) with the Access Provider.
+Out of band, the Consumer registers identity credentials (public key, client identifier) with the Access Provider. See [SMART App Launch: Registering a Client](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#registering-a-client-communicating-public-keys) for guidance on client registration and public key communication.
 
 Future: Consider UDAP for dynamic client registration.
 See [FHIR UDAP Security IG](https://build.fhir.org/ig/HL7/fhir-udap-security-ig/) for more details.
@@ -76,7 +76,9 @@ Servers SHALL validate tokens on every API request:
 - Verify token signature
 - Check token expiration (`exp` claim)
 - Validate audience (`aud` matches server)
-- Confirm requested operation is within granted scopes
+- Confirm the requested API operation is within granted scopes
+
+For comprehensive token validation guidance including `jti` tracking and signature verification details, see [SMART App Launch: Signature Verification](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
 
 ### Presenting Tokens {#presenting-tokens}
 
@@ -92,40 +94,36 @@ Tokens must be presented on all API requests to protected resources.
 
 Scopes follow [SMART v2 conventions](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) and align with required MHD and QEDm transactions:
 
-#### Document Producer (MHD ITI-65)
-- `system/DocumentReference.c` - Create DocumentReference
-- `system/Binary.c` - Create Binary
-- `system/Patient.rs` - Read/search Patient (for patient matching)
+#### Document Publisher (MHD ITI-105)
+- `system/DocumentReference.create` - Create DocumentReference
+- `system/Patient.read` - Read Patient (for patient context)
+- `system/Patient.search` - Search Patient (for patient matching)
 
 #### Document Consumer (MHD ITI-67, ITI-68)
-- `system/Patient.rs` - Read/search Patient
-- `system/DocumentReference.rs` - Read/search DocumentReference
-- `system/Binary.r` - Read Binary
+- `system/Patient.read` - Read Patient
+- `system/Patient.search` - Search Patient
+- `system/DocumentReference.read` - Read DocumentReference
+- `system/DocumentReference.search` - Search DocumentReference
+- `system/Binary.read` - Read Binary
+- `system/Bundle.read` - Read Bundle (for FHIR Documents)
 
 #### Resource Consumer (QEDm PCC-44)
-- `system/Patient.rs` - Read/search Patient
-- Additional scopes per resource type: `system/Observation.rs`, `system/Condition.rs`, `system/DiagnosticReport.rs`, etc.
+- `system/Patient.read` - Read Patient
+- `system/Patient.search` - Search Patient
+- Additional scopes per resource type: `system/Observation.read`, `system/Observation.search`, `system/Condition.read`, `system/Condition.search`, `system/DiagnosticReport.read`, `system/DiagnosticReport.search`, etc.
 
 #### Scope Conventions
-- `.r` = read
-- `.s` = search
-- `.rs` = read and search
-- `.c` = create
+- `.read` = read a single resource by ID
+- `.search` = search for resources by criteria
+- `.create` = create a new resource
 
 ### Transport Security {#transport-security}
 
-All API communications SHALL use TLS 1.2 or higher.
-
-**Server Requirements**:
-- Servers SHALL support TLS 1.2
-- Servers SHOULD support TLS 1.3
-- Servers SHALL NOT support TLS 1.1 or earlier versions
-- Servers SHALL NOT support SSL in any version
+All API communications SHALL use secure transport as defined by [IHE ATNA Secure Node](https://profiles.ihe.net/ITI/TF/Volume1/ch-9.html) with the [TLS 1.2 Floor Option](https://profiles.ihe.net/ITI/TF/Volume1/ch-9.html#9.3.1.2).
 
 **Certificate Requirements**:
-- Certificates SHALL be issued by a trusted Certificate Authority (CA)
+- Certificates SHALL be issued by a widely trusted Certificate Authority (CA)
 - Self-signed certificates SHALL NOT be used in production environments
-- Certificates SHOULD use a minimum key size of 2048 bits for RSA or 256 bits for ECDSA
 
 ### Potential Future Work: User-Level Authorization
 
