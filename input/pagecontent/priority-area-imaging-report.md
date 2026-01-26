@@ -8,7 +8,7 @@ Imaging Reports can be accessed via document exchange.
 | Actor | Description | CapabilityStatement |
 |-------|-------------|---------------------|
 | Document Consumer | Retrieves imaging reports | [EEHRxF Document Consumer](CapabilityStatement-EEHRxF-DocumentConsumer.html) |
-| Document Access Provider | Serves imaging reports | [EEHRxF Document Responder](CapabilityStatement-EEHRxF-DocumentResponder.html) |
+| Document Access Provider | Serves imaging reports | [EEHRxF Document Responder](CapabilityStatement-EEHRxF-DocumentAccessProvider.html) |
 
 ### Document Exchange
 
