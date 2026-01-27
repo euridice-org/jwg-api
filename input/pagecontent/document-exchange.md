@@ -63,7 +63,7 @@ This IG follows the [IHE approach for document discovery](https://profiles.ihe.n
 2. **type** (clinical precision): (aka, XDS `typeCode`): are codes for specific document types. Typically LOINC codes.
 3. **practiceSetting**: Differentiate clinical specialty (e.g., lab vs radiology)
 
-> **Open Issue #1**: We are seeking input on the document search approach. See [Document Search and Priority Category Differentiation](open-issues.html#issue-1-document-search-and-priority-category-differentiation) for discussion and alternatives.
+> 
 
 #### Category Values (XDS ClassCode)
 
