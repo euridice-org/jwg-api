@@ -202,13 +202,6 @@ metadata for subsequent queries.
 * rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
 * rest[=].resource[=].searchParam[=].documentation = "When the resource version last changed"
 
-* rest[=].resource[=].searchParam[+].name = "creation"
-* rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-creation"
-* rest[=].resource[=].searchParam[=].type = #date
-* rest[=].resource[=].searchParam[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].searchParam[=].extension[=].valueCode = #MAY
-* rest[=].resource[=].searchParam[=].documentation = "Document creation time"
-
 * rest[=].resource[=].searchParam[+].name = "setting"
 * rest[=].resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-setting"
 * rest[=].resource[=].searchParam[=].type = #token
