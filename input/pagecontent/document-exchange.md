@@ -65,7 +65,7 @@ This IG follows the [IHE approach for document discovery](https://profiles.ihe.n
 
 > 
 
-#### Category Values (XDS ClassCode)
+#### Category Values
 
 The EHDS priority areas are defined by the regulation and thus have specific meaning as defined there. For this reason we create new codes specifically for EEHRxF rather than reusing existing XDS class codes.
 
