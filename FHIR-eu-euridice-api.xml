@@ -5,15 +5,16 @@
 <artifactPageExtension value="-examples"/>
 <artifactPageExtension value="-mappings"/>
 <artifact id="ActorDefinition/EEHRxF-DocumentAccessProvider-Actor" key="ActorDefinition-EEHRxF-DocumentAccessProvider-Actor" name="EEHRxF Document Access Provider"/>
+<artifact id="CapabilityStatement/EEHRxF-DocumentAccessProvider-SubmissionOption" key="CapabilityStatement-EEHRxF-DocumentAccessProvider-SubmissionOption" name="EEHRxF Document Access Provider - Document Submission Option"/>
 <artifact id="CapabilityStatement/EEHRxF-DocumentAccessProvider" key="CapabilityStatement-EEHRxF-DocumentAccessProvider" name="EEHRxF Document Access Provider CapabilityStatement"/>
 <artifact id="ValueSet/eehrxf-document-class-vs" key="ValueSet-eehrxf-document-class-vs" name="EEHRxF Document Class ValueSet (Category)"/>
 <artifact id="ActorDefinition/EEHRxF-DocumentConsumer-Actor" key="ActorDefinition-EEHRxF-DocumentConsumer-Actor" name="EEHRxF Document Consumer"/>
 <artifact id="CapabilityStatement/EEHRxF-DocumentConsumer" key="CapabilityStatement-EEHRxF-DocumentConsumer" name="EEHRxF Document Consumer CapabilityStatement"/>
-<artifact id="ActorDefinition/EEHRxF-DocumentProducer-Actor" key="ActorDefinition-EEHRxF-DocumentProducer-Actor" name="EEHRxF Document Producer"/>
-<artifact id="CapabilityStatement/EEHRxF-DocumentProducer" key="CapabilityStatement-EEHRxF-DocumentProducer" name="EEHRxF Document Producer CapabilityStatement"/>
+<artifact id="ActorDefinition/EEHRxF-DocumentPublisher-Actor" key="ActorDefinition-EEHRxF-DocumentPublisher-Actor" name="EEHRxF Document Publisher"/>
+<artifact id="CapabilityStatement/EEHRxF-DocumentPublisher" key="CapabilityStatement-EEHRxF-DocumentPublisher" name="EEHRxF Document Publisher CapabilityStatement"/>
 <artifact id="ValueSet/eehrxf-document-type-vs" key="ValueSet-eehrxf-document-type-vs" name="EEHRxF Document Type ValueSet"/>
-<artifact id="ActorDefinition/EEHRxF-DocumentProducerAccessProvider-Actor" key="ActorDefinition-EEHRxF-DocumentProducerAccessProvider-Actor" name="EEHRxF Grouped Document Producer/Access Provider"/>
-<artifact id="CapabilityStatement/EEHRxF-DocumentProducerAccessProvider" key="CapabilityStatement-EEHRxF-DocumentProducerAccessProvider" name="EEHRxF Grouped Document Producer/Access Provider CapabilityStatement"/>
+<artifact id="ActorDefinition/EEHRxF-DocumentPublisherAccessProvider-Actor" key="ActorDefinition-EEHRxF-DocumentPublisherAccessProvider-Actor" name="EEHRxF Grouped Document Publisher/Access Provider"/>
+<artifact id="CapabilityStatement/EEHRxF-DocumentPublisherAccessProvider" key="CapabilityStatement-EEHRxF-DocumentPublisherAccessProvider" name="EEHRxF Grouped Document Publisher/Access Provider CapabilityStatement"/>
 <artifact id="StructureDefinition/EehrxfMhdDocumentReference" key="StructureDefinition-EehrxfMhdDocumentReference" name="EEHRxF MHD DocumentReference Profile"/>
 <artifact id="ActorDefinition/EEHRxF-ResourceAccessProvider-Actor" key="ActorDefinition-EEHRxF-ResourceAccessProvider-Actor" name="EEHRxF Resource Access Provider"/>
 <artifact id="CapabilityStatement/EEHRxF-ResourceAccessProvider" key="CapabilityStatement-EEHRxF-ResourceAccessProvider" name="EEHRxF Resource Access Provider CapabilityStatement"/>
@@ -39,7 +40,7 @@
 <page key="priority-area-laboratory" name="Medical Test Results (Laboratory)"/>
 <page key="member-state-architectures" name="Member State Architectures"/>
 <page key="open-issues" name="Open Issues"/>
-<page key="patient-match" name="Patient Match"/>
+<page key="patient-match" name="Patient Matching"/>
 <page key="priority-area-eps" name="Patient Summary (EPS)"/>
 <page key="priority-categories" name="Priority Categories"/>
 <page key="regulatoryAnchors" name="Regulatory Anchors"/>

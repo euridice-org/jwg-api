@@ -1,5 +1,5 @@
 // CapabilityStatement for EEHRxF Document Access Provider Actor
-// Composite actor grouping MHD Document Recipient + Document Responder + PDQm Supplier + IUA
+// Composite actor grouping MHD Document Responder + PDQm Supplier + IUA
 
 Instance: EEHRxF-DocumentAccessProvider
 InstanceOf: CapabilityStatement
@@ -7,8 +7,7 @@ Title: "EEHRxF Document Access Provider CapabilityStatement"
 Usage: #definition
 Description: """
 CapabilityStatement for the EEHRxF Document Access Provider actor. This composite actor
-provides access to EEHRxF FHIR Documents by receiving documents from Document Producers
-and serving them to Document Consumers.
+provides access to EEHRxF FHIR Documents by serving them to Document Consumers via query APIs.
 
 ### Actor Grouping
 
@@ -16,14 +15,12 @@ This composite actor groups the following IHE actors:
 - [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server)
 - [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server)
 - [PDQm Patient Demographics Supplier](https://profiles.ihe.net/ITI/PDQm/volume-1.html)
-- [MHD Document Recipient](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html)
 - [MHD Document Responder](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html)
 
 ### Transactions
 
 | Transaction | Description | Optionality |
 |-------------|-------------|-------------|
-| ITI-65 Provide Document Bundle | Receive document submissions from Document Producers | R |
 | ITI-67 Find Document References | Respond to document metadata queries from Document Consumers | R |
 | ITI-68 Retrieve Document | Serve document content to Document Consumers | R |
 | ITI-78 Patient Demographics Query | Respond to patient demographics queries | R |
@@ -32,10 +29,14 @@ This composite actor groups the following IHE actors:
 ### Security
 Systems SHALL support SMART Backend Services authorization for all transactions.
 
+### Document Submission Option
+To accept document publication from external Document Publishers, implement the
+[Document Submission Option](CapabilityStatement-EEHRxF-DocumentAccessProvider-SubmissionOption.html).
+
 ### Deployment
-The Document Access Provider may be grouped with Document Producer, in which case the
-ITI-65 transaction becomes internal. See the
-[grouped Document Producer/Access Provider CapabilityStatement](CapabilityStatement-EEHRxF-DocumentProducerAccessProvider.html)
+The Document Access Provider may be grouped with Document Publisher, in which case
+document publication is internal. See the
+[grouped Document Publisher/Access Provider CapabilityStatement](CapabilityStatement-EEHRxF-DocumentPublisherAccessProvider.html)
 for this deployment pattern.
 """
 
@@ -43,7 +44,7 @@ for this deployment pattern.
 * title = "EEHRxF Document Access Provider CapabilityStatement"
 * status = #active
 * experimental = false
-* date = "2026-01-14"
+* date = "2026-01-26"
 * publisher = "HL7 Europe"
 * kind = #requirements
 * fhirVersion = #4.0.1
@@ -53,9 +54,8 @@ for this deployment pattern.
 // Server mode for Document Access Provider
 * rest[+].mode = #server
 * rest[=].documentation = """
-The Document Access Provider actor receives document submissions from Document Producers
-(ITI-65) and responds to document queries from Document Consumers (ITI-67, ITI-68).
-It also provides patient lookup services (PDQm ITI-78).
+The Document Access Provider actor responds to document queries from Document Consumers
+(ITI-67, ITI-68) and provides patient lookup services (PDQm ITI-78).
 
 All transactions require SMART Backend Services authorization.
 """
@@ -70,20 +70,13 @@ Systems SHALL:
 - Use TLS 1.2 or higher for all communications
 
 Required scopes to accept:
-- system/DocumentReference.c (create DocumentReference - ITI-65)
-- system/DocumentReference.rs (search and read DocumentReference - ITI-67)
-- system/Binary.c (create Binary - ITI-65)
-- system/Binary.r (read Binary - ITI-68)
-- system/Patient.rs (search and read Patient - ITI-78)
+- system/DocumentReference.read (read DocumentReference - ITI-67)
+- system/DocumentReference.search (search DocumentReference - ITI-67)
+- system/Binary.read (read Binary - ITI-68)
+- system/Bundle.read (read Bundle - ITI-68 for FHIR Documents)
+- system/Patient.read (read Patient - ITI-78)
+- system/Patient.search (search Patient - ITI-78)
 """
-
-// ============================================================================
-// Transaction Bundle support for ITI-65
-// ============================================================================
-* rest[=].interaction[+].code = #transaction
-* rest[=].interaction[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].interaction[=].extension[=].valueCode = #SHALL
-* rest[=].interaction[=].documentation = "Accept and process ITI-65 Provide Document Bundle transaction"
 
 // System-level search interaction
 * rest[=].interaction[+].code = #search-system
@@ -92,22 +85,15 @@ Required scopes to accept:
 * rest[=].interaction[=].documentation = "System-wide search support"
 
 // ============================================================================
-// DocumentReference resource - ITI-65 receive and ITI-67 query
+// DocumentReference resource - ITI-67 query
 // ============================================================================
 * rest[=].resource[+].type = #DocumentReference
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].documentation = """
-DocumentReference resources are received via ITI-65 Provide Document Bundle and served
-via ITI-67 Find Document References. The server validates, stores, and indexes document
-metadata for subsequent queries.
+DocumentReference resources are served via ITI-67 Find Document References. The server
+indexes document metadata for queries by Document Consumers.
 """
-
-// ITI-65: Accept document metadata creation
-* rest[=].resource[=].interaction[+].code = #create
-* rest[=].resource[=].interaction[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].interaction[=].extension[=].valueCode = #SHALL
-* rest[=].resource[=].interaction[=].documentation = "Accept DocumentReference creation as part of ITI-65 transaction Bundle"
 
 // ITI-67: Read DocumentReference by ID
 * rest[=].resource[=].interaction[+].code = #read
@@ -256,48 +242,21 @@ metadata for subsequent queries.
 * rest[=].resource[=].searchParam[=].documentation = "Patient identifier (chained search)"
 
 // ============================================================================
-// Binary resource - ITI-65 receive and ITI-68 retrieve
+// Binary resource - ITI-68 retrieve
 // ============================================================================
 * rest[=].resource[+].type = #Binary
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].documentation = """
-Binary resources contain the actual document content. They are received via ITI-65
-Provide Document Bundle and served via ITI-68 Retrieve Document.
+Binary resources contain the actual document content for non-FHIR documents. They are
+served via ITI-68 Retrieve Document.
 """
-
-// ITI-65: Accept document content
-* rest[=].resource[=].interaction[+].code = #create
-* rest[=].resource[=].interaction[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].interaction[=].extension[=].valueCode = #SHALL
-* rest[=].resource[=].interaction[=].documentation = "Accept Binary creation as part of ITI-65 transaction Bundle"
 
 // ITI-68: Retrieve document content
 * rest[=].resource[=].interaction[+].code = #read
 * rest[=].resource[=].interaction[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
 * rest[=].resource[=].interaction[=].extension[=].valueCode = #SHALL
 * rest[=].resource[=].interaction[=].documentation = "Retrieve document content (ITI-68)"
-
-* rest[=].resource[=].updateCreate = false
-* rest[=].resource[=].conditionalCreate = false
-* rest[=].resource[=].conditionalUpdate = false
-* rest[=].resource[=].conditionalDelete = #not-supported
-
-// ============================================================================
-// List resource - ITI-65 submission sets
-// ============================================================================
-* rest[=].resource[+].type = #List
-* rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].extension[=].valueCode = #SHOULD
-* rest[=].resource[=].documentation = """
-List resources representing SubmissionSets may be received as part of the ITI-65
-Provide Document Bundle transaction.
-"""
-
-* rest[=].resource[=].interaction[+].code = #create
-* rest[=].resource[=].interaction[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].interaction[=].extension[=].valueCode = #SHOULD
-* rest[=].resource[=].interaction[=].documentation = "Accept List (SubmissionSet) creation as part of ITI-65 transaction Bundle"
 
 * rest[=].resource[=].updateCreate = false
 * rest[=].resource[=].conditionalCreate = false

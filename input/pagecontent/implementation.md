@@ -39,7 +39,7 @@ Health information exchange across borders through National Contact Points and M
 ### Actor Usage
 
 All use cases leverage the composite actors defined in [Actors and Transactions](actors.html):
-- [Document Producer](actors.html#document-producer)
+- [Document Publisher](actors.html#document-publisher)
 - [Document Access Provider](actors.html#document-access-provider)
 - [Document Consumer](actors.html#document-consumer)
 - [Resource Access Provider](actors.html#resource-access-provider)

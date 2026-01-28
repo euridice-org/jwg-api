@@ -21,7 +21,7 @@ The server returns a CapabilityStatement resource that declares:
 
 Different provider actors advertise different capabilities:
 
-- **Document Access Provider**: Advertises document exchange capabilities (MHD ITI-65, ITI-67, ITI-68 transactions)
+- **Document Access Provider**: Advertises document exchange capabilities (MHD ITI-67, ITI-68 transactions; ITI-105 with Document Submission Option)
 - **Resource Access Provider**: Advertises resource query capabilities (QEDm PCC-44 transactions)
 
 A system may implement one or both sets of capabilities depending on its role.
@@ -35,7 +35,7 @@ Servers declare which EHDS ANNEX II priority categories they support using `Capa
 - Laboratory Results
 - Hospital Discharge Reports (HDR)
 - Imaging Reports
-- Imaging Manifests (R5, future extension)
+- Imaging Manifests
 
 **Mechanism**:
 
