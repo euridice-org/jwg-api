@@ -179,11 +179,11 @@ Imaging manifests (DICOM study references) are differentiated from other documen
 **Resolution**
 
 The agreed approach uses:
-- `category` = IMAGES (XDS ClassCode) for coarse classification
+- `category` = `Medical-Imaging` ([EHDS Priority Category](CodeSystem-eehrxf-document-priority-category-cs.html)) for coarse classification
 - `format` = MADO-defined formatCode for specific manifest identification
 - `content.attachment.contentType` for technical format
 
-Imaging manifests cannot be reliably identified by category alone (IMAGES may include TIFF, JPEG, manifests, etc.). The formatCode provides the needed specificity. See [Imaging Manifest](priority-area-imaging-manifest.html) for full details.
+Imaging manifests cannot be reliably identified by category alone (Medical-Imaging includes both reports and manifests). The formatCode provides the needed specificity. See [Imaging Manifest](priority-area-imaging-manifest.html) for full details.
 
 ---
 

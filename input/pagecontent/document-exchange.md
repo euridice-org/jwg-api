@@ -57,17 +57,15 @@ This follows [MHD Section 2:3.65.4.1.2.1](https://profiles.ihe.net/ITI/MHD/ITI-6
 
 ### Document Search Strategy
 
-This IG follows the [IHE approach for document discovery](https://profiles.ihe.net/ITI/HIE-Whitepaper/index.html#26-value-of-metadata):
+This IG follows the [IHE Document Sharing](https://profiles.ihe.net/ITI/HIE-Whitepaper/index.html) approach:
 
-1. **category** (coarse search): (aka, XDS `classCode`) : are used for broad classification of the content based on EHDS priority categories.
-2. **type** (clinical precision): (aka, XDS `typeCode`): are codes for specific document types. Typically LOINC codes.
-3. **practiceSetting**: Differentiate clinical specialty (e.g., lab vs radiology)
+1. **category** (coarse search): Broad classification based on EHDS priority categories
+2. **type** (clinical precision): Specific document types, typically LOINC codes
+3. **practiceSetting**: Clinical specialty (e.g., lab vs radiology)
 
-> 
+#### Category Values (EHDS Priority Categories)
 
-#### Category Values
-
-The EHDS priority areas are defined by the regulation and thus have specific meaning as defined there. For this reason we create new codes specifically for EEHRxF rather than reusing existing XDS class codes.
+The EHDS priority categories are defined by [Article 14 of the EHDS Regulation](https://eur-lex.europa.eu/eli/reg/2025/327/oj#d1e2289-1-1). We define codes specifically for EEHRxF that map directly to these regulatory categories.
 
 See [EEHRxFDocumentPriorityCategoryCS](CodeSystem-eehrxf-document-priority-category-cs.html) for the complete list.
 
@@ -77,43 +75,63 @@ See [EEHRxFDocumentPriorityCategoryCS](CodeSystem-eehrxf-document-priority-categ
 |------------|-------------------|
 | `60591-5` | Patient Summary |
 | `18842-5` | Hospital Discharge Report |
-| `11502-2` | Medical Test Results |
+| `11502-2` | Lab Result |
 | `68604-8` | Diagnostic Imaging Report |
 
 See [EEHRxFDocumentTypeVS](ValueSet-eehrxf-document-type-vs.html) for the complete list.
 
 ### Examples
 
+The examples below show queries using both `category` (EHDS priority category) and `type` (LOINC document type). Either can be used depending on your use case.
+
 #### Patient Summary
 
+By type (LOINC):
 ```
 GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|60591-5&status=current
 ```
 
-#### Medical Test Results
+By category (EHDS priority):
+```
+GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/euridice-api/CodeSystem/eehrxf-document-priority-category-cs|Patient-Summaries&status=current
+```
 
+#### Medical Test Results (Laboratory)
+
+By type (LOINC):
 ```
 GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|11502-2&status=current
 ```
 
-#### Imaging Reports
-
+By category (EHDS priority):
 ```
-GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|REPORTS&context.practiceSetting=http://snomed.info/sct|394914008&status=current
-```
-
-#### Imaging Manifests
-
-```
-GET [base]/DocumentReference?patient=Patient/123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|IMAGES&status=current
+GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/euridice-api/CodeSystem/eehrxf-document-priority-category-cs|Laboratory-Reports&status=current
 ```
 
-> **Note:** Imaging manifests use formatCode + mimeType for specific identification. See [Imaging Manifest](priority-area-imaging-manifest.html) for the recommended coding approach.
+#### Imaging Reports and Manifests
+
+By type (LOINC - imaging reports only):
+```
+GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|68604-8&status=current
+```
+
+By category (EHDS priority - includes both reports and manifests):
+```
+GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/euridice-api/CodeSystem/eehrxf-document-priority-category-cs|Medical-Imaging&status=current
+```
+
+> **Note:** The `Medical-Imaging` category includes both imaging reports and imaging manifests. To distinguish between them, use the `type` code or `formatCode`. See [Imaging Manifest](priority-area-imaging-manifest.html) for details.
 
 #### Hospital Discharge Reports
 
+By type (LOINC):
 ```
 GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|18842-5&status=current
+```
+
+By category (EHDS priority):
+```
+GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/euridice-api/CodeSystem/eehrxf-document-priority-category-cs|Discharge-Reports&status=current
 ```
 
 ### Document Publication (ITI-65)
