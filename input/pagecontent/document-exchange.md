@@ -138,7 +138,7 @@ Systems implementing this option declare it via [EEHRxF-DocumentAccessProvider-S
 
 #### ITI-105 Transaction
 
-```http
+```
 POST [base]/DocumentReference
 Content-Type: application/fhir+json
 
