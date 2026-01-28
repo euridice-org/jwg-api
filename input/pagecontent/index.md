@@ -72,12 +72,14 @@ Josh Priebe, Epic
 
 Bas van den Heuvel, Philips
 
-Giorgio Cangioli, HL7 Europe
+John Moehrke, IHE
+
+Vassil Peytchev, Epic
+
+Katie Reynolds, Epic
 
 dr Kai Heitmann, HL7 Europe
 
 Andreas Klingler, IHE Europe
 
-Katie Reynolds, Epic
-
-Janos Vincze, IHE Europe
+Giorgio Cangioli, HL7 Europe
