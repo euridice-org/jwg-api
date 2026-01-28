@@ -7,11 +7,13 @@ European countries, projects (e.g. XpanDH) and initiatives (e.g. MyHealth@EU); o
 
 The following picture provide an overview of the origin of the participants.
 
+<!--  this graphic is missing, no idea where it is.
 <div>
     <img src="eu-coverage.png"  alt="Coverage" width="40%">
     <p>Figure 1 - Experts distribution</p>
     <p></p>
 </div>
+-->
 
 |Role                | Name                | Affiliation    |
 |--------------------|---------------------|----------------|

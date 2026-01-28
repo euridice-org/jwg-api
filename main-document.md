@@ -117,7 +117,8 @@ Initial technology choices for the EHR system API are:
 * [IHE-MHD](https://profiles.ihe.net/ITI/MHD/index.html) - Mobile access to Health Documents (MHD) for document exchange
 * FHIR bulk data access ([FHIR R5 async-bulk](https://hl7.org/fhir/R5/async-bulk.html) and [FHIR R4  Bulk Data IG](https://hl7.org/fhir/uv/bulkdata/)) for data export
 * Manual import of FHIR bulk data export files for import
-* [IHE-ATNA](https://wiki.ihe.net/index.php/Add_RESTful_Query_and_Feed_to_ATNA) for logging
+* [IHE-ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-9.html) as modified in [IHE-ATNA RESTful Feed and Query Supplement that adds FHIR AuditEvent support for both Feed and Query](https://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_Suppl_RESTful-ATNA.pdf) for logging
+* [IHE-BALP](https://profiles.ihe.net/ITI/BALP/index.html) - Basic Audit Log Patterns for audit log profiles for RESTful actions.
 
 ### Patient Access API
 

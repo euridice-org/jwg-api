@@ -16,7 +16,7 @@ For document-based access, use the [Document Exchange](document-exchange.html) t
 
 The Imaging Report is differentiated via the following DocumentReference fields:
 - **type**: `68604-8` (Radiology Diagnostic study note)
-- **category**: `REPORTS` (XDS ClassCode)
+- **category**: `Medical-Imaging` ([EHDS Priority Category](CodeSystem-eehrxf-document-priority-category-cs.html))
 
 ### Example Query
 

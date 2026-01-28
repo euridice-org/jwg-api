@@ -16,7 +16,7 @@ For document-based access, use the [Document Exchange](document-exchange.html) t
 
 The Laboratory Report is differentiated via the following DocumentReference fields:
 - **type**: `11502-2` (Laboratory report)
-- **category**: `REPORTS` (XDS ClassCode)
+- **category**: `Laboratory-Reports` ([EHDS Priority Category](CodeSystem-eehrxf-document-priority-category-cs.html))
 
 ### Example Query
 

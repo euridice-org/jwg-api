@@ -14,11 +14,9 @@ This is particularly complex for Medical Test Results and Imaging Results, which
 
 **Current Approach**
 
-Following the [IHE XDS Metadata Coding White Paper](https://wiki.ihe.net/index.php/XDS_classCode_Metadata_Coding_System):
-
 | Parameter | Purpose | Coding System |
 |-----------|---------|---------------|
-| `category` | Coarse search | XDS ClassCode (REPORTS, SUMMARIES, IMAGES) |
+| `category` | Coarse search | EHDS Document Priority Category CodeSystem |
 | `type` | Clinical precision | LOINC codes |
 | `practiceSetting` | Differentiate within category | Healthcare setting codes |
 
@@ -181,11 +179,11 @@ Imaging manifests (DICOM study references) are differentiated from other documen
 **Resolution**
 
 The agreed approach uses:
-- `category` = IMAGES (XDS ClassCode) for coarse classification
+- `category` = `Medical-Imaging` ([EHDS Priority Category](CodeSystem-eehrxf-document-priority-category-cs.html)) for coarse classification
 - `format` = MADO-defined formatCode for specific manifest identification
 - `content.attachment.contentType` for technical format
 
-Imaging manifests cannot be reliably identified by category alone (IMAGES may include TIFF, JPEG, manifests, etc.). The formatCode provides the needed specificity. See [Imaging Manifest](priority-area-imaging-manifest.html) for full details.
+Imaging manifests cannot be reliably identified by category alone (Medical-Imaging includes both reports and manifests). The formatCode provides the needed specificity. See [Imaging Manifest](priority-area-imaging-manifest.html) for full details.
 
 ---
 

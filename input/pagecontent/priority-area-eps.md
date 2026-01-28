@@ -16,7 +16,7 @@ For document-based access, use the [Document Exchange](document-exchange.html) t
 
 The Patient Summary is differentiated via the following DocumentReference fields:
 - **type**: `60591-5` (Patient summary Document)
-- **category**: `SUMMARIES` (XDS ClassCode)
+- **category**: `Patient-Summaries` ([EHDS Priority Category](CodeSystem-eehrxf-document-priority-category-cs.html))
 
 
 ### Example Query

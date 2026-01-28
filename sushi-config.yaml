@@ -115,7 +115,14 @@ pages:
       title: Use Case - Health Data Access Service
     usecase-cross-border-ncp.md:
       title: Use Case - Cross-Border via NCP
-
+  about.md:
+    title: About
+    contributors.md:
+      title: Authors and contributors
+    copyright.md:
+      title: Copyright
+    references.md:
+      title: References
 
   # actors-and-transactions.md:
   #   title: System actors
@@ -170,6 +177,7 @@ menu:
     Health Data Access Service: usecase-health-data-portal.html
     Cross-Border via NCP: usecase-cross-border-ncp.html
   Artifacts: artifacts.html
+  About: about.html
 
 #   Functional:
 #     Xt-EHR model: https://build.fhir.org/ig/Xt-EHR/xt-ehr-common/useCaseMedicalImages.html
@@ -219,6 +227,11 @@ parameters:
   # packages: ./package-cache
   releaselabel: 0.1.1-build
   shownav: 'true'
+  #pin-canonicals: pin-all
+  #pin-canonicals: pin-none
+  pin-canonicals: pin-multiples
+  # GitHub issue tracker - used instead of Jira for this IG
+  feedback: https://github.com/euridice-org/jwg-api/issues
 
 # ╭───────────────────────────Less Common Implementation Guide Properties──────────────────────────╮
 # │  Uncomment the properties below to configure additional properties on the ImplementationGuide  │
