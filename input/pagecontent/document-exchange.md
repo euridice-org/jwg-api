@@ -61,7 +61,6 @@ This IG follows the [IHE Document Sharing](https://profiles.ihe.net/ITI/HIE-Whit
 
 1. **category** (coarse search): Broad classification based on EHDS priority categories
 2. **type** (clinical precision): Specific document types, typically LOINC codes
-3. **practiceSetting**: Clinical specialty (e.g., lab vs radiology)
 
 #### Category Values (EHDS Priority Categories)
 
