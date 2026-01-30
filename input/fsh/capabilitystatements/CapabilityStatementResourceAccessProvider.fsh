@@ -70,16 +70,16 @@ Systems SHALL:
 - Return HTTP 401, 403, or 404 for unauthorized requests
 
 Required scopes to accept:
-- system/Patient.rs (search and read Patient)
-- system/Condition.rs (search and read Condition)
-- system/AllergyIntolerance.rs (search and read AllergyIntolerance)
-- system/Observation.rs (search and read Observation)
-- system/DiagnosticReport.rs (search and read DiagnosticReport)
-- system/MedicationRequest.rs (search and read MedicationRequest)
-- system/MedicationDispense.rs (search and read MedicationDispense)
-- system/Encounter.rs (search and read Encounter)
-- system/Practitioner.r (read Practitioner)
-- system/Organization.r (read Organization)
+- system/Patient.read, system/Patient.search (read and search Patient)
+- system/Condition.read, system/Condition.search (read and search Condition)
+- system/AllergyIntolerance.read, system/AllergyIntolerance.search (read and search AllergyIntolerance)
+- system/Observation.read, system/Observation.search (read and search Observation)
+- system/DiagnosticReport.read, system/DiagnosticReport.search (read and search DiagnosticReport)
+- system/MedicationRequest.read, system/MedicationRequest.search (read and search MedicationRequest)
+- system/MedicationDispense.read, system/MedicationDispense.search (read and search MedicationDispense)
+- system/Encounter.read, system/Encounter.search (read and search Encounter)
+- system/Practitioner.read (read Practitioner)
+- system/Organization.read (read Organization)
 """
 
 // ============================================================================

@@ -69,7 +69,7 @@ POST https://provider.example.org/auth/token
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=client_credentials
-&scope=system/Patient.rs system/DocumentReference.rs system/Bundle.r
+&scope=system/Patient.read system/Patient.search system/DocumentReference.read system/DocumentReference.search system/Bundle.read
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=[signed JWT]
 ```
@@ -144,7 +144,7 @@ Authorization: Bearer [access_token]
 
 Response is the Patient Summary as a FHIR Document (Bundle of type `document`) in JSON format.
 
-> **Note:** Patient Summary (IPS) is a FHIR Document, so it is retrieved as a Bundle resource, not a Binary. See [Document Exchange - FHIR Documents vs Binary](document-exchange.html#fhir-documents-vs-binary) for details.
+> **Note:** Patient Summary (IPS) is a FHIR Document, so it is retrieved as a Bundle resource, not a Binary. See [Document Exchange - Document Content](document-exchange.html#document-content) for details.
 
 ### Key Points
 

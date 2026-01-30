@@ -1,12 +1,12 @@
-// CapabilityStatement for Grouped EEHRxF Document Producer + Document Access Provider
-// For deployments where document production and access are co-located (ITI-65 is internal)
+// CapabilityStatement for Grouped EEHRxF Document Publisher + Document Access Provider
+// For deployments where document production and access are co-located (publication is internal)
 
-Instance: EEHRxF-DocumentProducerAccessProvider
+Instance: EEHRxF-DocumentPublisherAccessProvider
 InstanceOf: CapabilityStatement
-Title: "EEHRxF Grouped Document Producer/Access Provider CapabilityStatement"
+Title: "EEHRxF Grouped Document Publisher/Access Provider CapabilityStatement"
 Usage: #definition
 Description: """
-CapabilityStatement for the grouped EEHRxF Document Producer and Document Access Provider
+CapabilityStatement for the grouped EEHRxF Document Publisher and Document Access Provider
 actors. This represents a deployment where document production and access provision are
 co-located in the same system.
 
@@ -14,17 +14,17 @@ co-located in the same system.
 
 This CapabilityStatement applies when:
 - An EHR system both produces documents AND provides access to them
-- Document submission (ITI-65) is handled internally
+- Document publication is handled internally
 - External clients only need to query and retrieve documents
 
-In this grouped deployment, the ITI-65 Provide Document Bundle transaction is internal
-to the system and not exposed externally. The external API provides only document
-discovery (ITI-67) and retrieval (ITI-68) capabilities.
+In this grouped deployment, document publication is internal to the system and not exposed
+externally. The external API provides only document discovery (ITI-67) and retrieval (ITI-68)
+capabilities.
 
 ### Actor Grouping
 
 This grouped actor combines:
-- **Document Producer** (internal) - Produces and stores documents internally
+- **Document Publisher** (internal) - Produces and stores documents internally
 - **Document Access Provider** (external-facing) - Serves documents to Document Consumers
 
 The underlying IHE actors are:
@@ -33,7 +33,7 @@ The underlying IHE actors are:
 - [PDQm Patient Demographics Supplier](https://profiles.ihe.net/ITI/PDQm/volume-1.html)
 - [MHD Document Responder](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html)
 
-Note: MHD Document Recipient is not listed because ITI-65 is internal.
+Note: MHD Document Recipient is not listed because publication is internal.
 
 ### External Transactions
 
@@ -54,16 +54,15 @@ Use this CapabilityStatement when implementing:
 - Regional health information exchanges with integrated document repositories
 - Any system where document creation and access are tightly coupled
 
-For systems that need to receive documents from external sources, use the separate
-[Document Access Provider CapabilityStatement](CapabilityStatement-EEHRxF-DocumentAccessProvider.html)
-which includes ITI-65 support.
+For systems that need to receive documents from external sources, use the
+[Document Access Provider with Document Submission Option](CapabilityStatement-EEHRxF-DocumentAccessProvider-SubmissionOption.html).
 """
 
-* name = "EEHRxFDocumentProducerAccessProvider"
-* title = "EEHRxF Grouped Document Producer/Access Provider CapabilityStatement"
+* name = "EEHRxFDocumentPublisherAccessProvider"
+* title = "EEHRxF Grouped Document Publisher/Access Provider CapabilityStatement"
 * status = #active
 * experimental = false
-* date = "2026-01-14"
+* date = "2026-01-26"
 * publisher = "HL7 Europe"
 * kind = #requirements
 * fhirVersion = #4.0.1
@@ -74,7 +73,7 @@ which includes ITI-65 support.
 * rest[+].mode = #server
 * rest[=].documentation = """
 This grouped actor provides document access to external Document Consumers.
-Document production (ITI-65) is internal and not exposed. The external API
+Document publication is internal and not exposed. The external API
 supports document discovery (ITI-67), retrieval (ITI-68), and patient lookup (ITI-78).
 
 All transactions require SMART Backend Services authorization.
@@ -90,9 +89,10 @@ Systems SHALL:
 - Use TLS 1.2 or higher for all communications
 
 Required scopes to accept:
-- system/DocumentReference.rs (search and read DocumentReference - ITI-67)
-- system/Binary.r (read Binary - ITI-68)
-- system/Patient.rs (search and read Patient - ITI-78)
+- system/DocumentReference.read, system/DocumentReference.search (read and search DocumentReference - ITI-67)
+- system/Binary.read (read Binary - ITI-68)
+- system/Bundle.read (read Bundle - ITI-68 for FHIR Documents)
+- system/Patient.read, system/Patient.search (read and search Patient - ITI-78)
 """
 
 // System-level search interaction

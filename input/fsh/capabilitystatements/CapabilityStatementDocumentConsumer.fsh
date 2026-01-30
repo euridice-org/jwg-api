@@ -58,9 +58,9 @@ Systems SHALL:
 - Use TLS 1.2 or higher for all communications
 
 Required scopes:
-- system/DocumentReference.rs (search and read DocumentReference - ITI-67)
-- system/Binary.r (read Binary for document retrieval - ITI-68)
-- system/Patient.rs (search and read Patient for context - ITI-78)
+- system/DocumentReference.read, system/DocumentReference.search (read and search DocumentReference - ITI-67)
+- system/Binary.read (read Binary for document retrieval - ITI-68)
+- system/Patient.read, system/Patient.search (read and search Patient for context - ITI-78)
 """
 
 // ============================================================================

@@ -66,25 +66,25 @@ This simplification removes the middle option of full demographics-based search 
 
 ### Issue 3: MHD Publication Transaction Options
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/13) | **Priority:** High
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/13) | **Status:** Resolved
 
-MHD offers multiple transaction options for document publication. We want to reduce optionality and avoid introducing XDS dependencies where possible (For example: native FHIR servers don't need XDS submission set constructs).
+**Resolution:**
 
-**MHD Options**
+Document publication uses [ITI-105 Simplified Publish](https://profiles.ihe.net/ITI/MHD/ITI-105.html) as the baseline.
 
-- [ITI-65 Provide Document Bundle](https://profiles.ihe.net/ITI/MHD/ITI-65.html) - Full publication with metadata (required in IHE)
-- [ITI-105 Simplified Publish](https://profiles.ihe.net/ITI/MHD/ITI-105.html) - Simplified publication
-- [ITI-106 Generate Metadata](https://profiles.ihe.net/ITI/MHD/ITI-106.html) - Server generates metadata from the document (needed?)
+Key decisions:
+1. **ITI-105** is the supported publication mechanism (simpler, server handles complexity)
+2. Publication is NOT part of base Document Access Provider requirements
+3. **Document Submission Option** is available for Access Providers that accept external publication
+4. When Document Publisher and Document Access Provider are grouped, publication is internal
 
-**Proposal**
+This approach:
+- Reduces optionality (single publication transaction)
+- Avoids XDS SubmissionSet constructs
+- Aligns with FHIR-native servers
+- Moves complexity from client to server
 
-Use ITI-65 Provide Document Bundle as the primary approach since it's required in IHE MHD. This provides a clear, single path for implementers.
-
-**Seeking Input On**
-
-- Is ITI-65 appropriate as the primary/only publication mechanism?
-- Does this introduce XDS SubmissionSet dependancies that don't make sense to FHIR servers?
-- Are there use cases requiring Generate Metadata or Simplified Publish?
+See [Actors - Document Submission Option](actors.html#document-submission-option) for conformance guidance.
 
 ---
 
@@ -149,7 +149,7 @@ The Document Access Provider includes:
 
 For EHR systems seeking conformance: are you bundling an authorization server, or using an external one?
 
-Authorization may be handled external to the EHR at a Member State level - with the EHR system acting as a *Document Producer* (authorization client) and the Member State infrastructure acts as the *Document Access Provider* with an authorization server.
+Authorization may be handled external to the EHR at a Member State level - with the EHR system acting as a *Document Publisher* (authorization client) and the Member State infrastructure acts as the *Document Access Provider* with an authorization server.
 
 **Seeking Input On**
 

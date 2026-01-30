@@ -47,8 +47,8 @@ At a high level, the following actors are specified:
 
 ## Document Exchange Actors
 
-- **Document Producer** - Produces EEHRxF FHIR Documents and publishes to Document Access Providers
-- **Document Access Provider** - Provides secure access to EEHRxF FHIR Documents via query API
+- **Document Publisher** - Produces EEHRxF FHIR Documents and publishes to Document Access Providers
+- **Document Access Provider** - Serves EEHRxF FHIR Documents via query API. Optionally accepts documents from Document Publisher (Document Submission Option).
 - **Document Consumer** - Queries and retrieves EEHRxF documents from Document Access Providers
 
 ## Resource Exchange Actors
@@ -63,7 +63,7 @@ These resource actors are initially scoped for search + read. See [Resource Acce
 - **[Capability Discovery](capability-discovery.html)** - Discover which priority categories a server supports
 - **[Authorization](authorization.html)** - SMART Backend Services + IUA (required)
 - **[Patient Matching](patient-match.html)** - PDQm Patient Demographics Query
-- **[Document Exchange](document-exchange.html)** - MHD transactions (ITI-65, ITI-67, ITI-68)
+- **[Document Exchange](document-exchange.html)** - MHD transactions (ITI-67, ITI-68, ITI-105)
 - **[Resource Access](resource-access.html)** - IPA resource query patterns
 
 ## 6. Authors
@@ -72,12 +72,14 @@ Josh Priebe, Epic
 
 Bas van den Heuvel, Philips
 
-Giorgio Cangioli, HL7 Europe
+John Moehrke, IHE
+
+Vassil Peytchev, Epic
+
+Katie Reynolds, Epic
 
 dr Kai Heitmann, HL7 Europe
 
 Andreas Klingler, IHE Europe
 
-Katie Reynolds, Epic
-
-Janos Vincze, IHE Europe
+Giorgio Cangioli, HL7 Europe
