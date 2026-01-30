@@ -1,6 +1,7 @@
+
 ### Overview
 
-Authorization is required for all API transactions. This IG inherits [SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) for system-to-system authorization, grouped with IHE IUA actors.
+Authorization is required for all API transactions. This IG inherits {[SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html)}  from [FHIR SMART App Launch](https://build.fhir.org/ig/HL7/smart-app-launch/app-launch.html) for system-to-system authorization, grouped with IHE IUA actors.
 
 We adopt SMART Backend Services as specified—including token formats, JWT requirements, and authentication methods—to align with globally recognized specifications and reduce implementation burden. As a profile on SMART, all underlying SMART requirements still apply; omitting a detail from this IG does not exempt implementations from SMART requirements.
 
@@ -23,6 +24,11 @@ sequenceDiagram
     Client->>AuthZ: POST /token (client_credentials, signed JWT)
     AuthZ-->>Client: Access Token
 
+    opt Introspect Token
+        Resource ->> AuthZ: introspect( JWT )
+        AuthZ -->> Resource: JWT contents
+    end
+
     Client->>Resource: GET /Patient?identifier=... (Bearer token)
     Resource-->>Client: Bundle (search results)
 ```
@@ -36,9 +42,6 @@ sequenceDiagram
 ### Client Registration
 
 Out of band, the Consumer registers identity credentials (public key, client identifier) with the Access Provider. See [SMART App Launch: Registering a Client](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#registering-a-client-communicating-public-keys) for guidance on client registration and public key communication.
-
-Future: Consider UDAP for dynamic client registration.
-See [FHIR UDAP Security IG](https://build.fhir.org/ig/HL7/fhir-udap-security-ig/) for more details.
 
 ### Discovery {#authorization-server-discovery}
 
@@ -58,7 +61,7 @@ The Authorization Server issues access tokens to registered clients using the `c
 Servers SHALL:
 - Validate the client assertion JWT signature against registered public keys
 - Verify the JWT claims (`iss`, `sub`, `aud`, `exp`, `jti`)
-- Issue tokens with requested scopes (if authorized for the client)
+- Issue tokens holding scopes based on the requested scopes (if authorized for the client)
 - Return tokens with appropriate expiration
 
 ### Obtaining Tokens {#obtaining-tokens}
@@ -92,30 +95,30 @@ Tokens must be presented on all API requests to protected resources.
 
 ### Scopes
 
-Scopes follow [SMART v2 conventions](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) and align with required MHD and QEDm transactions:
+Scopes follow [SMART v2 conventions](https://build.fhir.org/ig/HL7/smart-app-launch/scopes-and-launch-context.html#scopes-for-requesting-fhir-resources) and align with required MHD and QEDm transactions:
 
 #### Document Publisher (MHD ITI-105)
-- `system/DocumentReference.create` - Create DocumentReference
-- `system/Patient.read` - Read Patient (for patient context)
-- `system/Patient.search` - Search Patient (for patient matching)
+- `system/DocumentReference.c` - Create DocumentReference
+- `system/Patient.r` - Read Patient (for patient context)
+- `system/Patient.s` - Search Patient (for patient matching)
 
 #### Document Consumer (MHD ITI-67, ITI-68)
-- `system/Patient.read` - Read Patient
-- `system/Patient.search` - Search Patient
-- `system/DocumentReference.read` - Read DocumentReference
-- `system/DocumentReference.search` - Search DocumentReference
-- `system/Binary.read` - Read Binary
-- `system/Bundle.read` - Read Bundle (for FHIR Documents)
+- `system/Patient.r` - Read Patient
+- `system/Patient.s` - Search Patient
+- `system/DocumentReference.r` - Read DocumentReference
+- `system/DocumentReference.s` - Search DocumentReference
+- `system/Binary.r` - Read Binary
+- `system/Bundle.r` - Read Bundle (for FHIR Documents)
 
 #### Resource Consumer (QEDm PCC-44)
-- `system/Patient.read` - Read Patient
-- `system/Patient.search` - Search Patient
-- Additional scopes per resource type: `system/Observation.read`, `system/Observation.search`, `system/Condition.read`, `system/Condition.search`, `system/DiagnosticReport.read`, `system/DiagnosticReport.search`, etc.
+- `system/Patient.r` - Read Patient
+- `system/Patient.s` - Search Patient
+- Additional scopes per resource type: `system/Observation.read`, `system/Observation.search`, `system/Condition.read`, `system/Condition.search`, `system/DiagnosticReport.r`, `system/DiagnosticReport.search`, etc.
 
 #### Scope Conventions
-- `.read` = read a single resource by ID
-- `.search` = search for resources by criteria
-- `.create` = create a new resource
+- `.r` = read a single resource by ID
+- `.s` = search for resources by criteria
+- `.c` = create a new resource
 
 ### Transport Security {#transport-security}
 
@@ -123,12 +126,14 @@ All API communications SHALL use secure transport as defined by [IHE ATNA Secure
 
 ### Potential Future Work: User-Level Authorization
 
-User-level authorization (including patient-mediated access) is out of scope for this version of the implementation Guide. For patient-mediated access patterns, readers are encouraged to consider [SMART on FHIR App Launch](https://build.fhir.org/ig/HL7/smart-app-launch/) and [International Patient Access](https://build.fhir.org/ig/HL7/fhir-ipa/). Integration with the EU Digital Identity Wallet and eIDAS framework may be addressed in future editions.
+User-level authorization (including patient-mediated access) is out of scope for this version of the implementation Guide. For patient-mediated access patterns, readers are encouraged to consider [SMART on FHIR App Launch](https://build.fhir.org/ig/HL7/smart-app-launch/) and [International Patient Access](https://build.fhir.org/ig/HL7/fhir-ipa/). Implementors might consider UDAP for dynamic client registration (see [FHIR UDAP Security IG](https://build.fhir.org/ig/HL7/fhir-udap-security-ig/)).
+
+Integration with the EU Digital Identity Wallet and eIDAS framework may be addressed in future editions.
 
 Member States MAY layer user-level authorization on top of system-to-system authorization as appropriate for their national infrastructure.
 
 ### References
 
-- [SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html)
+- [SMART Application Launch](https://build.fhir.org/ig/HL7/smart-app-launch/index.html)
 - [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html)
 - [IHE ITI-71 Get Access Token](https://profiles.ihe.net/ITI/IUA/index.html#372-get-access-token-iti-71)

@@ -17,6 +17,7 @@
 {% assign iheITI-1                  = "[ITI-1](https://profiles.ihe.net/ITI/TF/Volume2/ITI-1.html)" %}
 {% assign iheITI-67                 = "[ITI-1](https://profiles.ihe.net/ITI/TF/Volume2/ITI-67.html)" %}
 {% assign iheITI-66                 = "[ITI-1](https://profiles.ihe.net/ITI/TF/Volume2/ITI-66.html)" %}
+{% assign iheMHD                    = "[IHE MHD](https://profiles.ihe.net/ITI/MHD/)" %}
 
 {% assign iheXDEm                   = "[IHE-mXDE](https://profiles.ihe.net/ITI/mXDE/)" %}
 
@@ -34,7 +35,9 @@
 {% assign FHIR              = "[HL7 FHIR Release 4.0](http://www.hl7.org/FHIR/R4)" %}
 {% assign FhirBulkData      = "[FHIR bulk data access](https://build.fhir.org/ig/HL7/bulk-data/)" %}
 {% assign fhirBulkDataNdjson = "[FHIR bulk data ndjson file](https://build.fhir.org/ig/HL7/bulk-data/en/export.html#bulk-data-output-file-organization)" %}
-{% assign SMARTonFHIR       = [FHIR SMART App Launch](https://build.fhir.org/ig/HL7/smart-app-launch/app-launch.html) %}
+{% assign FhirUDAP          = "[FHIR UDAP Security IG](https://build.fhir.org/ig/HL7/fhir-udap-security-ig/)" %}
+{% assign SMARTonFHIR       = "[FHIR SMART App Launch](https://build.fhir.org/ig/HL7/smart-app-launch/app-launch.html)" %}
+{% assign SMARTbackend      = "[SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html)" %}
 {% assign R-code            = "R4" %}
 
 {% include fhir-resources.md %}

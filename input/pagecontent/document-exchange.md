@@ -22,8 +22,7 @@ This IG uses the following IHE MHD transactions:
 
 *ITI-105 is REQUIRED for Document Publishers publishing to external Access Providers. It is OPTIONAL for Access Providers (Document Submission Option). When Publisher and Access Provider are grouped, publication is internal.
 
-
-### Sequence Diagram
+#### Sequence Diagram
 
 ```mermaid
 sequenceDiagram
@@ -43,7 +42,7 @@ sequenceDiagram
     end
 ```
 
-#### Document Content 
+#### Document Content
 
 ITI-68 retrieves the document from the URL specified in `DocumentReference.content.attachment.url`. The URL format depends on the document type:
 
