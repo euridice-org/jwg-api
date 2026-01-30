@@ -1,0 +1,48 @@
+@startuml document-transactions-sequence
+skinparam svgDimensionStyle false
+
+participant "Document Producer" as Producer
+participant "Document Access Provider" as Provider
+participant "Document Consumer" as Consumer
+
+== Document Producer Transactions ==
+
+Producer -> Provider : ITI-19 ATNA Authenticate Node (TLS)
+Producer -> Provider : ITI-103 IUA Get Authorization Server Metadata
+Producer -> Provider : ITI-71 IUA Get Authorization Token
+
+alt Patient Identity Lookup
+    Producer -> Provider : ITI-83 PIXm id cross-reference
+else
+    Producer -> Provider : ITI-78 PDQm Query
+else
+    Producer -> Provider : ITI-119 PDQm $match
+end
+
+alt Publish Document
+    Producer -> Provider : ITI-65 MHD Provide Document Bundle
+else
+    Producer -> Provider : ITI-105 MHD Simplified Publish
+else
+    Producer -> Provider : ITI-106 MHD Generate Metadata
+end
+
+== Document Consumer Transactions ==
+
+Consumer -> Provider : ITI-19 ATNA Authenticate Node (TLS)
+Consumer -> Provider : ITI-103 IUA Get Authorization Server Metadata
+Consumer -> Provider : ITI-71 IUA Get Authorization Token
+
+alt Patient Identity Lookup
+    Consumer -> Provider : ITI-83 PIXm id cross-reference
+else
+    Consumer -> Provider : ITI-78 PDQm Query
+else
+    Consumer -> Provider : ITI-119 PDQm $match
+end
+
+Consumer -> Provider : ITI-66 MHD Find Document Lists
+Consumer -> Provider : ITI-67 MHD Find Document References
+Consumer -> Provider : ITI-68 MHD Retrieve Document
+
+@enduml
