@@ -1,7 +1,7 @@
 
 ### Overview
 
-Authorization is required for all API transactions. This IG inherits {[SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html)}  from [FHIR SMART App Launch](https://build.fhir.org/ig/HL7/smart-app-launch/app-launch.html) for system-to-system authorization, grouped with IHE IUA actors.
+Authorization is required for all API transactions. This IG inherits [SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) from [FHIR SMART App Launch](https://build.fhir.org/ig/HL7/smart-app-launch/app-launch.html) for system-to-system authorization, grouped with IHE IUA actors.
 
 We adopt SMART Backend Services as specified—including token formats, JWT requirements, and authentication methods—to align with globally recognized specifications and reduce implementation burden. As a profile on SMART, all underlying SMART requirements still apply; omitting a detail from this IG does not exempt implementations from SMART requirements.
 
@@ -98,27 +98,27 @@ Tokens must be presented on all API requests to protected resources.
 Scopes follow [SMART v2 conventions](https://build.fhir.org/ig/HL7/smart-app-launch/scopes-and-launch-context.html#scopes-for-requesting-fhir-resources) and align with required MHD and QEDm transactions:
 
 #### Document Publisher (MHD ITI-105)
-- `system/DocumentReference.c` - Create DocumentReference
-- `system/Patient.r` - Read Patient (for patient context)
-- `system/Patient.s` - Search Patient (for patient matching)
+- `system/DocumentReference.create` - Create DocumentReference
+- `system/Patient.read` - Read Patient (for patient context)
+- `system/Patient.search` - Search Patient (for patient matching)
 
 #### Document Consumer (MHD ITI-67, ITI-68)
-- `system/Patient.r` - Read Patient
-- `system/Patient.s` - Search Patient
-- `system/DocumentReference.r` - Read DocumentReference
-- `system/DocumentReference.s` - Search DocumentReference
-- `system/Binary.r` - Read Binary
-- `system/Bundle.r` - Read Bundle (for FHIR Documents)
+- `system/Patient.read` - Read Patient
+- `system/Patient.search` - Search Patient
+- `system/DocumentReference.read` - Read DocumentReference
+- `system/DocumentReference.search` - Search DocumentReference
+- `system/Binary.read` - Read Binary
+- `system/Bundle.read` - Read Bundle (for FHIR Documents)
 
 #### Resource Consumer (QEDm PCC-44)
-- `system/Patient.r` - Read Patient
-- `system/Patient.s` - Search Patient
-- Additional scopes per resource type: `system/Observation.read`, `system/Observation.search`, `system/Condition.read`, `system/Condition.search`, `system/DiagnosticReport.r`, `system/DiagnosticReport.search`, etc.
+- `system/Patient.read` - Read Patient
+- `system/Patient.search` - Search Patient
+- Additional scopes per resource type: `system/Observation.read`, `system/Observation.search`, `system/Condition.read`, `system/Condition.search`, `system/DiagnosticReport.read`, `system/DiagnosticReport.search`, etc.
 
 #### Scope Conventions
-- `.r` = read a single resource by ID
-- `.s` = search for resources by criteria
-- `.c` = create a new resource
+- `.read` = read a single resource by ID
+- `.search` = search for resources by criteria
+- `.create` = create a new resource
 
 ### Transport Security {#transport-security}
 
