@@ -95,7 +95,7 @@ Tokens must be presented on all API requests to protected resources.
 
 ### Scopes
 
-Scopes follow [SMART v2 conventions](https://build.fhir.org/ig/HL7/smart-app-launch/scopes-and-launch-context.html#scopes-for-requesting-fhir-resources) and align with required MHD and QEDm transactions:
+Scopes follow [SMART v2 conventions](https://build.fhir.org/ig/HL7/smart-app-launch/scopes-and-launch-context.html#scopes-for-requesting-fhir-resources) and align with required MHD and IPA transactions:
 
 #### Document Publisher (MHD ITI-105)
 - `system/DocumentReference.create` - Create DocumentReference
@@ -110,7 +110,7 @@ Scopes follow [SMART v2 conventions](https://build.fhir.org/ig/HL7/smart-app-lau
 - `system/Binary.read` - Read Binary
 - `system/Bundle.read` - Read Bundle (for FHIR Documents)
 
-#### Resource Consumer (QEDm PCC-44)
+#### Resource Consumer (IPA)
 - `system/Patient.read` - Read Patient
 - `system/Patient.search` - Search Patient
 - Additional scopes per resource type: `system/Observation.read`, `system/Observation.search`, `system/Condition.read`, `system/Condition.search`, `system/DiagnosticReport.read`, `system/DiagnosticReport.search`, etc.
