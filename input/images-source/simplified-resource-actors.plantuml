@@ -19,8 +19,8 @@ skinparam rectangle {
 rectangle "Resource Access Provider" as Server {
     agent "Consistent Time - 🕐" as S_CT
     agent "ATNA Secure Node" as S_ATNA
-    agent "IUA Authorization Server" as S_IUAAuth
-    agent "PDQm/PIXm Patient Identity Source" as S_PDQmSrc
+    agent "IUA Authorization Server\n(if internal)" as S_IUAAuth
+    agent "PDQm Patient Demographics Supplier" as S_PDQmSrc
     agent " " as S_Hidden1 #White;line:White
     agent "QEDm Server" as S_QEDmServer
     agent " " as S_Hidden2 #White;line:White
@@ -39,7 +39,7 @@ rectangle "Resource Consumer" as Client {
     agent "Consistent Time - 🕐" as C_CT
     agent "ATNA Secure Node" as C_ATNA
     agent "IUA Authorization Client" as C_IUAClient
-    agent "PDQm/PIXm Patient Identity Consumer" as C_PDQm
+    agent "PDQm Patient Demographics Consumer" as C_PDQm
     agent " " as C_Hidden1 #White;line:White
     agent "QEDm Client" as C_QEDmClient
     agent " " as C_Hidden2 #White;line:White

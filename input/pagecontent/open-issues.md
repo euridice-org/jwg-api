@@ -130,31 +130,22 @@ Should servers declare which EHDS Priority Categories they support? How? Should 
 
 ### Issue 6: Authorization Server Deployment
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/16) | **Priority:** Medium
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/16) | **Status:** Resolved
 
-The Document Access Provider composite actor currently groups several IHE actors, including IUA Authorization Server. The key question is whether the Authorization Server should be assumed as part of the Document Access Provider?
+**Resolution:**
 
-Consider from the perspective of the EHR system evaluating conformance of their interoperability Component.
+The Authorization Server may be deployed internally (bundled with the EHR) or externally (at hospital, regional, or national level).
 
-**Current Grouping**
+Key decisions:
+1. **IUA Resource Server** is always required for Access Providers
+2. **IUA Authorization Server** is required only when authorization is handled internally
+3. When AS is external, the Resource Server is responsible for:
+   - Enabling discovery via `.well-known/smart-configuration` pointing to the external AS
+   - Validating tokens (local validation or introspection via IHE IUA ITI-102)
 
-The Document Access Provider includes:
-- IUA Resource Server
-- **IUA Authorization Server** (under consideration here)
-- MHD Document Responder
-- MHD Document Recipient
-- PDQm Patient Demographics Supplier
+The D5.1 requirement `api-provider-authProvideToken` applies only to EHR systems with internal Authorization Servers. This IG does not impose requirements on external authorization infrastructure.
 
-**Context**
-
-For EHR systems seeking conformance: are you bundling an authorization server, or using an external one?
-
-Authorization may be handled external to the EHR at a Member State level - with the EHR system acting as a *Document Publisher* (authorization client) and the Member State infrastructure acts as the *Document Access Provider* with an authorization server.
-
-**Seeking Input On**
-
-- Is the assumption that Authorization Server is grouped with Document Access Provider valid for your deployment?
-- Should we reconsider this as an optional grouping?
+See [Authorization Server Deployment](authorization.html#authorization-server-deployment) for full details.
 
 ---
 

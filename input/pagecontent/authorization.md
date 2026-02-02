@@ -11,9 +11,98 @@ This specification defines **system-to-system** authorization only:
 - Client systems authenticate with client credentials
 - No user-level authentication is required at the API level
 
-User-level authorization requirements are not initial scope for this Implementation Guide.
+User-level authorization requirements are not in initial scope for this Implementation Guide.
 
-### Sequence Diagram
+### Authorization Actors
+
+IHE IUA defines two key actors for authorization:
+
+- **[Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server)** - Issues access tokens to clients after validating their identity credentials
+- **[Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server)** - Validates tokens and enforces access control on protected resources (the FHIR API)
+
+These actors may be deployed together or separately, as described below.
+
+#### Authorization Server Deployment
+
+The Authorization Server may be **internal**  (bundled with the Access Provider) or **external** (external to the Access Provider, for example a hospital, regional, or national authorizationse rver). When external, the EHR system implements only Resource Server behaviors—this IG does not impose requirements on external authorization infrastructure.
+
+See [Sequence Diagrams](#sequence-diagrams) below for how the flow differs between internal and external deployments.
+
+### IHE IUA Actor Groupings
+
+- **Document/Resource Publisher:** IUA Authorization Client
+- **Document/Resource Consumer:** IUA Authorization Client
+- **Document/Resource Access Provider:** IUA Resource Server (required) + IUA Authorization Server (if internal)
+
+---
+
+### Authorization Flow
+
+#### 1. Discovery {#authorization-server-discovery}
+
+Resource Servers SHALL advertise their authorization configuration at `[base]/.well-known/smart-configuration`. This tells clients where to obtain tokens, pointing to an internal or external Authorization Server.
+
+Required fields include:
+- `token_endpoint` - URL for token requests (points to internal or external AS)
+- `token_endpoint_auth_methods_supported` - Must include `private_key_jwt`
+- `scopes_supported` - Recommended to list supported scopes
+
+See [SMART Backend Services Discovery](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html#discovery) for the full specification.
+
+#### 2. Client Registration
+
+Out of band, the Consumer registers identity credentials (public key, client identifier) with the Authorization Server. See [SMART App Launch: Registering a Client](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#registering-a-client-communicating-public-keys) for guidance on client registration and public key communication.
+
+#### 3. Obtaining Tokens {#obtaining-tokens}
+
+Clients obtain tokens by POSTing to the token endpoint discovered via `.well-known/smart-configuration`.
+
+**Token Request**:
+- Grant type: `client_credentials`
+- Client assertion: JWT signed by client private key
+- Client authentication: Asymmetric (public key registered out-of-band)
+
+#### 4. Presenting Tokens {#presenting-tokens}
+
+Clients present tokens using the `Authorization` header:
+
+```
+Authorization: Bearer <access_token>
+```
+
+Tokens must be presented on all API requests to protected resources.
+
+#### 5. Token Issuance {#token-issuance}
+
+The Authorization Server issues access tokens to registered clients using the `client_credentials` grant.
+
+Authorization Servers SHALL:
+- Validate the client assertion JWT signature against registered public keys
+- Verify the JWT claims (`iss`, `sub`, `aud`, `exp`, `jti`)
+- Issue tokens holding scopes based on the requested scopes (if authorized for the client)
+- Return tokens with appropriate expiration
+
+#### 6. Token Validation {#requiring-tokens}
+
+Resource Servers SHALL validate tokens on every API request:
+- Verify token signature
+- Check token expiration (`exp` claim)
+- Validate audience (`aud` matches server)
+- Confirm the requested API operation is within granted scopes
+
+When the Authorization Server is external, the Resource Server may validate tokens via:
+- Local validation using shared keys or certificates
+- Token introspection via [IHE IUA ITI-102](https://profiles.ihe.net/ITI/IUA/index.html#3102-introspect-token-iti-102)
+
+For comprehensive token validation guidance including `jti` tracking and signature verification details, see [SMART App Launch: Signature Verification](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
+
+---
+
+### Sequence Diagrams
+
+#### Internal Authorization Server (Bundled)
+
+When the Authorization Server is bundled with the Access Provider:
 
 ```mermaid
 sequenceDiagram
@@ -33,65 +122,33 @@ sequenceDiagram
     Resource-->>Client: Bundle (search results)
 ```
 
-### IHE IUA Actor Groupings
+#### External Authorization Server
 
-- **Document/Resource Publisher:** IUA Authorization Client
-- **Document/Resource Consumer:** IUA Authorization Client
-- **Document/Resource Access Provider:** IUA Authorization Server + Resource Server
+When the Authorization Server is external (hospital, regional, or national infrastructure):
 
-### Client Registration
+```mermaid
+sequenceDiagram
+    participant Client as Authorization Client
+    participant RS as Resource Server<br/>(Access Provider)
+    participant AS as Authorization Server<br/>(External)
 
-Out of band, the Consumer registers identity credentials (public key, client identifier) with the Access Provider. See [SMART App Launch: Registering a Client](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#registering-a-client-communicating-public-keys) for guidance on client registration and public key communication.
+    Client->>RS: GET /.well-known/smart-configuration
+    RS-->>Client: {"token_endpoint": "https://as.example/token", ...}
 
-### Discovery {#authorization-server-discovery}
+    Client->>AS: POST /token (client credentials)
+    AS-->>Client: Access Token
 
-Servers SHALL advertise their authorization configuration at `[base]/.well-known/smart-configuration`.
+    Client->>RS: GET /DocumentReference?patient=123 (Bearer token)
 
-Required fields include:
-- `token_endpoint` - URL for token requests
-- `token_endpoint_auth_methods_supported` - Must include `private_key_jwt`
-- `scopes_supported` - Recommended to list supported scopes
+    opt Token Validation via Introspection
+        RS->>AS: POST /introspect (ITI-102)
+        AS-->>RS: Token claims
+    end
 
-See [SMART Backend Services Discovery](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html#discovery) for the full specification.
-
-### Token Issuance {#token-issuance}
-
-The Authorization Server issues access tokens to registered clients using the `client_credentials` grant.
-
-Servers SHALL:
-- Validate the client assertion JWT signature against registered public keys
-- Verify the JWT claims (`iss`, `sub`, `aud`, `exp`, `jti`)
-- Issue tokens holding scopes based on the requested scopes (if authorized for the client)
-- Return tokens with appropriate expiration
-
-### Obtaining Tokens {#obtaining-tokens}
-
-Clients obtain tokens by POSTing to the token endpoint discovered via `.well-known/smart-configuration`.
-
-**Token Request**:
-- Grant type: `client_credentials`
-- Client assertion: JWT signed by client private key
-- Client authentication: Asymmetric (public key registered out-of-band)
-
-### Token Validation {#requiring-tokens}
-
-Servers SHALL validate tokens on every API request:
-- Verify token signature
-- Check token expiration (`exp` claim)
-- Validate audience (`aud` matches server)
-- Confirm the requested API operation is within granted scopes
-
-For comprehensive token validation guidance including `jti` tracking and signature verification details, see [SMART App Launch: Signature Verification](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
-
-### Presenting Tokens {#presenting-tokens}
-
-Clients present tokens using the `Authorization` header:
-
-```
-Authorization: Bearer <access_token>
+    RS-->>Client: Bundle (search results)
 ```
 
-Tokens must be presented on all API requests to protected resources.
+---
 
 ### Scopes
 

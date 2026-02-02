@@ -51,16 +51,14 @@ These composite actors inherit existing actors from the IUA, PDQm, and MHD speci
 
 **Document Access Provider**
 
-- [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server)
-- [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server)
+- [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server) - Required
+- [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server) - Required if authorization is handled internally; not required if using external authorization infrastructure. See [Authorization Server Deployment](authorization.html#authorization-server-deployment).
 - [PDQm Patient Demographics Supplier](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsSupplier.html))
 - [MHD Document Responder](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentResponder.html))
 
 <a name="document-submission-option"></a>
 **Document Submission Option** (when accepting external publication):
 - [MHD Document Recipient](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) - Simplified Publish Option ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentRecipient.html))
-
-> **Open Issue #6**: Should the Authorization Server be assumed as part of the Document Access Provider? See [Authorization Server Deployment](open-issues.html#issue-6-authorization-server-deployment) for discussion.
 
 **Document Consumer**
 
@@ -76,6 +74,7 @@ This leads to the following required transactions between these actors:
 </figure>
 <br clear="all">
 
+> **Note:** This diagram assumes a bundled Authorization Server. When using external authorization infrastructure (hospital, regional, or national level), the authorization flow differs. See [Authorization Server Deployment](authorization.html#authorization-server-deployment) for details.
 
 See the following functional pages for detailed transaction information:
 - [Authorization](authorization.html) - Authentication and authorization flows
@@ -119,8 +118,8 @@ These composite actors inherit existing actors from the IUA, PDQm, and IPA speci
 
 **Resource Access Provider**
 
-- [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server)
-- [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server)
+- [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server) - Required
+- [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server) - Required if authorization is handled internally; not required if using external authorization infrastructure. See [Authorization Server Deployment](authorization.html#authorization-server-deployment).
 - [PDQm Patient Demographics Supplier](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsSupplier.html))
 - Resource Access
   - [HL7 International Patient Access Server](https://build.fhir.org/ig/HL7/fhir-ipa/index.html) ([CapabilityStatement](https://build.fhir.org/ig/HL7/fhir-ipa/CapabilityStatement-ipa-server.html))
@@ -142,8 +141,7 @@ This leads to the following required transactions between these actors:
 </figure>
 <br clear="all">
 
-
-
+> **Note:** This diagram assumes a bundled Authorization Server. When using external authorization infrastructure (hospital, regional, or national level), the authorization flow differs. See [Authorization Server Deployment](authorization.html#authorization-server-deployment) for details.
 
 
 
