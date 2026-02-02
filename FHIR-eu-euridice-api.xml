@@ -7,9 +7,10 @@
 <artifact id="ActorDefinition/EEHRxF-DocumentAccessProvider-Actor" key="ActorDefinition-EEHRxF-DocumentAccessProvider-Actor" name="EEHRxF Document Access Provider"/>
 <artifact id="CapabilityStatement/EEHRxF-DocumentAccessProvider-SubmissionOption" key="CapabilityStatement-EEHRxF-DocumentAccessProvider-SubmissionOption" name="EEHRxF Document Access Provider - Document Submission Option"/>
 <artifact id="CapabilityStatement/EEHRxF-DocumentAccessProvider" key="CapabilityStatement-EEHRxF-DocumentAccessProvider" name="EEHRxF Document Access Provider CapabilityStatement"/>
-<artifact id="ValueSet/eehrxf-document-class-vs" key="ValueSet-eehrxf-document-class-vs" name="EEHRxF Document Class ValueSet (Category)"/>
 <artifact id="ActorDefinition/EEHRxF-DocumentConsumer-Actor" key="ActorDefinition-EEHRxF-DocumentConsumer-Actor" name="EEHRxF Document Consumer"/>
 <artifact id="CapabilityStatement/EEHRxF-DocumentConsumer" key="CapabilityStatement-EEHRxF-DocumentConsumer" name="EEHRxF Document Consumer CapabilityStatement"/>
+<artifact id="CodeSystem/eehrxf-document-priority-category-cs" key="CodeSystem-eehrxf-document-priority-category-cs" name="EEHRxF Document Priority Category CodeSystem"/>
+<artifact id="ValueSet/eehrxf-document-priority-category-vs" key="ValueSet-eehrxf-document-priority-category-vs" name="EEHRxF Document Priority Category ValueSet"/>
 <artifact id="ActorDefinition/EEHRxF-DocumentPublisher-Actor" key="ActorDefinition-EEHRxF-DocumentPublisher-Actor" name="EEHRxF Document Publisher"/>
 <artifact id="CapabilityStatement/EEHRxF-DocumentPublisher" key="CapabilityStatement-EEHRxF-DocumentPublisher" name="EEHRxF Document Publisher CapabilityStatement"/>
 <artifact id="ValueSet/eehrxf-document-type-vs" key="ValueSet-eehrxf-document-type-vs" name="EEHRxF Document Type ValueSet"/>
@@ -23,12 +24,14 @@
 <artifact id="StructureDefinition/SupportedIdentifier" key="StructureDefinition-SupportedIdentifier" name="Extension: SupportedIdentifier"/>
 <page key="NA" name="(NA)"/>
 <page key="many" name="(many)"/>
+<page key="about" name="About"/>
 <page key="actors" name="Actors and Transactions"/>
 <page key="artifacts" name="Artifacts Summary"/>
 <page key="authorization" name="Authorization"/>
 <page key="background" name="Background"/>
 <page key="capability-discovery" name="Capability Discovery"/>
 <page key="changes" name="Change Log"/>
+<page key="copyright" name="Copyright"/>
 <page key="document-exchange" name="Document Exchange"/>
 <page key="ehds-annex-ii" name="EHDS Annex II - Essential Requirements"/>
 <page key="fhir-documents-vs-resources" name="FHIR Documents and Resources"/>
@@ -43,6 +46,7 @@
 <page key="patient-match" name="Patient Matching"/>
 <page key="priority-area-eps" name="Patient Summary (EPS)"/>
 <page key="priority-categories" name="Priority Categories"/>
+<page key="references" name="References"/>
 <page key="regulatoryAnchors" name="Regulatory Anchors"/>
 <page key="xds-xca-bridge" name="Relationship to XDS/XCA"/>
 <page key="resource-access" name="Resource Access"/>

@@ -14,7 +14,7 @@ Patient Demographics Consumer, and IUA Authorization Client.
 See [Document Publisher CapabilityStatement](CapabilityStatement-EEHRxF-DocumentPublisher.html)
 for technical requirements.
 """
-* name = "EEHRxF-DocumentPublisher"
+* name = "EEHRxF_DocumentPublisher"
 * title = "EEHRxF Document Publisher"
 * status = #active
 * experimental = false
@@ -34,7 +34,7 @@ Supplier, and IUA Authorization Server/Resource Server.
 See [Document Access Provider CapabilityStatement](CapabilityStatement-EEHRxF-DocumentAccessProvider.html)
 for technical requirements.
 """
-* name = "EEHRxF-DocumentAccessProvider"
+* name = "EEHRxF_DocumentAccessProvider"
 * title = "EEHRxF Document Access Provider"
 * status = #active
 * experimental = false
@@ -53,7 +53,7 @@ Consumer, and IUA Authorization Client.
 See [Document Consumer CapabilityStatement](CapabilityStatement-EEHRxF-DocumentConsumer.html)
 for technical requirements.
 """
-* name = "EEHRxF-DocumentConsumer"
+* name = "EEHRxF_DocumentConsumer"
 * title = "EEHRxF Document Consumer"
 * status = #active
 * experimental = false
@@ -75,7 +75,7 @@ This is common for hospital EHR systems that produce and serve their own documen
 See [Grouped Document Publisher/Access Provider CapabilityStatement](CapabilityStatement-EEHRxF-DocumentPublisherAccessProvider.html)
 for technical requirements.
 """
-* name = "EEHRxF-DocumentPublisherAccessProvider"
+* name = "EEHRxF_DocumentPublisherAccessProvider"
 * title = "EEHRxF Grouped Document Publisher/Access Provider"
 * status = #active
 * experimental = false
@@ -99,7 +99,7 @@ Supplier, and IUA Authorization Server/Resource Server.
 See [Resource Access Provider CapabilityStatement](CapabilityStatement-EEHRxF-ResourceAccessProvider.html)
 for technical requirements.
 """
-* name = "EEHRxF-ResourceAccessProvider"
+* name = "EEHRxF_ResourceAccessProvider"
 * title = "EEHRxF Resource Access Provider"
 * status = #active
 * experimental = false
@@ -118,7 +118,7 @@ Consumer, IPA Client, PDQm Patient Demographics Consumer, and IUA Authorization 
 See [Resource Consumer CapabilityStatement](CapabilityStatement-EEHRxF-ResourceConsumer.html)
 for technical requirements.
 """
-* name = "EEHRxF-ResourceConsumer"
+* name = "EEHRxF_ResourceConsumer"
 * title = "EEHRxF Resource Consumer"
 * status = #active
 * experimental = false

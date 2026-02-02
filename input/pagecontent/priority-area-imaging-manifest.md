@@ -17,14 +17,16 @@ Imaging Manifests can be accessed via document exchange.
 For document-based access, use the [Document Exchange](document-exchange.html) transactions.
 
 The Imaging Manifest is differentiated via the following DocumentReference fields:
-- **category**: `IMAGES` (XDS ClassCode)
+- **category**: `Medical-Imaging` ([EHDS Priority Category](CodeSystem-eehrxf-document-priority-category-cs.html))
 - **type**: 19005-8
 
 ### Example Query
 
 ```
-GET /DocumentReference?patient=123&category=urn:oid:1.3.6.1.4.1.19376.1.2.6.1|IMAGES&status=current
+GET /DocumentReference?patient=123&category=http://hl7.eu/fhir/euridice-api/CodeSystem/eehrxf-document-priority-category-cs|Medical-Imaging&status=current
 ```
+
+> **Note:** Both imaging reports and imaging manifests use the `Medical-Imaging` category. To retrieve only manifests, filter by `type` or `formatCode`.
 
 See [Example: Retrieve A European Patient Summary](example-patient-summary.html) for a complete workflow example (the pattern is similar, with different documentReference parameters).
 
