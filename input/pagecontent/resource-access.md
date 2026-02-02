@@ -102,6 +102,14 @@ If resources are derived from documents, Provenance SHOULD link to source Docume
 
 The [IHE mXDE](https://profiles.ihe.net/ITI/mXDE/index.html) profile provides more detail on how to extra resources from documents while maintaining provenance.  
 
+### Supported Resources
+
+Following [IPA's approach](https://build.fhir.org/ig/HL7/fhir-ipa/CapabilityStatement-ipa-server.html), Resource Access Providers are **not required to support all clinical resources**. Servers MAY choose which resources to implement based on their capabilities, use cases, and the regulatory context.
+
+Servers declare which resources they support in their CapabilityStatement. Clients MAY check the server's CapabilityStatement to discover available resources before making requests.
+
+See the [Resource Access Provider CapabilityStatement](CapabilityStatement-EEHRxF-ResourceAccessProvider.html) and [Resource Consumer CapabilityStatement](CapabilityStatement-EEHRxF-ResourceConsumer.html) for detailed capability declarations.
+
 
 ### References
 
@@ -114,4 +122,3 @@ The [IHE mXDE](https://profiles.ihe.net/ITI/mXDE/index.html) profile provides mo
 
 This IG uses [IPA](https://build.fhir.org/ig/HL7/fhir-ipa/) as the primary reference for CapabilityStatements and search parameters. QEDm is referenced where compatible with IPA - and QEDm has a stated goal of aligning with IPA.
 
-> **Open Issue #4**: We are seeking input on IPA vs QEDm inheritance. See [Resource Access and Inheritance](open-issues.html#issue-4-resource-access-and-inheritance) for discussion.
