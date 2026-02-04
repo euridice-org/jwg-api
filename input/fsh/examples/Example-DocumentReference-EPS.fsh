@@ -1,6 +1,6 @@
 // Example DocumentReference for European Patient Summary
 // Demonstrates use of EEHRxF category and type valuesets
-// See: https://github.com/euridice-org/jwg-api/issues/49
+// See: https://github.com/euridice-org/eu-health-data-api/issues/49
 
 Instance: ExampleDocumentReferenceEPS
 InstanceOf: EehrxfMhdDocumentReference
