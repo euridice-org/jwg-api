@@ -63,7 +63,7 @@ These resource actors are initially scoped for search + read. See [Resource Acce
 ## Summary of Functional Requirements ("the API")
 
 - **[Capability Discovery](capability-discovery.html)** - Discover which priority categories a server supports
-- **[Authorization](authorization.html)** - SMART Backend Services + IUA (required)
+- **[Authorization](authorization.html)** - SMART Backend Services, IUA-aligned
 - **[Patient Matching](patient-match.html)** - PDQm Patient Demographics Query
 - **[Document Exchange](document-exchange.html)** - MHD transactions (ITI-67, ITI-68, ITI-105)
 - **[Resource Access](resource-access.html)** - IPA resource query patterns
