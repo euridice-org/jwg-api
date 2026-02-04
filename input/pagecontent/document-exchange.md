@@ -91,7 +91,7 @@ GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|60591-5&s
 
 By category (EHDS priority):
 ```
-GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/euridice-api/CodeSystem/eehrxf-document-priority-category-cs|Patient-Summaries&status=current
+GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/eu-health-data-api/CodeSystem/eehrxf-document-priority-category-cs|Patient-Summaries&status=current
 ```
 
 ##### Medical Test Results (Laboratory)
@@ -103,7 +103,7 @@ GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|11502-2&s
 
 By category (EHDS priority):
 ```
-GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/euridice-api/CodeSystem/eehrxf-document-priority-category-cs|Laboratory-Reports&status=current
+GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/eu-health-data-api/CodeSystem/eehrxf-document-priority-category-cs|Laboratory-Reports&status=current
 ```
 
 ##### Imaging Reports and Manifests
@@ -115,7 +115,7 @@ GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|68604-8&s
 
 By category (EHDS priority - includes both reports and manifests):
 ```
-GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/euridice-api/CodeSystem/eehrxf-document-priority-category-cs|Medical-Imaging&status=current
+GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/eu-health-data-api/CodeSystem/eehrxf-document-priority-category-cs|Medical-Imaging&status=current
 ```
 
 > **Note:** The `Medical-Imaging` category includes both imaging reports and imaging manifests. To distinguish between them, use the `type` code or `formatCode`. See [Imaging Manifest](priority-area-imaging-manifest.html) for details.
@@ -129,7 +129,7 @@ GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|18842-5&s
 
 By category (EHDS priority):
 ```
-GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/euridice-api/CodeSystem/eehrxf-document-priority-category-cs|Discharge-Reports&status=current
+GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/eu-health-data-api/CodeSystem/eehrxf-document-priority-category-cs|Discharge-Reports&status=current
 ```
 
 ---

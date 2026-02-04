@@ -10,8 +10,8 @@ This guide covers building the EURIDICE API FHIR Implementation Guide locally us
 docker version
 
 # Clone and build
-git clone https://github.com/euridice-org/jwg-api.git
-cd jwg-api
+git clone https://github.com/euridice-org/eu-health-data-api.git
+cd eu-health-data-api
 ./startDockerPublisher.sh
 ```
 
@@ -26,8 +26,8 @@ dockerd > /var/log/dockerd.log 2>&1 &
 
 # Clone to WSL filesystem and build
 mkdir -p ~/src && cd ~/src
-git clone https://github.com/euridice-org/jwg-api.git
-cd jwg-api
+git clone https://github.com/euridice-org/eu-health-data-api.git
+cd eu-health-data-api
 chmod -R 777 . && mkdir -p ~/.fhir && chmod -R 777 ~/.fhir
 ./startDockerPublisher.sh
 ```
@@ -104,8 +104,8 @@ docker version
 # 5. Clone repo to WSL filesystem (NOT /mnt/c/...)
 mkdir -p ~/src
 cd ~/src
-git clone https://github.com/euridice-org/jwg-api.git
-cd jwg-api
+git clone https://github.com/euridice-org/eu-health-data-api.git
+cd eu-health-data-api
 
 # 6. Configure git
 git config user.name "Your Name"
@@ -132,7 +132,7 @@ dockerd > /var/log/dockerd.log 2>&1 &
 docker ps 2>/dev/null || dockerd > /var/log/dockerd.log 2>&1 &
 
 # Then build:
-cd ~/src/jwg-api
+cd ~/src/eu-health-data-api
 ./startDockerPublisher.sh
 ```
 
@@ -170,7 +170,7 @@ cd ~/src/jwg-api
 - Prevents permission errors during build
 
 **Access from Windows:**
-- **File Explorer:** `\\wsl$\Ubuntu-24.04\root\src\jwg-api`
+- **File Explorer:** `\\wsl$\Ubuntu-24.04\root\src\eu-health-data-api`
 - **VS Code:** Install "Remote - WSL" extension, run `code .` from WSL
 
 ---
@@ -323,19 +323,19 @@ docker version  # Should work now
 **Permission errors:**
 ```bash
 # Set full permissions
-cd ~/src/jwg-api
+cd ~/src/eu-health-data-api
 chmod -R 777 .
 chmod -R 777 ~/.fhir
 ```
 
 **File locking errors / "Resource deadlock avoided":**
-- Ensure you're building from WSL filesystem (`~/src/jwg-api`), NOT `/mnt/c/...`
+- Ensure you're building from WSL filesystem (`~/src/eu-health-data-api`), NOT `/mnt/c/...`
 - Clear build artifacts: `rm -rf output temp template`
 - May need to exclude repo from Windows antivirus
 
 **Slow I/O performance:**
 - Verify repo is on WSL filesystem, not Windows filesystem
-- Check: `pwd` should show `/root/src/jwg-api`, NOT `/mnt/c/...`
+- Check: `pwd` should show `/root/src/eu-health-data-api`, NOT `/mnt/c/...`
 
 ### Common Issues (Both Platforms)
 
@@ -368,16 +368,16 @@ PUBLISHER_JAVA_TOOL_OPTIONS="-Xmx8g -Xms1g" ./startDockerPublisher.sh
 ## CI / Publisher Workflow
 
 ### Continuous Integration
-- **Main branch:** Published at [build.fhir.org/ig/euridice-org/jwg-api/en/](https://build.fhir.org/ig/euridice-org/jwg-api/en/)
-- **Feature branches:** Published at `https://build.fhir.org/ig/euridice-org/jwg-api/branches/<branch>/`
+- **Main branch:** Published at [build.fhir.org/ig/euridice-org/eu-health-data-api/en/](https://build.fhir.org/ig/euridice-org/eu-health-data-api/en/)
+- **Feature branches:** Published at `https://build.fhir.org/ig/euridice-org/eu-health-data-api/branches/<branch>/`
 
 ### Branch Diagnostics
 ```bash
 # Full build log
-curl https://build.fhir.org/ig/euridice-org/jwg-api/branches/<branch>/build.log
+curl https://build.fhir.org/ig/euridice-org/eu-health-data-api/branches/<branch>/build.log
 
 # Failure log (only exists if build aborted)
-curl https://build.fhir.org/ig/euridice-org/jwg-api/branches/<branch>/failure/build.log
+curl https://build.fhir.org/ig/euridice-org/eu-health-data-api/branches/<branch>/failure/build.log
 ```
 
 **Status codes:**
@@ -427,7 +427,7 @@ git push
 
 ## Resources
 
-- **Repository:** https://github.com/euridice-org/jwg-api
+- **Repository:** https://github.com/euridice-org/eu-health-data-api
 - **IG Publisher:** https://github.com/HL7/fhir-ig-publisher
 - **SUSHI (FSH compiler):** https://fshschool.org/
 - **FHIR Specification:** https://www.hl7.org/fhir/
@@ -440,7 +440,7 @@ git push
 ### About This Project
 - **Project:** EURIDICE API Specification (HL7 Europe / IHE Europe)
 - **Purpose:** FHIR IG for EHDS EHR Interoperability Component
-- **Package ID:** `hl7.fhir.eu.euridice-api`
+- **Package ID:** `hl7.fhir.eu.eu-health-data-api`
 - **FHIR Version:** 4.0.1
 
 ### Build Tools
