@@ -1,21 +1,15 @@
 {% include variable-definitions.md %}
 
 This guide is the result of a multi  stakeholders effort involving different experts from several 
-European countries, projects (e.g. XpanDH) and initiatives (e.g. MyHealth@EU); organized in two collaborating sub-groups:
-- one focusing on semantic and functional requirements, and
-- one working on the HL7 FHIR specifications
+European countries, projects, initiatives SDO's and companies.
 
-The following picture provide an overview of the origin of the participants.
-
-<!--  this graphic is missing, no idea where it is.
-<div>
-    <img src="eu-coverage.png"  alt="Coverage" width="40%">
-    <p>Figure 1 - Experts distribution</p>
-    <p></p>
-</div>
--->
-
-|Role                | Name                | Affiliation    |
-|--------------------|---------------------|----------------|
-| Project facilitator|  Bas van den Heuvel | Philips/HL7 EU |
-| Contributor        |  Ignacio Jauregui   | Philips        |
+|Role                    | Name                | Affiliation    |
+|------------------------|---------------------|----------------|
+| Project co-chair IHEeu |  Josh Priebe        | Philips/HL7 EU |
+| Project co-chair HL7eu |  Bas van den Heuvel | Philips/IHE EU |
+| Contributor            |  John Moehrke       | IHE            |
+| Contributor            |  Vassil Peytchev    | Epic           |
+| Contributor            |  Katie Reynolds     | Epic           |
+| Contributor            |  Kai Heitmann       | HL7 Europe     |
+| Contributor            |  Andreas Klingler   | Siemens/ IHE Europe     |
+| Contributor            |  Giorgio Cangioli   | HL7 Europe     |

@@ -24,15 +24,15 @@ The EHDS regulation defines the interoperability component at a high level, but 
 This table describes the bridge between the regulation text and precise and implementable specifications.
 
 
-| **Layer** | **EHDS Regulation** | **EHR Functional Requirements** | **Technical Specifications (You Are Here)** |
-|----------|---------------------|--------------------------------|---------------------------------------------|
-| **Description** | Law. High-level description of interoperability goals. | EHDS Implementing acts. System roles and capabilities, requirements  on EHR systems to achieve those goals <br/><br/>| Strictly defined interoperability technical rules. Implementable Guide describing use FHIR (or other) specifications. <br/><br/>**Basis of interoperability conformance** |
+| **Layer**                     | **EHDS Regulation** | **EHR Functional Requirements** | **Technical Specifications (You Are Here)** |
+|-------------------------------|---------------------|--------------------------------|---------------------------------------------|
+| **Description**               | Law. High-level description of interoperability goals. | EHDS Implementing acts. System roles and capabilities, requirements  on EHR systems to achieve those goals <br/><br/> | Strictly defined interoperability technical rules. Implementable Guide describing use FHIR (or other) specifications. <br/><br/>**Basis of interoperability conformance** |
 | **Level of Technical Detail** | low | medium | high |
-| **Example** | EHDS Annex §2.1 : The EHR system should provide access to data in the EEHRxF format | **api-access-doc**: The EHR system Interoperability Software Component SHALL offer an API that enables an external system (such as a consumer) to access and retrieve its priority category data, for categories where that data is modeled as a FHIR Document <br/> | The **api-access-doc** requirement is met by the EHR System implementing the IHE MHD ITI-67 and ITI-68 transactions as the Document Responder actor.<br/> *Example FHIR Query: `GET [base]/DocumentReference?Category=123`  |
-| **Owner** | European Commission | European Commission<br/>(drafted by Xt-EHR), Member States | **To be decided** by the European Commission and Member States. SDO's (HL7 EU, IHE Europe) are proposing a draft with this Implementation Guide |
-| **Notes** | | Member States have some freedom to define additional requirements here. | |
+| **Example**                   | EHDS Annex § 2.1: The EHR system should provide access to data in the EEHRxF format | **api-access-doc**: The EHR system Interoperability Software Component SHALL offer an API that enables an external system (such as a consumer) to access and retrieve its priority category data, for categories where that data is modeled as a FHIR Document <br/> | The **api-access-doc** requirement is met by the EHR System implementing the IHE MHD ITI-67 and ITI-68 transactions as the Document Responder actor.<br/> *Example FHIR Query: GET [base]/DocumentReference?category=123*  |
+| **Owner**                     | European Commission | European Commission<br/>(drafted by Xt-EHR), Member States | **To be decided** by the European Commission and Member States. SDO's (HL7 EU, IHE Europe) are proposing a draft with this Implementation Guide |
+| **Notes**                     |                     | Member States have some freedom to define additional requirements here. | |
 
-Legal authority flows from left to right on this diagram. Automated testing of an EHR system is best enabled by the right-most technical specification layer.
+Legal authority flows from left to right on this diagram. Automated testing of an EHR system is best enabled by the right-most technical specificion layer.
 
 ### Scope of This IG
 
@@ -50,19 +50,25 @@ D5.1 defined **26 requirements** across three categories (see Xt-EHR D5.1 Annex 
 
 Xt-EHR deliverable 5.1 interpreted the EHDS Annex II requirements for EHR systems to "provide access to data" and "receive data" as a **query-based FHIR exchange architecture between systems**. D5.1 initially defined this using a two-actor model: **Producer** (providing access) and **Consumer** (receiving data). In this model, a Provider EHR system offers FHIR API(s) that enable external actors to query and retrieve data, while a Consumer EHR system supports those same FHIR API(s) as a client to receive data.
 
-[diagram]
-
-This Implementation Guide refines the D5.1 actor model by separating the **Producer** role into a **[Document Producer](actors.html#document-producer)** (which creates and publishes documents) and a **[Document Access Provider](actors.html#document-access-provider)** (which hosts APIs for document query and retrieval). The Access Provider assumes the server-side responsibilities from the original Producer role.
+This Implementation Guide refines the D5.1 actor model by separating the **Producer** role into a **[Document Publisher](actors.html#document-publisher)** (which creates and publishes documents) and a **[Document Access Provider](actors.html#document-access-provider)** (which hosts APIs for document query and retrieval). The Access Provider assumes the server-side responsibilities from the original Producer role.
 
 This adjustment addresses real-world deployment scenarios:
 
 1. **Fit to real-world system architectures**: The system that creates clinical data is not necessarily the system that typically hosts API access to that data, and not all EHR systems are well-fit to serving real-time queries 24/7. For example, an iPad clinician app may produce documents but does not make a good server. Such a system may "make its data available" by publishing documents to a hospital-level Document Access Provider that hosts an API to provide access to Consumers.
-
-2. **Aggregation at hospital scale**: A hospital document management system (Document Access Provider) aggregates data from departmental modules (Document Producers) to offer a single entry point for clinicians or a single access point for external consumers.
-
-3. **Aggregation at national scale**: In many EU member states, healthcare organization EHRs (Document Producers) submit documents to a national repository (Document Access Provider), which provides access to data across the region.
+2. **Aggregation at hospital scale**: A hospital document management system (Document Access Provider) aggregates data from departmental modules (Document Publishers) to offer a single entry point for clinicians or a single access point for external consumers.
+3. **Aggregation at national scale**: In many EU member states, healthcare organization EHRs (Document Publishers) submit documents to a national repository (Document Access Provider), which provides access to data across the region.
 
 See [Actors](actors.html) for complete definitions and [Example Groupings](actors.html#example-groupings) for deployment illustrations.
+
+### EHDS ANNEX II §2.2 - Receive EEHRxF
+
+Xt-EHR and this IG interpret "receive" as the ability to **query and retrieve** data from external systems—acting as an API client.
+
+This interpretation aligns with the FHIR query-based exchange model where systems actively request data they need, satisfies the regulatory intent of enabling data to flow into EHR systems, and maintains symmetry with §2.1—Provide Access.
+
+The **[Document Consumer](actors.html#document-consumer)** actor satisfies §2.2 by implementing ITI-67 and ITI-68 as a client.
+
+> **Note:** Systems that need to accept published documents (e.g., national infrastructure, integration engines) may implement the **[Document Submission Option](actors.html#document-submission-option)** on the Document Access Provider actor.
 
 ### Requirements Table
 
@@ -73,16 +79,18 @@ The following table maps each D5.1 interoperability requirement to its implement
 | `api-provider-general` | The EHR system acting as a provider SHALL provide access to its priority category data by offering an API that complies to the EHDS API specification. | Annex II §2.1 | Provider | [Document Access Provider](actors.html), [Resource Access Provider](actors.html) | This IG |
 | `api-consumer-general` | The EHR system Interoperability Software Component acting as a consumer SHALL consume external priority category data via an API conforming to the EHDS API specification. | Annex II §2.2 | Consumer | [Document Consumer](actors.html), [Resource Consumer](actors.html) | This IG |
 | `api-provider-authDiscovery` | The EHR system Interoperability Software Component SHALL enable discovery of its authorization server information to enable a consumer to retrieve authorization. It MAY be handled via machine-discoverable metadata or coordinated out of band. | Annex II §1.4, Art. 36(3)(e) | Provider | [Authorization - Discovery](authorization.html#authorization-server-discovery) | SMART .well-known/smart-configuration, IHE IUA |
-| `api-provider-authProvideToken` | The EHR system Interoperability Software Component SHALL support issuing authorization tokens to consumer EHR systems using the consumer's registered identity credentials and scopes of access. | Annex II §1.4, Art. 36(3)(e) | Provider (with internal authz server) | [Authorization Server](authorization.html#token-issuance) | SMART Backend token endpoint, IHE IUA |
-| `api-consumer-authObtainToken` | The EHR system Interoperability Software Component SHALL obtain an authorization token from the provider's designated authorization server. | Annex II §1.4, Art. 36(3)(e) | Consumer | [Authorization Client](authorization.html#obtaining-tokens) | SMART Backend client credentials grant, IHE IUA |
-| `api-provider-authRequireToken` | The EHR system Interoperability Software Component SHALL require a valid authorization token from the Consumer EHR on Interoperability Component exchange. | Annex II §1.4, Art. 36(3)(e) | Provider | [Token Validation](authorization.html#requiring-tokens) | Bearer token validation, IHE IUA |
-| `api-consumer-authPresentToken` | The EHR system Interoperability Software Component SHALL present a valid token to the Provider EHR on Interoperability Component Exchange. | Annex II §1.4, Art. 36(3)(e) | Consumer | [Token Usage](authorization.html#presenting-tokens) | Bearer token in Authorization header, IHE IUA |
+| `api-provider-authProvideToken` | The EHR system Interoperability Software Component SHALL support issuing authorization tokens to consumer EHR systems using the consumer's registered identity credentials and scopes of access. | Annex II §1.4, Art. 36(3)(e) | Provider (with internal authz server, see [1]) | [Get Access Token (ITI-71)](authorization.html#get-access-token) | SMART Backend token endpoint, IHE IUA |
+| `api-consumer-authObtainToken` | The EHR system Interoperability Software Component SHALL obtain an authorization token from the provider's designated authorization server. | Annex II §1.4, Art. 36(3)(e) | Consumer | [Get Access Token (ITI-71)](authorization.html#get-access-token) | SMART Backend client credentials grant, IHE IUA |
+| `api-provider-authRequireToken` | The EHR system Interoperability Software Component SHALL require a valid authorization token from the Consumer EHR on Interoperability Component exchange. | Annex II §1.4, Art. 36(3)(e) | Provider | [Incorporate Access Token (ITI-72)](authorization.html#incorporate-access-token) | Bearer token validation, IHE IUA |
+| `api-consumer-authPresentToken` | The EHR system Interoperability Software Component SHALL present a valid token to the Provider EHR on Interoperability Component Exchange. | Annex II §1.4, Art. 36(3)(e) | Consumer | [Incorporate Access Token (ITI-72)](authorization.html#incorporate-access-token) | Bearer token in Authorization header, SMART App Launch, IHE IUA |
 | `api-provider-patient` | The EHR system Interoperability Software Component SHALL offer a patient lookup API sufficient for a consumer to unambiguously identify the patient electronic health record in the provider system given patient identification data (demographics or other forms of patient identity) as search parameters. | Annex II §2.1 | Provider | [Patient Demographics Supplier](patient-match.html) | PDQm ITI-78 |
 | `api-consumer-patient` | The EHR system Interoperability Software Component SHALL support an external patient lookup query API to unambiguously identify the patient electronic health record in an external system (such as a provider EHR system), using the consumer system's available patient identification data (demographics or other forms of patient identity). | Annex II §2.2 | Consumer | [Patient Demographics Consumer](patient-match.html) | PDQm Consumer |
 | `api-provider-doc` | The EHR system Interoperability Software Component SHALL offer an API that enables an external system (such as a consumer) to access and retrieve its priority category data modelled as FHIR Documents. | Annex II §2.1 | Provider | [Document Responder](document-exchange.html) | MHD ITI-67, ITI-68 |
 | `api-consumer-doc` | The EHR system Interoperability Software Component SHALL support an external document query API that allows it to search and access priority category data modelled as FHIR Documents within an external system (such as a provider). | Annex II §2.2 | Consumer | [Document Consumer](document-exchange.html) | MHD Document Consumer |
 | `api-provider-resource` | The EHR system Interoperability Software Component SHALL offer search and read access to its data via individual FHIR Resource API(s), for priority data for which EHDS technical specifications are released which define this data as individually retrievable FHIR resources instead of or in addition to FHIR bundles. | Annex II §2.1 | Provider | [Clinical Data Source](resource-access.html) | IPA Server |
 | `api-consumer-resource` | The EHR system Interoperability Software Component SHALL support an external resource query API that allows it to search and access priority category data within an external system (such as a provider), for which EHDS technical specifications are released which define this data as individually retrievable FHIR resources instead of or in addition to FHIR Document bundles. | Annex II §2.2 | Consumer | [Clinical Data Consumer](resource-access.html) | IPA Client |
-| `api-provider-data` | The EHR system Interoperability Software Component SHALL be capable of providing priority category data that conforms to the EEHRxF data format, as defined by each priority category. | Annex II §2.1 and §2.4 | Provider | Priority Category Content Profiles | HL7 EU Content IGs |
+| `api-provider-data` | The EHR system Interoperability Software Component SHALL be capable of providing priority category data that conforms to the EEHRxF data format, as defined by each priority category. | Annex II §2.1, §2.4 | Provider | Priority Category Content Profiles | HL7 EU Content IGs |
 | `api-consumer-data` | The EHR system Interoperability Software Component SHALL be able to receive and handle data for its intended use, when that data is conforming to the EEHRxF data format (as defined by each priority category). | Annex II §2.2 | Consumer | Priority Category Content Profiles | HL7 EU Content IGs |
 | `api-encryption` | The EHR system Interoperability Component SHALL be capable of transport-encrypted data exchange | Annex II §1.4, Art. 36(3)(e) | Provider + Consumer | [Transport Security](authorization.html#transport-security) | TLS 1.2+ |
+
+[1] **Note on Authorization Server:** The EHR system may or may not be bundled with it's own authorization server. See [Authorization Server Deployment](authorization.html#authorization-server-deployment) for details.

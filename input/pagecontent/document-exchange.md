@@ -2,73 +2,72 @@
 
 Document exchange using IHE MHD (Mobile Health Documents) transactions. This IG inherits MHD transactions as-is, with constraints specific to EEHRxF content.
 
-### Actors
+### Actors and Transactions
 
-- **Document Producer** (client): Publishes documents using MHD Document Source
-- **Document Access Provider** (server): Receives and serves documents using MHD Document Recipient + Document Responder
-- **Document Consumer** (client): Queries and retrieves documents using MHD Document Consumer
+This IG defines three document exchange actors. See [Actors](actors.html) for detailed actor groupings.
 
-See [Actors and Transactions](actors.html) for detailed actor groupings.
+| Actor | Transaction | Optionality |
+|-------|-------------|-------------|
+| [Document Consumer](actors.html#document-consumer) | [ITI-67](https://profiles.ihe.net/ITI/MHD/ITI-67.html) Find Document References | R |
+| [Document Consumer](actors.html#document-consumer) | [ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) Retrieve Document | R |
+| [Document Access Provider](actors.html#document-access-provider) | [ITI-67](https://profiles.ihe.net/ITI/MHD/ITI-67.html) Find Document References | R |
+| [Document Access Provider](actors.html#document-access-provider) | [ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) Retrieve Document | R |
+| [Document Access Provider](actors.html#document-access-provider) | [ITI-105: Simplified Publish](https://profiles.ihe.net/ITI/MHD/ITI-105.html) Simplified Publish | O |
+| [Document Publisher](actors.html#document-publisher) | [ITI-105: Simplified Publish](https://profiles.ihe.net/ITI/MHD/ITI-105.html) | R |
 
-### IHE MHD Transactions
+---
 
-This IG uses the following IHE MHD transactions:
+### Document Consumption
 
-| Transaction | Direction | Description | Scope |
-|-------------|-----------|-------------|-------|
-| [ITI-67](https://profiles.ihe.net/ITI/MHD/ITI-67.html) | Document Consumer → Document Access Provider | Find Document References | `system/DocumentReference.rs` |
-| [ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) | Document Consumer → Document Access Provider | Retrieve Document | See note below |
-| [ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) | Document Producer → Document Access Provider | Provide Document Bundle | `system/DocumentReference.c`, `system/Binary.c` or `system/Bundle.c` |
+The primary workflow is **query and retrieve**: Document Consumers find documents via ITI-67, then retrieve content via ITI-68.
 
-> **ITI-68 Scope Note:** The required scope depends on the document format. For non-FHIR documents (PDF), use `system/Binary.r`. For FHIR Documents (IPS, laboratory reports as FHIR Bundles), use `system/Bundle.r`. See [FHIR Documents vs Binary](#fhir-documents-vs-binary) below.
-
-### Sequence Diagram
+#### Sequence Diagram
 
 ```mermaid
 sequenceDiagram
     participant Consumer as Document Consumer
     participant Provider as Document Access Provider
 
-    rect rgb(255, 248, 240)
-    Note over Consumer,Provider: Find Document References (MHD ITI-67)
+    rect rgb(240, 248, 255)
+    Note over Consumer,Provider: Find Document References (ITI-67)
     Consumer->>Provider: GET /DocumentReference?patient=...&type=...
     Provider-->>Consumer: Bundle of DocumentReferences
     end
 
-    rect rgb(255, 245, 238)
-    Note over Consumer,Provider: Retrieve Document (MHD ITI-68)
+    rect rgb(240, 255, 240)
+    Note over Consumer,Provider: Retrieve Document (ITI-68)
     Consumer->>Provider: GET [attachment.url from DocumentReference]
-    Provider-->>Consumer: Document content
+    Provider-->>Consumer: Document content (FHIR Bundle or Binary)
     end
 ```
 
-#### FHIR Documents vs Binary
+#### Document Content
 
 ITI-68 retrieves the document from the URL specified in `DocumentReference.content.attachment.url`. The URL format depends on the document type:
 
 | Document Format | attachment.url | Content-Type |
 |-----------------|----------------|--------------|
+| FHIR Document (Patient Summary, etc.) | `/Bundle/[id]` | `application/fhir+json` or `application/fhir+xml` |
 | PDF and other non-FHIR | `/Binary/[id]` | `application/pdf`, etc. |
-| FHIR Document (IPS, etc.) | `/Bundle/[id]` | `application/fhir+json` or `application/fhir+xml` |
 
-This follows [MHD Section 2:3.65.4.1.2.1](https://profiles.ihe.net/ITI/MHD/ITI-65.html#236541-message-semantics), which specifies the **FHIR Document Publish Option**: when the `DocumentReference.content.attachment.url` points at a FHIR Document Bundle, that Bundle is retrieved directly without Binary encoding.
+[ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) retrieves the document directly from the URL. FHIR Documents are returned as Bundle resources when `Accept: application/fhir+json` is specified.
 
-> **Implementation Note:** FHIR Documents do not require base64 encoding into a Binary resource. The document Bundle is stored and retrieved as a native FHIR Bundle resource.
+> **Authorization Scope:** The required scope depends on the document format. For non-FHIR documents (PDF), use `system/Binary.read`. For FHIR Documents, use `system/Bundle.read`.
 
-### Document Search Strategy
+#### Document Search Strategy
 
 This IG follows the [IHE Document Sharing](https://profiles.ihe.net/ITI/HIE-Whitepaper/index.html) approach:
 
 1. **category** (coarse search): Broad classification based on EHDS priority categories
 2. **type** (clinical precision): Specific document types, typically LOINC codes
 
-#### Category Values (EHDS Priority Categories)
+##### Category Values (EHDS Priority Categories)
 
 The EHDS priority categories are defined by [Article 14 of the EHDS Regulation](https://eur-lex.europa.eu/eli/reg/2025/327/oj#d1e2289-1-1). We define codes specifically for EEHRxF that map directly to these regulatory categories.
 
 See [EEHRxFDocumentPriorityCategoryCS](CodeSystem-eehrxf-document-priority-category-cs.html) for the complete list.
 
-#### Type Values (LOINC)
+##### Type Values (LOINC)
 
 | LOINC Code | Priority Category |
 |------------|-------------------|
@@ -79,11 +78,11 @@ See [EEHRxFDocumentPriorityCategoryCS](CodeSystem-eehrxf-document-priority-categ
 
 See [EEHRxFDocumentTypeVS](ValueSet-eehrxf-document-type-vs.html) for the complete list.
 
-### Examples
+#### Search Examples
 
 The examples below show queries using both `category` (EHDS priority category) and `type` (LOINC document type). Either can be used depending on your use case.
 
-#### Patient Summary
+##### Patient Summary
 
 By type (LOINC):
 ```
@@ -95,7 +94,7 @@ By category (EHDS priority):
 GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/euridice-api/CodeSystem/eehrxf-document-priority-category-cs|Patient-Summaries&status=current
 ```
 
-#### Medical Test Results (Laboratory)
+##### Medical Test Results (Laboratory)
 
 By type (LOINC):
 ```
@@ -107,7 +106,7 @@ By category (EHDS priority):
 GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/euridice-api/CodeSystem/eehrxf-document-priority-category-cs|Laboratory-Reports&status=current
 ```
 
-#### Imaging Reports and Manifests
+##### Imaging Reports and Manifests
 
 By type (LOINC - imaging reports only):
 ```
@@ -121,7 +120,7 @@ GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/eur
 
 > **Note:** The `Medical-Imaging` category includes both imaging reports and imaging manifests. To distinguish between them, use the `type` code or `formatCode`. See [Imaging Manifest](priority-area-imaging-manifest.html) for details.
 
-#### Hospital Discharge Reports
+##### Hospital Discharge Reports
 
 By type (LOINC):
 ```
@@ -133,18 +132,54 @@ By category (EHDS priority):
 GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/euridice-api/CodeSystem/eehrxf-document-priority-category-cs|Discharge-Reports&status=current
 ```
 
-### Document Publication (ITI-65)
+---
 
-Document Producers publish documents by POSTing a transaction Bundle:
+### Document Publication
+
+When Document Publisher and Document Access Provider are **separate systems**, the Publisher submits documents using [ITI-105 Simplified Publish](https://profiles.ihe.net/ITI/MHD/ITI-105.html) per the [MHD Simplified Publish Option](https://profiles.ihe.net/ITI/MHD/1332_actor_options.html#13324-simplified-publish-option). When they are **grouped** (co-located), publication is internal.
+
+#### Document Submission Option
+
+The Document Access Provider MAY support receiving documents from external Publishers by implementing the [MHD Simplified Publish Option](https://profiles.ihe.net/ITI/MHD/1332_actor_options.html#13324-simplified-publish-option). This is the **Document Submission Option**.
+
+Systems implementing this option declare it via [EEHRxF-DocumentAccessProvider-SubmissionOption](CapabilityStatement-EEHRxF-DocumentAccessProvider-SubmissionOption.html). See [Actors - Document Submission Option](actors.html#document-submission-option) for actor groupings.
+
+#### ITI-105 Simplified Publish
 
 ```
-POST [base]
+POST [base]/DocumentReference
 Content-Type: application/fhir+json
+
+{
+  "resourceType": "DocumentReference",
+  "status": "current",
+  "type": { ... },
+  "subject": { "reference": "Patient/123" },
+  "content": [{
+    "attachment": {
+      "contentType": "application/fhir+json",
+      "data": "[base64-encoded document]"
+    }
+  }]
+}
 ```
 
-The Bundle contains DocumentReference + Binary resources. See [IHE MHD ITI-65](https://profiles.ihe.net/ITI/MHD/ITI-65.html) for details.
+The server validates, extracts, and persists the document, returning the created DocumentReference with server-assigned IDs. See [IHE MHD ITI-105](https://profiles.ihe.net/ITI/MHD/ITI-105.html) for details.
 
-> **Open Issue #3**: We are seeking input on MHD publication transaction options. See [MHD Publication Transaction Options](open-issues.html#issue-3-mhd-publication-transaction-options) for discussion.
+> **How ITI-105 handles document content:** Per [MHD ITI-105 Expected Actions](https://profiles.ihe.net/ITI/MHD/ITI-105.html), the Document Recipient extracts the document from `attachment.data` and persists it such that it is retrievable via `attachment.url`. This means consumers querying via ITI-67 receive DocumentReferences with URLs pointing to `/Bundle/[id]` (for FHIR Documents) or `/Binary/[id]` (for PDFs, DICOM), and ITI-68 retrieval returns the native document format—not base64.
+
+#### Other Publication Transactions
+
+This IG specifies ITI-105 as the publication mechanism for Document Publishers submitting to external Access Providers. ITI-105 provides a single publication pattern that handles all EHDS content types (FHIR Documents, legacy PDFs, and DICOM manifests) while keeping publisher implementation simple—the Document Access Provider handles normalization on ingest, ensuring consumers always retrieve native document formats via ITI-67/ITI-68.
+
+Member states or local deployments MAY additionally support:
+
+- **[ITI-65 Provide Document Bundle](https://profiles.ihe.net/ITI/MHD/ITI-65.html)**: For XDS-centric ecosystems requiring explicit SubmissionSet metadata or multi-document submission.
+- **[ITI-106 Generate Metadata](https://profiles.ihe.net/ITI/MHD/ITI-106.html)**: For structured document publishers wanting server-generated DocumentReference.
+
+These are not required for EEHRxF conformance.
+
+---
 
 ### References
 

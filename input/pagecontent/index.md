@@ -1,4 +1,5 @@
 {% include fsh-link-references.md %}
+{% include variable-definitions.md %}
 
 <div markdown="1" class="stu-note">
 
@@ -31,11 +32,12 @@ The intended audiences of this Implementation Guide are:
 We define exchange patterns by inheriting and defining transactions, system actors, and associated capability statements from existing IHE and HL7 specifications:
 
 - [IHE MHD](https://profiles.ihe.net/ITI/MHD/) - Defines exchange of Documents, which we use to exchange FHIR document content.
-- [HL7 SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and the FHIR scopes.
-- [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. Aligned with SMART. We use the actors and transactions model.
+- [HL7 SMART App Launch - Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authorization, including the FHIR scopes defined in this specification.
+- [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. Aligned with SMART. We use the actors and transactions model from this specification.
 - [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) - Defines how a client can perform patient lookup against a server.
 - [HL7 International Patient Access (IPA)](https://build.fhir.org/ig/HL7/fhir-ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access. IPA is the primary reference for resource access.
 - [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server. Referenced where compatible with IPA.
+- [HL7 FHIR Release 4.0.1](http://www.hl7.org/FHIR/R4) - The base FHIR standard.
 
 We define composite actors that inherit and combine actors defined in these existing specifications. See [Actors and Transactions](actors.html) for detailed actor definitions, transactions, and actor grouping.
 
@@ -47,8 +49,8 @@ At a high level, the following actors are specified:
 
 ## Document Exchange Actors
 
-- **Document Producer** - Produces EEHRxF FHIR Documents and publishes to Document Access Providers
-- **Document Access Provider** - Provides secure access to EEHRxF FHIR Documents via query API
+- **Document Publisher** - Produces EEHRxF FHIR Documents and publishes to Document Access Providers
+- **Document Access Provider** - Serves EEHRxF FHIR Documents via query API. Optionally accepts documents from Document Publisher (Document Submission Option).
 - **Document Consumer** - Queries and retrieves EEHRxF documents from Document Access Providers
 
 ## Resource Exchange Actors
@@ -61,23 +63,11 @@ These resource actors are initially scoped for search + read. See [Resource Acce
 ## Summary of Functional Requirements ("the API")
 
 - **[Capability Discovery](capability-discovery.html)** - Discover which priority categories a server supports
-- **[Authorization](authorization.html)** - SMART Backend Services + IUA (required)
+- **[Authorization](authorization.html)** - SMART Backend Services, IUA-aligned
 - **[Patient Matching](patient-match.html)** - PDQm Patient Demographics Query
-- **[Document Exchange](document-exchange.html)** - MHD transactions (ITI-65, ITI-67, ITI-68)
+- **[Document Exchange](document-exchange.html)** - MHD transactions (ITI-67, ITI-68, ITI-105)
 - **[Resource Access](resource-access.html)** - IPA resource query patterns
 
 ## 6. Authors
 
-Josh Priebe, Epic
-
-Bas van den Heuvel, Philips
-
-Giorgio Cangioli, HL7 Europe
-
-dr Kai Heitmann, HL7 Europe
-
-Andreas Klingler, IHE Europe
-
-Katie Reynolds, Epic
-
-Janos Vincze, IHE Europe
+{% include contributors.md %}

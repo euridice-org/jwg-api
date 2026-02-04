@@ -6,14 +6,11 @@ participant "Resource Consumer" as Consumer
 
 
 Consumer -> Provider : ITI-19 ATNA Authenticate Node (TLS)
-Consumer -> Provider : ITI-103 IUA Get Authorization Server Metadata
 Consumer -> Provider : ITI-71 IUA Get Authorization Token
 
-alt Patient Identity Lookup
-    Consumer -> Provider : ITI-83 PIXm id cross-reference
-else
+alt Patient Lookup (identifier known)
     Consumer -> Provider : ITI-78 PDQm Query
-else
+else Patient Lookup (demographics only)
     Consumer -> Provider : ITI-119 PDQm $match
 end
 

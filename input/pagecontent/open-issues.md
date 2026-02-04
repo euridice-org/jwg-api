@@ -66,25 +66,25 @@ This simplification removes the middle option of full demographics-based search 
 
 ### Issue 3: MHD Publication Transaction Options
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/13) | **Priority:** High
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/13) | **Status:** Resolved
 
-MHD offers multiple transaction options for document publication. We want to reduce optionality and avoid introducing XDS dependencies where possible (For example: native FHIR servers don't need XDS submission set constructs).
+**Resolution:**
 
-**MHD Options**
+Document publication uses [ITI-105 Simplified Publish](https://profiles.ihe.net/ITI/MHD/ITI-105.html) as the baseline.
 
-- [ITI-65 Provide Document Bundle](https://profiles.ihe.net/ITI/MHD/ITI-65.html) - Full publication with metadata (required in IHE)
-- [ITI-105 Simplified Publish](https://profiles.ihe.net/ITI/MHD/ITI-105.html) - Simplified publication
-- [ITI-106 Generate Metadata](https://profiles.ihe.net/ITI/MHD/ITI-106.html) - Server generates metadata from the document (needed?)
+Key decisions:
+1. **ITI-105** is the supported publication mechanism (simpler, server handles complexity)
+2. Publication is NOT part of base Document Access Provider requirements
+3. **Document Submission Option** is available for Access Providers that accept external publication
+4. When Document Publisher and Document Access Provider are grouped, publication is internal
 
-**Proposal**
+This approach:
+- Reduces optionality (single publication transaction)
+- Avoids XDS SubmissionSet constructs
+- Aligns with FHIR-native servers
+- Moves complexity from client to server
 
-Use ITI-65 Provide Document Bundle as the primary approach since it's required in IHE MHD. This provides a clear, single path for implementers.
-
-**Seeking Input On**
-
-- Is ITI-65 appropriate as the primary/only publication mechanism?
-- Does this introduce XDS SubmissionSet dependancies that don't make sense to FHIR servers?
-- Are there use cases requiring Generate Metadata or Simplified Publish?
+See [Actors - Document Submission Option](actors.html#document-submission-option) for conformance guidance.
 
 ---
 
@@ -130,31 +130,22 @@ Should servers declare which EHDS Priority Categories they support? How? Should 
 
 ### Issue 6: Authorization Server Deployment
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/16) | **Priority:** Medium
+[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/16) | **Status:** Resolved
 
-The Document Access Provider composite actor currently groups several IHE actors, including IUA Authorization Server. The key question is whether the Authorization Server should be assumed as part of the Document Access Provider?
+**Resolution:**
 
-Consider from the perspective of the EHR system evaluating conformance of their interoperability Component.
+The Authorization Server may be deployed internally (bundled with the EHR) or externally (at hospital, regional, or national level).
 
-**Current Grouping**
+Key decisions:
+1. **IUA Resource Server** is always required for Access Providers
+2. **IUA Authorization Server** is required only when authorization is handled internally
+3. When AS is external, the Resource Server is responsible for:
+   - Enabling discovery via `.well-known/smart-configuration` pointing to the external AS
+   - Validating tokens (local validation or introspection via IHE IUA ITI-102)
 
-The Document Access Provider includes:
-- IUA Resource Server
-- **IUA Authorization Server** (under consideration here)
-- MHD Document Responder
-- MHD Document Recipient
-- PDQm Patient Demographics Supplier
+The D5.1 requirement `api-provider-authProvideToken` applies only to EHR systems with internal Authorization Servers. This IG does not impose requirements on external authorization infrastructure.
 
-**Context**
-
-For EHR systems seeking conformance: are you bundling an authorization server, or using an external one?
-
-Authorization may be handled external to the EHR at a Member State level - with the EHR system acting as a *Document Producer* (authorization client) and the Member State infrastructure acts as the *Document Access Provider* with an authorization server.
-
-**Seeking Input On**
-
-- Is the assumption that Authorization Server is grouped with Document Access Provider valid for your deployment?
-- Should we reconsider this as an optional grouping?
+See [Authorization Server Deployment](authorization.html#authorization-server-deployment) for full details.
 
 ---
 

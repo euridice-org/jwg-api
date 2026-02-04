@@ -16,17 +16,23 @@ It inherits patterns from:
 - **IPA (International Patient Access)**: Resource profiles and search parameter patterns
 - **IHE QEDm (Query for Existing Data for Mobile)**: Clinical Data Source actor capabilities
 
-### Supported Resources
-- **Patient**: Lookup only (search by identifier, read by ID)
-- **Practitioner**: Read access for clinical context
-- **Organization**: Read access for organizational context
-- **Condition**: Problems and diagnoses
-- **AllergyIntolerance**: Allergy and intolerance records
-- **Observation**: Clinical observations (vital signs, lab results, etc.)
-- **DiagnosticReport**: Laboratory and imaging reports
-- **MedicationRequest**: Medication orders and prescriptions
-- **MedicationDispense**: Medication dispensing records
-- **Encounter**: Patient encounters
+### Resource Flexibility (IPA Alignment)
+
+Following IPA's approach, servers are not required to support all clinical resources listed
+below. Servers MAY choose which resources to implement based on their capabilities and use
+cases. The only required resource is Patient (for lookup context). This flexibility
+encourages partial implementations, allowing more servers to participate even if they only
+support EU Core for certain resource types.
+
+**Required**: Patient (for lookup context)
+**Recommended (choose based on capabilities)**:
+- Practitioner, Organization: Reference resolution
+- Condition, AllergyIntolerance: Patient safety data
+- Observation, DiagnosticReport: Clinical results
+- MedicationRequest, MedicationDispense: Medication data
+- Encounter: Visit context
+
+The server's CapabilityStatement declares which resources are actually supported.
 
 ### Security
 Systems SHALL support SMART Backend Services authorization for all transactions.
@@ -39,7 +45,7 @@ Resources SHOULD conform to EU Core profiles where available.
 * title = "EEHRxF Resource Access Provider CapabilityStatement"
 * status = #active
 * experimental = false
-* date = "2026-01-08"
+* date = "2026-02-02"
 * publisher = "HL7 Europe"
 * kind = #requirements
 * fhirVersion = #4.0.1
@@ -69,17 +75,26 @@ Systems SHALL:
 - Use TLS 1.2 or higher for all communications
 - Return HTTP 401, 403, or 404 for unauthorized requests
 
-Required scopes to accept:
-- system/Patient.rs (search and read Patient)
-- system/Condition.rs (search and read Condition)
-- system/AllergyIntolerance.rs (search and read AllergyIntolerance)
-- system/Observation.rs (search and read Observation)
-- system/DiagnosticReport.rs (search and read DiagnosticReport)
-- system/MedicationRequest.rs (search and read MedicationRequest)
-- system/MedicationDispense.rs (search and read MedicationDispense)
-- system/Encounter.rs (search and read Encounter)
-- system/Practitioner.r (read Practitioner)
-- system/Organization.r (read Organization)
+### Resource Flexibility
+
+Following IPA's approach, servers MAY choose which clinical resources to support based on their
+capabilities and use cases. Patient is required for lookup context; other resources are recommended
+but servers may implement a subset. The server's CapabilityStatement declares which resources are
+actually supported.
+
+### Scopes for Supported Resources
+
+Servers SHALL accept scopes for the resources they support:
+- system/Patient.read, system/Patient.search (REQUIRED - read and search Patient)
+- system/Condition.read, system/Condition.search (if Condition supported)
+- system/AllergyIntolerance.read, system/AllergyIntolerance.search (if AllergyIntolerance supported)
+- system/Observation.read, system/Observation.search (if Observation supported)
+- system/DiagnosticReport.read, system/DiagnosticReport.search (if DiagnosticReport supported)
+- system/MedicationRequest.read, system/MedicationRequest.search (if MedicationRequest supported)
+- system/MedicationDispense.read, system/MedicationDispense.search (if MedicationDispense supported)
+- system/Encounter.read, system/Encounter.search (if Encounter supported)
+- system/Practitioner.read (if Practitioner supported)
+- system/Organization.read (if Organization supported)
 """
 
 // ============================================================================
@@ -140,14 +155,15 @@ primary clinical data resource in this actor.
 * rest[=].resource[=].searchParam[=].documentation = "Patient date of birth"
 
 // ============================================================================
-// Practitioner Resource - Read Only
+// Practitioner Resource - Read Only (Optional)
 // ============================================================================
 * rest[=].resource[+].type = #Practitioner
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].extension[=].valueCode = #SHALL
+* rest[=].resource[=].extension[=].valueCode = #SHOULD
 * rest[=].resource[=].documentation = """
 Practitioner resources provide clinical context for referenced healthcare providers.
 Read-only access supports resolving practitioner references in clinical resources.
+Servers SHOULD support this resource but MAY omit it based on their capabilities.
 """
 
 * rest[=].resource[=].interaction[+].code = #read
@@ -156,14 +172,15 @@ Read-only access supports resolving practitioner references in clinical resource
 * rest[=].resource[=].interaction[=].documentation = "Read Practitioner by logical ID"
 
 // ============================================================================
-// Organization Resource - Read Only
+// Organization Resource - Read Only (Optional)
 // ============================================================================
 * rest[=].resource[+].type = #Organization
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].extension[=].valueCode = #SHALL
+* rest[=].resource[=].extension[=].valueCode = #SHOULD
 * rest[=].resource[=].documentation = """
 Organization resources provide context for referenced healthcare organizations.
 Read-only access supports resolving organization references in clinical resources.
+Servers SHOULD support this resource but MAY omit it based on their capabilities.
 """
 
 * rest[=].resource[=].interaction[+].code = #read
@@ -172,14 +189,15 @@ Read-only access supports resolving organization references in clinical resource
 * rest[=].resource[=].interaction[=].documentation = "Read Organization by logical ID"
 
 // ============================================================================
-// Condition Resource - Problems and Diagnoses
+// Condition Resource - Problems and Diagnoses (Optional)
 // ============================================================================
 * rest[=].resource[+].type = #Condition
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].extension[=].valueCode = #SHALL
+* rest[=].resource[=].extension[=].valueCode = #SHOULD
 * rest[=].resource[=].documentation = """
 Condition resources represent problems, diagnoses, and health concerns.
-Servers SHALL support search by patient and SHOULD support additional filters.
+If supported, servers SHALL support search by patient and SHOULD support additional filters.
+Servers MAY omit this resource based on their capabilities.
 """
 
 * rest[=].resource[=].interaction[+].code = #read
@@ -221,14 +239,15 @@ Servers SHALL support search by patient and SHOULD support additional filters.
 * rest[=].resource[=].searchParam[=].documentation = "Code for the condition"
 
 // ============================================================================
-// AllergyIntolerance Resource
+// AllergyIntolerance Resource (Optional)
 // ============================================================================
 * rest[=].resource[+].type = #AllergyIntolerance
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].extension[=].valueCode = #SHALL
+* rest[=].resource[=].extension[=].valueCode = #SHOULD
 * rest[=].resource[=].documentation = """
 AllergyIntolerance resources represent patient allergies and intolerances.
-Servers SHALL support search by patient.
+If supported, servers SHALL support search by patient.
+Servers MAY omit this resource based on their capabilities.
 """
 
 * rest[=].resource[=].interaction[+].code = #read
@@ -256,15 +275,15 @@ Servers SHALL support search by patient.
 * rest[=].resource[=].searchParam[=].documentation = "The clinical status of the allergy or intolerance"
 
 // ============================================================================
-// Observation Resource - Clinical Observations
+// Observation Resource - Clinical Observations (Optional)
 // ============================================================================
 * rest[=].resource[+].type = #Observation
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].extension[=].valueCode = #SHALL
+* rest[=].resource[=].extension[=].valueCode = #SHOULD
 * rest[=].resource[=].documentation = """
 Observation resources represent clinical observations including vital signs,
-laboratory results, and other measurements. Servers SHALL support search by
-patient and category.
+laboratory results, and other measurements. If supported, servers SHALL support
+search by patient and category. Servers MAY omit this resource based on their capabilities.
 """
 
 * rest[=].resource[=].interaction[+].code = #read
@@ -313,14 +332,15 @@ patient and category.
 * rest[=].resource[=].searchParam[=].documentation = "The status of the observation"
 
 // ============================================================================
-// DiagnosticReport Resource - Laboratory and Imaging Reports
+// DiagnosticReport Resource - Laboratory and Imaging Reports (Optional)
 // ============================================================================
 * rest[=].resource[+].type = #DiagnosticReport
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].extension[=].valueCode = #SHALL
+* rest[=].resource[=].extension[=].valueCode = #SHOULD
 * rest[=].resource[=].documentation = """
 DiagnosticReport resources represent laboratory results and imaging reports.
-Servers SHALL support search by patient and category.
+If supported, servers SHALL support search by patient and category.
+Servers MAY omit this resource based on their capabilities.
 """
 
 * rest[=].resource[=].interaction[+].code = #read
@@ -369,14 +389,15 @@ Servers SHALL support search by patient and category.
 * rest[=].resource[=].searchParam[=].documentation = "The status of the report"
 
 // ============================================================================
-// MedicationRequest Resource - Medication Orders and Prescriptions
+// MedicationRequest Resource - Medication Orders and Prescriptions (Optional)
 // ============================================================================
 * rest[=].resource[+].type = #MedicationRequest
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].extension[=].valueCode = #SHALL
+* rest[=].resource[=].extension[=].valueCode = #SHOULD
 * rest[=].resource[=].documentation = """
 MedicationRequest resources represent medication orders and prescriptions.
-Servers SHALL support search by patient.
+If supported, servers SHALL support search by patient.
+Servers MAY omit this resource based on their capabilities.
 """
 
 * rest[=].resource[=].interaction[+].code = #read
@@ -418,14 +439,15 @@ Servers SHALL support search by patient.
 * rest[=].resource[=].searchParam[=].documentation = "Return prescriptions written on this date"
 
 // ============================================================================
-// MedicationDispense Resource - Dispensing Records
+// MedicationDispense Resource - Dispensing Records (Optional)
 // ============================================================================
 * rest[=].resource[+].type = #MedicationDispense
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].extension[=].valueCode = #SHALL
+* rest[=].resource[=].extension[=].valueCode = #SHOULD
 * rest[=].resource[=].documentation = """
 MedicationDispense resources represent medication dispensing events.
-Servers SHALL support search by patient.
+If supported, servers SHALL support search by patient.
+Servers MAY omit this resource based on their capabilities.
 """
 
 * rest[=].resource[=].interaction[+].code = #read
@@ -460,14 +482,15 @@ Servers SHALL support search by patient.
 * rest[=].resource[=].searchParam[=].documentation = "When the medication was handed over"
 
 // ============================================================================
-// Encounter Resource - Patient Encounters
+// Encounter Resource - Patient Encounters (Optional)
 // ============================================================================
 * rest[=].resource[+].type = #Encounter
 * rest[=].resource[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
-* rest[=].resource[=].extension[=].valueCode = #SHALL
+* rest[=].resource[=].extension[=].valueCode = #SHOULD
 * rest[=].resource[=].documentation = """
 Encounter resources represent patient encounters (visits, admissions, etc.).
-Servers SHALL support search by patient.
+If supported, servers SHALL support search by patient.
+Servers MAY omit this resource based on their capabilities.
 """
 
 * rest[=].resource[=].interaction[+].code = #read

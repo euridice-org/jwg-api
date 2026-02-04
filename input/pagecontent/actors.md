@@ -16,8 +16,7 @@ This is similar to the approach taken in the MHDS specification, but with a more
   - [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server. Referenced where compatible with IPA.
 - Foundational
   - [IHE Consistent Time](https://profiles.ihe.net/ITI/TF/Volume1/ch-7.html) - Defines the use of Network Time Protocol (NTP) to provide consistent time across systems.
-  - [IHE ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-8.html) - Defines secure communication and audit logging requirements for healthcare systems.
-    - [RESTful ATNA](https://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_Suppl_RESTful-ATNA.pdf) - Defines the use of FHIR AuditEvent rather than the legacy audit log format.
+  - [IHE ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-8.html) - Referenced for secure transport requirements. See the [TLS 1.2 Floor Option](https://profiles.ihe.net/ITI/TF/Volume1/ch-9.html#9.3.1.2) for TLS requirements.
 
 ### Document Exchange
 
@@ -27,11 +26,11 @@ Document exchange is defined with 3 actors:
 {% include img.html img="docExchange_1.png" caption="Figure: Document Exchange Actors" %}
 </div>
 
-<a name="document-producer"></a>
-1. **Document Producer (client)** - Produces EEHRxF FHIR Documents, publishes those documents to a Document Access Provider. Can be grouped with Access Provider, in which case the publishing transactions are internalized.
+<a name="document-publisher"></a>
+1. **Document Publisher (client)** - Produces EEHRxF FHIR Documents, publishes those documents to a Document Access Provider. Can be grouped with Access Provider, in which case the publishing transactions are internalized.
 
 <a name="document-access-provider"></a>
-2. **Document Access Provider (server)** - Provides Access to EEHRxF FHIR Documents by offering an API which Document Consumer clients can query. Receives Documents from Document Producer (If not grouped with Document Producer).
+2. **Document Access Provider (server)** - Provides access to EEHRxF FHIR Documents by offering query APIs to Document Consumers. See **Document Submission Option** below for systems that accept document publication from external producers.
 
 <a name="document-consumer"></a>
 3. **Document Consumer (client)** - Consumes EEHRxF FHIR documents by querying a Document Access Provider.
@@ -44,21 +43,22 @@ These composite actors inherit existing actors from the IUA, PDQm, and MHD speci
 </figure>
 <br clear="all">
 
-**Document Producer**
+**Document Publisher**
 
 - [IUA Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client)
 - [PDQm Patient Demographics Consumer](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsConsumerQuery.html))
-- [MHD Document Source](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentSource.html))
+- [MHD Document Source](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) with [Simplified Publish Option](https://profiles.ihe.net/ITI/MHD/1332_actor_options.html#13324-simplified-publish-option) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentSource.html))
 
 **Document Access Provider**
 
-- [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server)
-- [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server)
+- [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server) - Required
+- [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server) - Required if authorization is handled internally; not required if using external authorization infrastructure. See [Authorization Server Deployment](authorization.html#authorization-server-deployment).
 - [PDQm Patient Demographics Supplier](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsSupplier.html))
-- [MHD Document Recipient](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentRecipient.html))
 - [MHD Document Responder](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentResponder.html))
 
-> **Open Issue #6**: Should the Authorization Server be assumed as part of the Document Access Provider? See [Authorization Server Deployment](open-issues.html#issue-6-authorization-server-deployment) for discussion.
+<a name="document-submission-option"></a>
+**Document Submission Option** (when accepting external publication):
+- [MHD Document Recipient](https://profiles.ihe.net/ITI/MHD/1331_actors_and_transactions.html) with [Simplified Publish Option](https://profiles.ihe.net/ITI/MHD/1332_actor_options.html#13324-simplified-publish-option) ([CapabilityStatement](https://profiles.ihe.net/ITI/MHD/CapabilityStatement-IHE.MHD.DocumentRecipient.html))
 
 **Document Consumer**
 
@@ -74,13 +74,14 @@ This leads to the following required transactions between these actors:
 </figure>
 <br clear="all">
 
+> **Note:** This diagram assumes a bundled Authorization Server. When using external authorization infrastructure (hospital, regional, or national level), the authorization flow differs. See [Authorization Server Deployment](authorization.html#authorization-server-deployment) for details.
 
 See the following functional pages for detailed transaction information:
 - [Authorization](authorization.html) - Authentication and authorization flows
 - [Patient Match](patient-match.html) - Patient identification transactions
 - [Document Exchange](document-exchange.html) - Document query and retrieval transactions
 
-This can be combined with content profiles define by each EHDS Priority Category, for those categories that are primarily represented as a FHIR Document. For example, a system can be a **Lab Result Document Producer**, a **Patient Summary Document Consumer**, or a **Imaging Manifest Document Access Provider**. See Content Library
+This can be combined with content profiles define by each EHDS Priority Category, for those categories that are primarily represented as a FHIR Document. For example, a system can be a **Lab Result Document Publisher**, a **Patient Summary Document Consumer**, or a **Imaging Manifest Document Access Provider**. See Content Library
 
 
 ### Resource Exchange
@@ -117,8 +118,8 @@ These composite actors inherit existing actors from the IUA, PDQm, and IPA speci
 
 **Resource Access Provider**
 
-- [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server)
-- [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server)
+- [IUA Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server) - Required
+- [IUA Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server) - Required if authorization is handled internally; not required if using external authorization infrastructure. See [Authorization Server Deployment](authorization.html#authorization-server-deployment).
 - [PDQm Patient Demographics Supplier](https://profiles.ihe.net/ITI/PDQm/volume-1.html) ([CapabilityStatement](https://profiles.ihe.net/ITI/PDQm/CapabilityStatement-IHE.PDQm.PatientDemographicsSupplier.html))
 - Resource Access
   - [HL7 International Patient Access Server](https://build.fhir.org/ig/HL7/fhir-ipa/index.html) ([CapabilityStatement](https://build.fhir.org/ig/HL7/fhir-ipa/CapabilityStatement-ipa-server.html))
@@ -140,8 +141,7 @@ This leads to the following required transactions between these actors:
 </figure>
 <br clear="all">
 
-
-
+> **Note:** This diagram assumes a bundled Authorization Server. When using external authorization infrastructure (hospital, regional, or national level), the authorization flow differs. See [Authorization Server Deployment](authorization.html#authorization-server-deployment) for details.
 
 
 

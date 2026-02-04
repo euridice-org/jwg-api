@@ -11,14 +11,14 @@ skinparam rectangle {
     BorderColor Black
 }
 
-rectangle "Document Producer" as Source {
+rectangle "Document Publisher" as Source {
     agent "Consistent Time - 🕐" as Src_CT
     agent "ATNA Secure Node" as Src_ATNA
     agent "IUA Authorization Client" as Src_IUAClient
-    agent "PDQm/PIXm Patient Identity Consumer" as Src_PDQm
+    agent "PDQm Patient Demographics Consumer" as Src_PDQm
     agent "MHD Document Source" as Src_MHDSrc
     agent " " as Src_Hidden #White;line:White
-    
+
     Src_CT -[hidden]down- Src_ATNA
     Src_ATNA -[hidden]down- Src_IUAClient
     Src_IUAClient -[hidden]down- Src_PDQm
@@ -29,11 +29,11 @@ rectangle "Document Producer" as Source {
 rectangle "Document Access Provider" as Services {
     agent "Consistent Time - 🕐" as S_CT
     agent "ATNA Secure Node" as S_ATNA
-    agent "IUA Authorization Server" as S_IUAAuth
-    agent "PDQm/PIXm Patient Identity Source" as S_PDQmSrc
-    agent "MHD Document Recipient" as S_MHDRecip
+    agent "IUA Authorization Server\n(if internal)" as S_IUAAuth
+    agent "PDQm Patient Demographics Supplier" as S_PDQmSrc
+    agent "MHD Document Recipient\n(Submission Option)" as S_MHDRecip
     agent "MHD Document Responder" as S_MHDResp
-    
+
     S_CT -[hidden]down- S_ATNA
     S_ATNA -[hidden]down- S_IUAAuth
     S_IUAAuth -[hidden]down- S_PDQmSrc
@@ -45,10 +45,10 @@ rectangle "Document Consumer" as Consumer {
     agent "Consistent Time - 🕐" as C_CT
     agent "ATNA Secure Node" as C_ATNA
     agent "IUA Authorization Client" as C_IUAClient
-    agent "PDQm/PIXm Patient Identity Consumer" as C_PDQm
+    agent "PDQm Patient Demographics Consumer" as C_PDQm
     agent " " as C_Hidden #White;line:White
     agent "MHD Document Consumer" as C_MHDCons
-    
+
     C_CT -[hidden]down- C_ATNA
     C_ATNA -[hidden]down- C_IUAClient
     C_IUAClient -[hidden]down- C_PDQm

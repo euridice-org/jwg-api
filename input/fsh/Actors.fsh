@@ -2,24 +2,24 @@
 // Document Exchange Actors
 // ===========================================================================
 
-Instance: EEHRxF-DocumentProducer-Actor
+Instance: EEHRxF-DocumentPublisher-Actor
 InstanceOf: ActorDefinition
-Title: "EEHRxF Document Producer"
+Title: "EEHRxF Document Publisher"
 Usage: #definition
 Description: """
-The Document Producer actor produces EEHRxF FHIR Documents and publishes them to a
+The Document Publisher actor produces EEHRxF FHIR Documents and publishes them to a
 Document Access Provider. This composite actor groups MHD Document Source, PDQm
 Patient Demographics Consumer, and IUA Authorization Client.
 
-See [Document Producer CapabilityStatement](CapabilityStatement-EEHRxF-DocumentProducer.html)
+See [Document Publisher CapabilityStatement](CapabilityStatement-EEHRxF-DocumentPublisher.html)
 for technical requirements.
 """
-* name = "EEHRxF_DocumentProducer"
-* title = "EEHRxF Document Producer"
+* name = "EEHRxF-DocumentPublisher"
+* title = "EEHRxF Document Publisher"
 * status = #active
 * experimental = false
 * type = #system
-* capabilities = Canonical(EEHRxF-DocumentProducer)
+* capabilities = Canonical(EEHRxF-DocumentPublisher)
 
 Instance: EEHRxF-DocumentAccessProvider-Actor
 InstanceOf: ActorDefinition
@@ -27,14 +27,14 @@ Title: "EEHRxF Document Access Provider"
 Usage: #definition
 Description: """
 The Document Access Provider actor provides access to EEHRxF FHIR Documents by receiving
-documents from Document Producers and serving them to Document Consumers. This composite
+documents from Document Publishers and serving them to Document Consumers. This composite
 actor groups MHD Document Recipient, MHD Document Responder, PDQm Patient Demographics
 Supplier, and IUA Authorization Server/Resource Server.
 
 See [Document Access Provider CapabilityStatement](CapabilityStatement-EEHRxF-DocumentAccessProvider.html)
 for technical requirements.
 """
-* name = "EEHRxF_DocumentAccessProvider"
+* name = "EEHRxF-DocumentAccessProvider"
 * title = "EEHRxF Document Access Provider"
 * status = #active
 * experimental = false
@@ -53,34 +53,34 @@ Consumer, and IUA Authorization Client.
 See [Document Consumer CapabilityStatement](CapabilityStatement-EEHRxF-DocumentConsumer.html)
 for technical requirements.
 """
-* name = "EEHRxF_DocumentConsumer"
+* name = "EEHRxF-DocumentConsumer"
 * title = "EEHRxF Document Consumer"
 * status = #active
 * experimental = false
 * type = #system
 * capabilities = Canonical(EEHRxF-DocumentConsumer)
 
-Instance: EEHRxF-DocumentProducerAccessProvider-Actor
+Instance: EEHRxF-DocumentPublisherAccessProvider-Actor
 InstanceOf: ActorDefinition
-Title: "EEHRxF Grouped Document Producer/Access Provider"
+Title: "EEHRxF Grouped Document Publisher/Access Provider"
 Usage: #definition
 Description: """
-The grouped Document Producer/Access Provider actor represents a deployment where document
+The grouped Document Publisher/Access Provider actor represents a deployment where document
 production and access provision are co-located in the same system. In this configuration,
-document submission (ITI-65) is internal and only document query/retrieval (ITI-67, ITI-68)
+document submission (ITI-105) is internal and only document query/retrieval (ITI-67, ITI-68)
 is exposed externally.
 
 This is common for hospital EHR systems that produce and serve their own documents.
 
-See [Grouped Document Producer/Access Provider CapabilityStatement](CapabilityStatement-EEHRxF-DocumentProducerAccessProvider.html)
+See [Grouped Document Publisher/Access Provider CapabilityStatement](CapabilityStatement-EEHRxF-DocumentPublisherAccessProvider.html)
 for technical requirements.
 """
-* name = "EEHRxF_DocumentProducerAccessProvider"
-* title = "EEHRxF Grouped Document Producer/Access Provider"
+* name = "EEHRxF-DocumentPublisherAccessProvider"
+* title = "EEHRxF Grouped Document Publisher/Access Provider"
 * status = #active
 * experimental = false
 * type = #system
-* capabilities = Canonical(EEHRxF-DocumentProducerAccessProvider)
+* capabilities = Canonical(EEHRxF-DocumentPublisherAccessProvider)
 
 // ===========================================================================
 // Resource Exchange Actors
@@ -99,7 +99,7 @@ Supplier, and IUA Authorization Server/Resource Server.
 See [Resource Access Provider CapabilityStatement](CapabilityStatement-EEHRxF-ResourceAccessProvider.html)
 for technical requirements.
 """
-* name = "EEHRxF_ResourceAccessProvider"
+* name = "EEHRxF-ResourceAccessProvider"
 * title = "EEHRxF Resource Access Provider"
 * status = #active
 * experimental = false
@@ -118,7 +118,7 @@ Consumer, IPA Client, PDQm Patient Demographics Consumer, and IUA Authorization 
 See [Resource Consumer CapabilityStatement](CapabilityStatement-EEHRxF-ResourceConsumer.html)
 for technical requirements.
 """
-* name = "EEHRxF_ResourceConsumer"
+* name = "EEHRxF-ResourceConsumer"
 * title = "EEHRxF Resource Consumer"
 * status = #active
 * experimental = false

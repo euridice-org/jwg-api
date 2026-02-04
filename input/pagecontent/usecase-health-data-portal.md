@@ -21,8 +21,8 @@ This use case does not define complete requirements for the service itself; it d
 
 ### Technical Flow
 
-The service implements Consumer actors with patient-specific authorization:
-- Patient authenticates directly (not system-to-system)
-- [Authorization](authorization.html) may use patient-scoped tokens
+The service implements Consumer actors using [system-to-system authorization](authorization.html):
+- Patient authenticates to the Health Data Access Service (out of scope for this IG)
+- Service authenticates to Provider systems using backend services credentials
 - Service queries only for data belonging to the authenticated patient
-- Patient consent preferences are enforced
+- Patient consent preferences are enforced by the service and/or provider systems
