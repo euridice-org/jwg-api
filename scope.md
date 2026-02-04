@@ -2,7 +2,7 @@
 
 This IG defines **APIs for EHR systems to provide access to EEHRxF data**, as required by EHDS Annex II.
 
-For detailed regulatory basis, see [Regulatory Anchors](https://build.fhir.org/ig/euridice-org/jwg-api/regulatoryAnchors.html).
+For detailed regulatory basis, see [Regulatory Anchors](https://build.fhir.org/ig/euridice-org/eu-health-data-api/regulatoryAnchors.html).
 
 ## What This IG Defines
 

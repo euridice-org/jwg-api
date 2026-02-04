@@ -23,7 +23,7 @@ The Imaging Manifest is differentiated via the following DocumentReference field
 ### Example Query
 
 ```
-GET /DocumentReference?patient=123&category=http://hl7.eu/fhir/euridice-api/CodeSystem/eehrxf-document-priority-category-cs|Medical-Imaging&status=current
+GET /DocumentReference?patient=123&category=http://hl7.eu/fhir/eu-health-data-api/CodeSystem/eehrxf-document-priority-category-cs|Medical-Imaging&status=current
 ```
 
 > **Note:** Both imaging reports and imaging manifests use the `Medical-Imaging` category. To retrieve only manifests, filter by `type` or `formatCode`.

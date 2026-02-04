@@ -1,4 +1,4 @@
-Open issues under discussion in this IG. Each has a corresponding [GitHub Issue](https://github.com/euridice-org/jwg-api/issues) where you can add input to existing issues, or create your own. 
+Open issues under discussion in this IG. Each has a corresponding [GitHub Issue](https://github.com/euridice-org/eu-health-data-api/issues) where you can add input to existing issues, or create your own. 
 
 We welcome your input via Github Issues, or by attending the weekly [HL7 Europe API Workgroup Meetings](https://confluence.hl7.org/spaces/HEU/pages/345086021/EU+Health+Data+API+Edition+1).
 
@@ -6,7 +6,7 @@ We welcome your input via Github Issues, or by attending the weekly [HL7 Europe 
 
 ### Issue 1: Document Search and Priority Category Differentiation
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/11) | **Priority:** High
+[GitHub Issue](https://github.com/euridice-org/eu-health-data-api/issues/11) | **Priority:** High
 
 How do we differentiate documents by EHDS Priority Category? Patient Summary, Imaging Results, Medical Test Results, and Hospital Discharge Reports are all FHIR Documents exposed via DocumentReference and MHD. How do we differentiate one from the other for systems that support multiple categories?
 
@@ -38,7 +38,7 @@ This is particularly complex for Medical Test Results and Imaging Results, which
 
 ### Issue 2: Patient Lookup Strategy
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/12) | **Priority:** High
+[GitHub Issue](https://github.com/euridice-org/eu-health-data-api/issues/12) | **Priority:** High
 
 How should patient lookup work in the European context? In most EU situations, we expect patient identifiers (MRN, national ID) to be available. Demographic-based matching is needed when identifiers are not available.
 
@@ -66,7 +66,7 @@ This simplification removes the middle option of full demographics-based search 
 
 ### Issue 3: MHD Publication Transaction Options
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/13) | **Status:** Resolved
+[GitHub Issue](https://github.com/euridice-org/eu-health-data-api/issues/13) | **Status:** Resolved
 
 **Resolution:**
 
@@ -90,7 +90,7 @@ See [Actors - Document Submission Option](actors.html#document-submission-option
 
 ### Issue 4: Resource Access and Inheritance
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/14) | **Priority:** Medium
+[GitHub Issue](https://github.com/euridice-org/eu-health-data-api/issues/14) | **Priority:** Medium
 
 Resource access (granular RESTful FHIR resource queries) could inherit from multiple specifications (IPA, QEDm). This issue tracks the inheritance approach.
 
@@ -111,7 +111,7 @@ A separate issue ([Issue 9](#issue-9-core-resource-set-validation)) tracks valid
 
 ### Issue 5: CapabilityStatement and Priority Category Declaration
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/15) | **Priority:** Medium
+[GitHub Issue](https://github.com/euridice-org/eu-health-data-api/issues/15) | **Priority:** Medium
 
 Should servers declare which EHDS Priority Categories they support? How? Should this be in CapabilityStatement?
 
@@ -130,7 +130,7 @@ Should servers declare which EHDS Priority Categories they support? How? Should 
 
 ### Issue 6: Authorization Server Deployment
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/16) | **Status:** Resolved
+[GitHub Issue](https://github.com/euridice-org/eu-health-data-api/issues/16) | **Status:** Resolved
 
 **Resolution:**
 
@@ -151,7 +151,7 @@ See [Authorization Server Deployment](authorization.html#authorization-server-de
 
 ### Issue 7: R4/R5 Harmonization
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/17) | **Priority:** Medium
+[GitHub Issue](https://github.com/euridice-org/eu-health-data-api/issues/17) | **Priority:** Medium
 
 This IG targets FHIR R4, but some European specifications are R5-based. The EU Extensions package is R5, creating warnings in the R4 build. The HL7 Europe Imaging Study Manifest is also R5-based.
 
@@ -163,7 +163,7 @@ This IG targets FHIR R4, but some European specifications are R5-based. The EU E
 
 ### Issue 8: Imaging Manifest Coding
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/18) | **Priority:** Medium | **Status:** Resolved
+[GitHub Issue](https://github.com/euridice-org/eu-health-data-api/issues/18) | **Priority:** Medium | **Status:** Resolved
 
 Imaging manifests (DICOM study references) are differentiated from other documents using formatCode + mimeType coding.
 
@@ -180,7 +180,7 @@ Imaging manifests cannot be reliably identified by category alone (Medical-Imagi
 
 ### Issue 9: Core Resource Set Validation
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/19) | **Priority:** Medium
+[GitHub Issue](https://github.com/euridice-org/eu-health-data-api/issues/19) | **Priority:** Medium
 
 The following resources are proposed as the core set for resource access (e.g. resource search entry points specifically, not all included resources). This needs validation from Priority Category owners.
 
@@ -222,7 +222,7 @@ Discharge Reports
 
 ### Issue 10: FHIR Documents vs Resources Guidance
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/20) | **Priority:** Low
+[GitHub Issue](https://github.com/euridice-org/eu-health-data-api/issues/20) | **Priority:** Low
 
 The IG supports both document exchange (FHIR Documents via MHD) and resource access (granular FHIR resources). A documentation page explaining when to use each pattern would be helpful.
 
@@ -235,7 +235,7 @@ The IG supports both document exchange (FHIR Documents via MHD) and resource acc
 
 ### Issue 11: MPD Workflow vs MedicationRequest Resource Access
 
-[GitHub Issue](https://github.com/euridice-org/jwg-api/issues/21) | **Priority:** Medium
+[GitHub Issue](https://github.com/euridice-org/eu-health-data-api/issues/21) | **Priority:** Medium
 
 The IG needs to clearly distinguish between medication resource access (in scope) and prescription workflow orchestration (out of scope, handled by MPD). Also this scope line should be reviewed with MPD Priority Category owners.
 

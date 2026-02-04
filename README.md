@@ -4,14 +4,14 @@
 
 An initiative by HL7 Europe and IHE Europe.
 
-This specification is discussed weekly. We welcome your collaboration via [issues](https://github.com/euridice-org/jwg-api/issues) and pull requests, or by joining our [weekly meetings](https://confluence.hl7.org/spaces/HEU/pages/345086021/EU+Health+Data+API+Edition+1).
+This specification is discussed weekly. We welcome your collaboration via [issues](https://github.com/euridice-org/eu-health-data-api/issues) and pull requests, or by joining our [weekly meetings](https://confluence.hl7.org/spaces/HEU/pages/345086021/EU+Health+Data+API+Edition+1).
 
 ## Build
 
 | Branch | URL |
 |--------|-----|
-| **Main** | https://build.fhir.org/ig/euridice-org/jwg-api/ |
-| **Feature branches** | https://build.fhir.org/ig/euridice-org/jwg-api/branches/ |
+| **Main** | https://build.fhir.org/ig/euridice-org/eu-health-data-api/ |
+| **Feature branches** | https://build.fhir.org/ig/euridice-org/eu-health-data-api/branches/ |
 
 ---
 
@@ -41,7 +41,7 @@ We inherit the following HL7 EU Content Profiles which define the format of the 
 
 From the regulatory perspective, the initial focus is to provide technical capabilities that satisfy the EHDS Interoperability requirements placed on EHR systems, specifically the obligations described in [EHDS ANNEX II](https://www.ringholm.com/ehds/annex-ii.htm) that require EHR systems to **provide access to data** and **receive data** formatted in EEHRxF.
 
-See [Regulatory Anchors](https://build.fhir.org/ig/euridice-org/jwg-api/regulatoryAnchors.html) for detail on the link to EHDS requirements.
+See [Regulatory Anchors](https://build.fhir.org/ig/euridice-org/eu-health-data-api/regulatoryAnchors.html) for detail on the link to EHDS requirements.
 
 ---
 
