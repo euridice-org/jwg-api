@@ -21,6 +21,7 @@
 <artifact id="CapabilityStatement/EEHRxF-ResourceAccessProvider" key="CapabilityStatement-EEHRxF-ResourceAccessProvider" name="EEHRxF Resource Access Provider CapabilityStatement"/>
 <artifact id="ActorDefinition/EEHRxF-ResourceConsumer-Actor" key="ActorDefinition-EEHRxF-ResourceConsumer-Actor" name="EEHRxF Resource Consumer"/>
 <artifact id="CapabilityStatement/EEHRxF-ResourceConsumer" key="CapabilityStatement-EEHRxF-ResourceConsumer" name="EEHRxF Resource Consumer CapabilityStatement"/>
+<artifact id="DocumentReference/ExampleDocumentReferenceEPS" key="DocumentReference-ExampleDocumentReferenceEPS" name="Example - European Patient Summary DocumentReference"/>
 <artifact id="StructureDefinition/SupportedIdentifier" key="StructureDefinition-SupportedIdentifier" name="Extension: SupportedIdentifier"/>
 <page key="NA" name="(NA)"/>
 <page key="many" name="(many)"/>
@@ -28,6 +29,7 @@
 <page key="actors" name="Actors and Transactions"/>
 <page key="artifacts" name="Artifacts Summary"/>
 <page key="authorization" name="Authorization"/>
+<page key="contributors" name="Authors and contributors"/>
 <page key="background" name="Background"/>
 <page key="capability-discovery" name="Capability Discovery"/>
 <page key="changes" name="Change Log"/>

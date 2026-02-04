@@ -3,7 +3,7 @@
 
 Authorization is required for all API transactions. This IG inherits [SMART Backend Services](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html) from [FHIR SMART App Launch](https://build.fhir.org/ig/HL7/smart-app-launch/app-launch.html) for system-to-system authorization, grouped with IHE IUA actors.
 
-We adopt SMART Backend Services as specified—including token formats, JWT requirements, and authentication methods—to align with globally recognized specifications and reduce implementation burden. As a profile on SMART, all underlying SMART requirements still apply; omitting a detail from this IG does not exempt implementations from SMART requirements.
+We adopt SMART Backend Services as specified—including grant types, client authentication (`private_key_jwt`), and related JWT requirements—to align with globally recognized specifications and reduce implementation burden. As a profile on SMART, all underlying SMART requirements still apply; omitting a detail from this IG does not exempt implementations from SMART requirements.
 
 ### Scope: System-to-System Authorization
 
@@ -15,18 +15,12 @@ User-level authorization requirements are not in initial scope for this Implemen
 
 ### Authorization Actors
 
-IHE IUA defines two key actors for authorization:
+IHE IUA defines three key actors for authorization:
 
 - **[Authorization Server](https://profiles.ihe.net/ITI/IUA/index.html#34112-authorization-server)** - Issues access tokens to clients after validating their identity credentials
 - **[Resource Server](https://profiles.ihe.net/ITI/IUA/index.html#34113-resource-server)** - Validates tokens and enforces access control on protected resources (the FHIR API)
+- **[Authorization Client](https://profiles.ihe.net/ITI/IUA/index.html#34111-authorization-client)** - A client that retrieves access tokens and presents them as part of transactions.
 
-These actors may be deployed together or separately, as described below.
-
-#### Authorization Server Deployment
-
-The Authorization Server may be **internal**  (bundled with the Access Provider) or **external** (external to the Access Provider, for example a hospital, regional, or national authorizationse rver). When external, the EHR system implements only Resource Server behaviors—this IG does not impose requirements on external authorization infrastructure.
-
-See [Sequence Diagrams](#sequence-diagrams) below for how the flow differs between internal and external deployments.
 
 ### IHE IUA Actor Groupings
 
@@ -34,26 +28,63 @@ See [Sequence Diagrams](#sequence-diagrams) below for how the flow differs betwe
 - **Document/Resource Consumer:** IUA Authorization Client
 - **Document/Resource Access Provider:** IUA Resource Server (required) + IUA Authorization Server (if internal)
 
+#### Authorization Server Deployment
+
+The Authorization Server may be **internal** (bundled with the Access Provider), or **external** (external to the Access Provider, for example a hospital, regional, or national authorization server). When external, the Access Provider system implements only Resource Server behaviors—this IG does not impose requirements on external authorization infrastructure.
+
+See [External Authorization Server](#external-authorization-server) below for how the flow differs with external deployments.
+
 ---
 
 ### Authorization Flow
 
+```mermaid
+sequenceDiagram
+    participant Client as Document Consumer<br/>(IUA Authorization Client)
+    participant AP as Document Access Provider<br/>(IUA Authorization Server / IUA Resource Server)
+
+    Note over Client,AP: Prerequisite: Client Registration (out of band)
+    Client-->>AP: Register public key, client identifier
+
+    Note over Client,AP: 1. Discovery
+    Client->>AP: GET /.well-known/smart-configuration
+    AP-->>Client: {"token_endpoint": "...", ...}
+
+    Note over Client,AP: 2. Get Access Token (ITI-71)
+    Client->>AP: POST [token_endpoint] (client_credentials, signed JWT)
+    AP-->>Client: Access Token
+
+    Note over Client,AP: 3. Incorporate Access Token (ITI-72)
+    Client->>AP: GET [base]/Patient?identifier=... (Bearer token)
+    AP-->>Client: Bundle (search results)
+```
+
+*This diagram shows the internal Authorization Server deployment. See [External Authorization Server](#external-authorization-server) for the external variant.*
+
+#### Client Registration (Prerequisite)
+
+Out of band, the Consumer registers identity credentials (public key, client identifier) with the Authorization Server (which may be hosted by the Access Provider). See [SMART App Launch: Registering a Client](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#registering-a-client-communicating-public-keys) for guidance on client registration and public key communication.
+
 #### 1. Discovery {#authorization-server-discovery}
 
-Resource Servers SHALL advertise their authorization configuration at `[base]/.well-known/smart-configuration`. This tells clients where to obtain tokens, pointing to an internal or external Authorization Server.
+Resource Servers SHALL advertise their authorization configuration at `[base]/.well-known/smart-configuration`, per [SMART App Launch conformance](https://build.fhir.org/ig/HL7/smart-app-launch/conformance.html#using-well-known).
 
-Required fields include:
-- `token_endpoint` - URL for token requests (points to internal or external AS)
-- `token_endpoint_auth_methods_supported` - Must include `private_key_jwt`
-- `scopes_supported` - Recommended to list supported scopes
+For backend services, clients use:
+- `token_endpoint`
+- `grant_types_supported` (include `client_credentials`)
+- `jwks_uri` (when the Authorization Server publishes keys via JWKS)
+- `capabilities` (include `client-confidential-asymmetric` when `private_key_jwt` is supported)
+
+Resource Servers SHOULD advertise:
+- `scopes_supported`
+
+If the server supports `private_key_jwt` client authentication, it SHOULD advertise:
+- `token_endpoint_auth_methods_supported` including `private_key_jwt`
+- `token_endpoint_auth_signing_alg_values_supported` including at least one of `RS384` or `ES384` (per [SMART client-confidential-asymmetric](https://build.fhir.org/ig/HL7/smart-app-launch/client-confidential-asymmetric.html))
 
 See [SMART Backend Services Discovery](https://build.fhir.org/ig/HL7/smart-app-launch/backend-services.html#discovery) for the full specification.
 
-#### 2. Client Registration
-
-Out of band, the Consumer registers identity credentials (public key, client identifier) with the Authorization Server. See [SMART App Launch: Registering a Client](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#registering-a-client-communicating-public-keys) for guidance on client registration and public key communication.
-
-#### 3. Obtaining Tokens {#obtaining-tokens}
+#### 2. Get Access Token (ITI-71) {#get-access-token}
 
 Clients obtain tokens by POSTing to the token endpoint discovered via `.well-known/smart-configuration`.
 
@@ -62,91 +93,25 @@ Clients obtain tokens by POSTing to the token endpoint discovered via `.well-kno
 - Client assertion: JWT signed by client private key
 - Client authentication: Asymmetric (public key registered out-of-band)
 
-#### 4. Presenting Tokens {#presenting-tokens}
+**Token Issuance**:
 
-Clients present tokens using the `Authorization` header:
+The Authorization Server issues access tokens to registered clients using the `client_credentials` grant.
+
+Authorization Servers SHALL validate `private_key_jwt` client authentication (including client assertion signature verification and required claims) per [SMART client-confidential-asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html), and issue tokens with scopes based on client authorization.
+
+#### 3. Incorporate Access Token (ITI-72) {#incorporate-access-token}
+
+Clients SHALL present the access token using the `Authorization` header:
 
 ```
 Authorization: Bearer <access_token>
 ```
 
-Tokens must be presented on all API requests to protected resources.
+The access token SHALL be presented on all API requests to protected resources.
 
-#### 5. Token Issuance {#token-issuance}
+Resource Servers SHALL validate the access token, ensure that it has not expired, and that its scope covers the requested resource, per [SMART Backend Services](https://hl7.org/fhir/smart-app-launch/backend-services.html). The method used to validate the access token is beyond the scope of SMART Backend Services and generally involves coordination between the Resource Server and Authorization Server.
 
-The Authorization Server issues access tokens to registered clients using the `client_credentials` grant.
-
-Authorization Servers SHALL:
-- Validate the client assertion JWT signature against registered public keys
-- Verify the JWT claims (`iss`, `sub`, `aud`, `exp`, `jti`)
-- Issue tokens holding scopes based on the requested scopes (if authorized for the client)
-- Return tokens with appropriate expiration
-
-#### 6. Token Validation {#requiring-tokens}
-
-Resource Servers SHALL validate tokens on every API request:
-- Verify token signature
-- Check token expiration (`exp` claim)
-- Validate audience (`aud` matches server)
-- Confirm the requested API operation is within granted scopes
-
-When the Authorization Server is external, the Resource Server may validate tokens via:
-- Local validation using shared keys or certificates
-- Token introspection via [IHE IUA ITI-102](https://profiles.ihe.net/ITI/IUA/index.html#3102-introspect-token-iti-102)
-
-For comprehensive token validation guidance including `jti` tracking and signature verification details, see [SMART App Launch: Signature Verification](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
-
----
-
-### Sequence Diagrams
-
-#### Internal Authorization Server (Bundled)
-
-When the Authorization Server is bundled with the Access Provider:
-
-```mermaid
-sequenceDiagram
-    participant Client as IUA Authorization Client
-    participant AuthZ as IUA Authorization Server
-    participant Resource as IUA Resource Server
-
-    Client->>AuthZ: POST /token (client_credentials, signed JWT)
-    AuthZ-->>Client: Access Token
-
-    opt Introspect Token
-        Resource ->> AuthZ: introspect( JWT )
-        AuthZ -->> Resource: JWT contents
-    end
-
-    Client->>Resource: GET /Patient?identifier=... (Bearer token)
-    Resource-->>Client: Bundle (search results)
-```
-
-#### External Authorization Server
-
-When the Authorization Server is external (hospital, regional, or national infrastructure):
-
-```mermaid
-sequenceDiagram
-    participant Client as Authorization Client
-    participant RS as Resource Server<br/>(Access Provider)
-    participant AS as Authorization Server<br/>(External)
-
-    Client->>RS: GET /.well-known/smart-configuration
-    RS-->>Client: {"token_endpoint": "https://as.example/token", ...}
-
-    Client->>AS: POST /token (client credentials)
-    AS-->>Client: Access Token
-
-    Client->>RS: GET /DocumentReference?patient=123 (Bearer token)
-
-    opt Token Validation via Introspection
-        RS->>AS: POST /introspect (ITI-102)
-        AS-->>RS: Token claims
-    end
-
-    RS-->>Client: Bundle (search results)
-```
+In deployments using an external Authorization Server, token validation commonly involves coordination with that Authorization Server; where supported and required by policy, Resource Servers MAY use token introspection via [IHE IUA ITI-102](https://profiles.ihe.net/ITI/IUA/index.html#3102-introspect-token-iti-102).
 
 ---
 
@@ -177,9 +142,50 @@ Scopes follow [SMART v2 conventions](https://build.fhir.org/ig/HL7/smart-app-lau
 - `.search` = search for resources by criteria
 - `.create` = create a new resource
 
+#### External Authorization Server {#external-authorization-server}
+
+When the Authorization Server is external (hospital, regional, or national infrastructure):
+
+```mermaid
+sequenceDiagram
+    participant Client as Document Consumer<br/>(IUA Authorization Client)
+    participant AP as Document Access Provider<br/>(IUA Resource Server)
+    participant AS as (External Authorization Server)
+
+    Note over Client,AS: Prerequisite: Client Registration (out of band)
+    Client-->>AS: Register public key, client identifier
+
+    Note over Client,AP: 1. Discovery
+    Client->>AP: GET /.well-known/smart-configuration
+    AP-->>Client: {"token_endpoint": "https://as.example/token", ...}
+
+    Note over Client,AS: 2. Get Access Token (ITI-71)
+    Client->>AS: POST [token_endpoint] (client_credentials, signed JWT)
+    AS-->>Client: Access Token
+
+    Note over Client,AP: 3. Incorporate Access Token (ITI-72)
+    Client->>AP: GET [base]/DocumentReference?patient=123 (Bearer token)
+    opt Token Introspection (ITI-102)
+        AP->>AS: POST [introspection_endpoint]
+        AS-->>AP: Token claims
+    end
+    AP-->>Client: Bundle (search results)
+```
+
+---
+
+
 ### Transport Security {#transport-security}
 
 All API communications SHALL use secure transport as defined by [IHE ATNA Secure Node](https://profiles.ihe.net/ITI/TF/Volume1/ch-9.html) with the [TLS 1.2 Floor Option](https://profiles.ihe.net/ITI/TF/Volume1/ch-9.html#9.3.1.2).
+
+### IUA and SMART Backend Services
+
+This IG uses IHE IUA for actor definitions and groups those actors with SMART Backend Services behavior. IUA itself [notes its relationship to SMART-on-FHIR](https://profiles.ihe.net/ITI/IUA/#relation-to-smart-on-fhir): "IUA is not based on SMART-on-FHIR, but does strive to not conflict with that standard."
+
+Where IUA and SMART Backend Services requirements differ, this IG follows SMART.
+
+For example: this IG requires `private_key_jwt` client authentication (per SMART Backend Services). While `client_secret` with HTTP Basic Auth is IUA-compliant, it is NOT compliant with this IG.
 
 ### Potential Future Work: User-Level Authorization
 
@@ -193,4 +199,3 @@ Member States MAY layer user-level authorization on top of system-to-system auth
 
 - [SMART Application Launch](https://build.fhir.org/ig/HL7/smart-app-launch/index.html)
 - [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html)
-- [IHE ITI-71 Get Access Token](https://profiles.ihe.net/ITI/IUA/index.html#372-get-access-token-iti-71)
