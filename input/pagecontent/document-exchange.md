@@ -15,7 +15,7 @@ This IG defines three document exchange actors. See [Actors](actors.html) for de
 | [Document Access Provider](actors.html#document-access-provider) | [ITI-105](https://profiles.ihe.net/ITI/MHD/ITI-105.html) Simplified Publish | O (Note 1) |
 | [Document Publisher](actors.html#document-publisher) | [ITI-105](https://profiles.ihe.net/ITI/MHD/ITI-105.html) Simplified Publish | R (Note 2) |
 
-**Note 1:** Document Access Providers supporting document submission from external publishers declare this capability via [Document Submission Option](CapabilityStatement-EEHRxF-DocumentAccessProvider-SubmissionOption.html).
+**Note 1:** Document Access Providers supporting document submission from external publishers implement the [MHD Simplified Publish Option](https://profiles.ihe.net/ITI/MHD/1332_actor_options.html#13324-simplified-publish-option) and declare this capability via [Document Submission Option](CapabilityStatement-EEHRxF-DocumentAccessProvider-SubmissionOption.html). See [Actors - Document Submission Option](actors.html#document-submission-option).
 
 **Note 2:** When Document Publisher and Document Access Provider are grouped (co-located), publication is internal and ITI-105 is not exposed externally.
 
@@ -140,16 +140,13 @@ GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/eur
 
 ### Document Publication
 
-When Document Publisher and Document Access Provider are **separate systems**, the Publisher submits documents using [ITI-105 Simplified Publish](https://profiles.ihe.net/ITI/MHD/ITI-105.html). When they are **grouped** (co-located), publication is internal.
+When Document Publisher and Document Access Provider are **separate systems**, the Publisher submits documents using [ITI-105 Simplified Publish](https://profiles.ihe.net/ITI/MHD/ITI-105.html) per the [MHD Simplified Publish Option](https://profiles.ihe.net/ITI/MHD/1332_actor_options.html#13324-simplified-publish-option). When they are **grouped** (co-located), publication is internal.
 
 #### Document Submission Option
 
-The Document Access Provider MAY support receiving documents from external Publishers. This is the **Document Submission Option**.
+The Document Access Provider MAY support receiving documents from external Publishers by implementing the [MHD Simplified Publish Option](https://profiles.ihe.net/ITI/MHD/1332_actor_options.html#13324-simplified-publish-option). This is the **Document Submission Option**.
 
-- **Required for**: Access Providers acting as delegated repositories for external Publishers (e.g., national infrastructure, integration engines)
-- **Not required for**: Grouped Publisher/Access Provider deployments (internal publication)
-
-Systems implementing this option declare it via [EEHRxF-DocumentAccessProvider-SubmissionOption](CapabilityStatement-EEHRxF-DocumentAccessProvider-SubmissionOption.html).
+Systems implementing this option declare it via [EEHRxF-DocumentAccessProvider-SubmissionOption](CapabilityStatement-EEHRxF-DocumentAccessProvider-SubmissionOption.html). See [Actors - Document Submission Option](actors.html#document-submission-option) for actor groupings.
 
 #### ITI-105 Simplified Publish
 
@@ -177,11 +174,11 @@ The server validates, extracts, and persists the document, returning the created
 
 #### Other Publication Transactions
 
-This IG requires ITI-105 as the EU-wide minimum for document publication. ITI-105 provides a single publication pattern that handles all EHDS content types (FHIR Documents, legacy PDFs, and DICOM manifests) while keeping publisher implementation simple—the Document Access Provider handles normalization on ingest, ensuring consumers always retrieve native document formats via ITI-67/ITI-68.
+This IG specifies ITI-105 as the publication mechanism for Document Publishers submitting to external Access Providers. ITI-105 provides a single publication pattern that handles all EHDS content types (FHIR Documents, legacy PDFs, and DICOM manifests) while keeping publisher implementation simple—the Document Access Provider handles normalization on ingest, ensuring consumers always retrieve native document formats via ITI-67/ITI-68.
 
 Member states or local deployments MAY additionally support:
 
-- **[ITI-65 Provide Document Bundle](https://profiles.ihe.net/ITI/MHD/ITI-65.html)**: For XDS-centric ecosystems requiring explicit SubmissionSet metadata or mulit-document submission.
+- **[ITI-65 Provide Document Bundle](https://profiles.ihe.net/ITI/MHD/ITI-65.html)**: For XDS-centric ecosystems requiring explicit SubmissionSet metadata or multi-document submission.
 - **[ITI-106 Generate Metadata](https://profiles.ihe.net/ITI/MHD/ITI-106.html)**: For structured document publishers wanting server-generated DocumentReference.
 
 These are not required for EEHRxF conformance.
