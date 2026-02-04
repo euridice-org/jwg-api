@@ -32,8 +32,6 @@ IHE IUA defines three key actors for authorization:
 
 The Authorization Server may be **internal** (bundled with the Access Provider), or **external** (external to the Access Provider, for example a hospital, regional, or national authorization server). When external, the Access Provider system implements only Resource Server behaviors—this IG does not impose requirements on external authorization infrastructure.
 
-See [External Authorization Server](#external-authorization-server) below for how the flow differs with external deployments.
-
 ---
 
 ### Authorization Flow

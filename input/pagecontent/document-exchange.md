@@ -12,12 +12,8 @@ This IG defines three document exchange actors. See [Actors](actors.html) for de
 | [Document Consumer](actors.html#document-consumer) | [ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) Retrieve Document | R |
 | [Document Access Provider](actors.html#document-access-provider) | [ITI-67](https://profiles.ihe.net/ITI/MHD/ITI-67.html) Find Document References | R |
 | [Document Access Provider](actors.html#document-access-provider) | [ITI-68](https://profiles.ihe.net/ITI/MHD/ITI-68.html) Retrieve Document | R |
-| [Document Access Provider](actors.html#document-access-provider) | [ITI-105](https://profiles.ihe.net/ITI/MHD/ITI-105.html) Simplified Publish | O (Note 1) |
-| [Document Publisher](actors.html#document-publisher) | [ITI-105](https://profiles.ihe.net/ITI/MHD/ITI-105.html) Simplified Publish | R (Note 2) |
-
-**Note 1:** Document Access Providers supporting document submission from external publishers implement the [MHD Simplified Publish Option](https://profiles.ihe.net/ITI/MHD/1332_actor_options.html#13324-simplified-publish-option) and declare this capability via [Document Submission Option](CapabilityStatement-EEHRxF-DocumentAccessProvider-SubmissionOption.html). See [Actors - Document Submission Option](actors.html#document-submission-option).
-
-**Note 2:** When Document Publisher and Document Access Provider are grouped (co-located), publication is internal and ITI-105 is not exposed externally.
+| [Document Access Provider](actors.html#document-access-provider) | [ITI-105: Simplified Publish](https://profiles.ihe.net/ITI/MHD/ITI-105.html) Simplified Publish | O |
+| [Document Publisher](actors.html#document-publisher) | [ITI-105: Simplified Publish](https://profiles.ihe.net/ITI/MHD/ITI-105.html) | R |
 
 ---
 
