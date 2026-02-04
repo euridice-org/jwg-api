@@ -3,9 +3,9 @@
 # │  used properties are included. For a list of all supported properties and their functions,     │
 # │  see: https://fshschool.org/docs/sushi/configuration/.                                         │
 # ╰────────────────────────────────────────────────────────────────────────────────────────────────╯
-id: hl7.fhir.eu.euridice-api
-canonical: http://hl7.eu/fhir/euridice-api
-name: EuridiceApiSpecification
+id: hl7.fhir.eu.eu-health-data-api
+canonical: http://hl7.eu/fhir/eu-health-data-api
+name: EuHealthDataApi
 title: EU Health Data API
 # description: Example Implementation Guide for getting started with SUSHI
 status: draft # draft | active | retired | unknown
@@ -231,7 +231,7 @@ parameters:
   #pin-canonicals: pin-none
   pin-canonicals: pin-multiples
   # GitHub issue tracker - used instead of Jira for this IG
-  feedback: https://github.com/euridice-org/jwg-api/issues
+  feedback: https://github.com/euridice-org/eu-health-data-api/issues
 
 # ╭───────────────────────────Less Common Implementation Guide Properties──────────────────────────╮
 # │  Uncomment the properties below to configure additional properties on the ImplementationGuide  │
