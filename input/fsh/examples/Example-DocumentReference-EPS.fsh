@@ -30,18 +30,18 @@ Usage: #example
 * type = $loinc#60591-5 "Patient summary Document"
 
 // Subject: Reference to patient (required 1..1)
-* subject = http://example.org/fhir/Patient/example-patient
+* subject.reference = "http://example.org/fhir/Patient/example-patient"
 * subject.display = "Jan Jansen"
 
 // Date: When the document was created (required 1..1)
 * date = "2026-01-15T10:30:00+01:00"
 
 // Author: Who created the document
-* author = http://example.org/fhir/Practitioner/example-practitioner
+* author.reference = "http://example.org/fhir/Practitioner/example-practitioner"
 * author.display = "Dr. Maria Schmidt"
 
 // Custodian: Organization responsible for the document (required 1..1)
-* custodian = http://example.org/fhir/Organization/example-hospital
+* custodian.reference = "http://example.org/fhir/Organization/example-hospital"
 * custodian.display = "Amsterdam University Medical Center"
 
 // Description: Human-readable description
