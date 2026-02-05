@@ -28,7 +28,7 @@ This table describes the bridge between the regulation text and precise and impl
 | **Description**               | Law. High-level description of interoperability goals. | EHDS Implementing acts. System roles and capabilities, requirements  on EHR systems to achieve those goals <br/><br/> | Strictly defined interoperability technical rules. Implementable Guide describing use FHIR (or other) specifications. <br/><br/>**Basis of interoperability conformance** |
 | **Level of Technical Detail** | low | medium | high |
 | **Example**                   | EHDS Annex § 2.1: The EHR system should provide access to data in the EEHRxF format | **api-access-doc**: The EHR system Interoperability Software Component SHALL offer an API that enables an external system (such as a consumer) to access and retrieve its priority category data, for categories where that data is modeled as a FHIR Document <br/> | The **api-access-doc** requirement is met by the EHR System implementing the IHE MHD ITI-67 and ITI-68 transactions as the Document Responder actor.<br/> *Example FHIR Query: GET [base]/DocumentReference?category=123*  |
-| **Owner**                     | European Commission | European Commission<br/>(drafted by Xt-EHR), Member States | **To be decided** by the European Commission and Member States. SDO's (HL7 EU, IHE Europe) are proposing a draft with this Implementation Guide |
+| **Owner**                     | European Commission | European Commission<br/>(drafted by Xt-EHR), Member States | **To be decided** by the European Commission and Member States. SDOs (HL7 EU, IHE Europe) are proposing a draft with this Implementation Guide |
 
 
 Legal authority flows from left to right on this diagram. Self-testing of an EHR system in the EHDS Digital Testing Environment is best enabled by the right-most technical specification layer.
@@ -48,14 +48,16 @@ D5.1 defined **26 requirements** across three categories (see Xt-EHR D5.1 Annex 
 ---
 ### Xt-EHR Deliverable 5.1
 
-Xt-EHR Deliverable 5.1 interpreted §2.1 and §2.2 as two sides of a query-based architecture:
+Xt-EHR Deliverable 5.1 interpreted 2.1 and 2.2 as two sides of a query-based architecture:
 
 | Regulation | D5.1 Interpretation | IG Actor |
 |------------|---------------------|----------|
 | §2.1 "provide interface enabling access" | Producer: Serve queries for EEHRxF data | **Access Provider** |
 | §2.2 "be able to receive" | Consumer: Initiate queries and receive responses | **Consumer** |
 
+<div style="max-width: 50%;">
 {% include img.html img="5-1_exchange.png" caption="Figure: Query-Based Exchange Model" %}
+</div>
 
 This interpretation is grounded in the following rationale:
 
