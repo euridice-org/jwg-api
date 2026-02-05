@@ -55,7 +55,7 @@ Xt-EHR Deliverable 5.1 interpreted 2.1 and 2.2 as two sides of a query-based arc
 | §2.1 "provide interface enabling access" | Producer: Serve queries for EEHRxF data | **Access Provider** |
 | §2.2 "be able to receive" | Consumer: Initiate queries and receive responses | **Consumer** |
 
-<div style="max-width: 50%;">
+<div style="max-width: 70%; margin: 0 auto;">
 {% include img.html img="5-1_exchange.png" caption="Figure: Query-Based Exchange Model" %}
 </div>
 

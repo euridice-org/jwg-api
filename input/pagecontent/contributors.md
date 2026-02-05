@@ -1,7 +1,7 @@
 {% include variable-definitions.md %}
 
-This guide is the result of a multi  stakeholders effort involving different experts from several 
-European countries, projects, initiatives SDO's and companies.
+This guide is the result of a multi-stakeholder effort involving different experts from several
+European countries, projects, initiatives, SDOs, and companies.
 
 |Role                    | Name                | Affiliation    |
 |------------------------|---------------------|----------------|

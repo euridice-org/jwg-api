@@ -11,7 +11,7 @@ Patient.Search should be used when a patient identifier (e.g. National ID) is av
 | Actor | Role |
 |-------|------|
 | Consumer | Find a patient record in the Access Provider system based on identifier or demographics information |
-| Document/Resource Access Provider | Return it's patient record information based on identifier or demographics queries from a consumer. |
+| Document/Resource Access Provider | Return its patient record information based on identifier or demographics queries from a consumer. |
 
 ### Transaction Options
 

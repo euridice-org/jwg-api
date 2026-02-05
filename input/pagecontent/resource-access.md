@@ -100,7 +100,7 @@ If resources are derived from documents, Provenance SHOULD link to source Docume
 }
 ```
 
-The [IHE mXDE](https://profiles.ihe.net/ITI/mXDE/index.html) profile provides more detail on how to extra resources from documents while maintaining provenance.  
+The [IHE mXDE](https://profiles.ihe.net/ITI/mXDE/index.html) profile provides more detail on how to extract resources from documents while maintaining provenance.  
 
 ### Supported Resources
 
