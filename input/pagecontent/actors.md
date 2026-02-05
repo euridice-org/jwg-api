@@ -5,12 +5,12 @@ This is similar to the approach taken in the MHDS specification, but with a more
 ### Relevant Specifications:
 
 - Authorization
-  - [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
   - [HL7 SMART Backend Services](https://hl7.org/fhir/smart-app-launch/) - Defines authorization in FHIR. We use the SMART Backend Services profile for system-system authnz, and FHIR scopes.
+  - [IHE IUA](https://profiles.ihe.net/ITI/IUA/index.html) - Defines authorization and access control actors and mechanisms. We use the actors and transactions model.
 - Patient Identity Matching
   - [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) - Defines how a client can perform patient lookup given demographics against a server.
 - Document Exchange
-  - [IHE MHD](https://profiles.ihe.net/ITI/MHD/) - Defines exchange of Documents, which we use to exchange FHIR document content. (note: no XDS dependencies)
+  - [IHE MHD](https://profiles.ihe.net/ITI/MHD/) - Defines exchange of Documents, which we use to exchange FHIR document content.
 - Resource Exchange
   - [HL7 International Patient Access (IPA)](https://hl7.org/fhir/uv/ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access. IPA is the primary reference for resource access patterns.
   - [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server. Referenced where compatible with IPA.
@@ -37,11 +37,9 @@ Document exchange is defined with 3 actors:
 
 These composite actors inherit existing actors from the IUA, PDQm, and MHD specifications:
 
-<figure>
-{%include simplified-document-actors.svg%}
-<figcaption><b>Figure: Document Exchange - Actor Groupings</b></figcaption>
-</figure>
-<br clear="all">
+<div style="text-align: center;">
+{% include img.html img="docExchange_2.png" caption="Figure: Document Exchange - Actor Groupings" %}
+</div>
 
 **Document Publisher**
 
@@ -68,25 +66,40 @@ These composite actors inherit existing actors from the IUA, PDQm, and MHD speci
 
 This leads to the following required transactions between these actors:
 
-<figure>
-{%include document-transactions-sequence.svg%}
-<figcaption><b>Figure: Document Exchange Transactions</b></figcaption>
-</figure>
-<br clear="all">
+```mermaid
+sequenceDiagram
+    participant Publisher as Document Publisher
+    participant Provider as Document Access Provider
+    participant Consumer as Document Consumer
 
-> **Note:** This diagram assumes a bundled Authorization Server. When using external authorization infrastructure (hospital, regional, or national level), the authorization flow differs. See [Authorization Server Deployment](authorization.html#authorization-server-deployment) for details.
+    Publisher->>Provider: Get Access Token (IUA ITI-71)
+    Provider-->>Publisher: access_token
+    Publisher->>Provider: Patient Lookup (PDQm ITI-78)
+    Provider-->>Publisher: Patient Bundle
+    Publisher->>Provider: Simplified Publish (MHD ITI-105)
+    Provider-->>Publisher: Response
+
+    Consumer->>Provider: Get Access Token (IUA ITI-71)
+    Provider-->>Consumer: access_token
+    Consumer->>Provider: Patient Lookup (PDQm ITI-78)
+    Provider-->>Consumer: Patient Bundle
+    Consumer->>Provider: Find Document References (MHD ITI-67)
+    Provider-->>Consumer: DocumentReference Bundle
+    Consumer->>Provider: Retrieve Document (MHD ITI-68)
+    Provider-->>Consumer: Document Content
+```
 
 See the following functional pages for detailed transaction information:
 - [Authorization](authorization.html) - Authentication and authorization flows
 - [Patient Match](patient-match.html) - Patient identification transactions
 - [Document Exchange](document-exchange.html) - Document query and retrieval transactions
 
-This can be combined with content profiles define by each EHDS Priority Category, for those categories that are primarily represented as a FHIR Document. For example, a system can be a **Lab Result Document Publisher**, a **Patient Summary Document Consumer**, or a **Imaging Manifest Document Access Provider**. See Content Library
+This can be combined with content profiles define by each EHDS Priority Category, for those categories that are primarily represented as a FHIR Document. For example, a system can be a **Lab Result Document Publisher**, a **Patient Summary Document Consumer**, or a **Imaging Manifest Document Access Provider**. 
 
 
 ### Resource Exchange
 
-It is also useful in many cases to transact with individual FHIR resources (note: ref other page). For this purpose, two resource-based actors are defined:
+It is also useful in many cases to transact with individual FHIR resources. For this purpose, two resource-based actors are defined:
 
 <div style="text-align: center;">
 {% include img.html img="resExchange_1.png" caption="Figure: Resource Exchange Actors" %}
@@ -110,11 +123,9 @@ Resource exchange is more complex than document publication, and in many cases h
 
 These composite actors inherit existing actors from the IUA, PDQm, and IPA specifications (with QEDm alignment where compatible):
 
-<figure>
-{% include simplified-resource-actors.svg%}
-<figcaption><b>Figure: Resource Access - Actor Groupings</b></figcaption>
-</figure>
-<br clear="all">
+<div style="text-align: center;">
+{% include img.html img="resExchange_2.png" caption="Figure: Resource Access - Actor Groupings" %}
+</div>
 
 **Resource Access Provider**
 
@@ -135,11 +146,18 @@ These composite actors inherit existing actors from the IUA, PDQm, and IPA speci
 
 This leads to the following required transactions between these actors:
 
-<figure>
-{%include resource-transactions-sequence.svg%}
-<figcaption><b>Figure: Resource Exchange - Actor Groupings</b></figcaption>
-</figure>
-<br clear="all">
+```mermaid
+sequenceDiagram
+    participant Provider as Resource Access Provider
+    participant Consumer as Resource Consumer
+
+    Consumer->>Provider: Get Access Token (IUA ITI-71)
+    Provider-->>Consumer: access_token
+    Consumer->>Provider: Patient Lookup (PDQm ITI-78)
+    Provider-->>Consumer: Patient Bundle
+    Consumer->>Provider: Resource Query (IPA / QEDm PCC-44)
+    Provider-->>Consumer: Resource Bundle
+```
 
 > **Note:** This diagram assumes a bundled Authorization Server. When using external authorization infrastructure (hospital, regional, or national level), the authorization flow differs. See [Authorization Server Deployment](authorization.html#authorization-server-deployment) for details.
 
