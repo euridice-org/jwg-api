@@ -114,7 +114,6 @@ The following table maps each D5.1 interoperability requirement to its implement
 [1] **Note on Authorization Server:** The EHR system may or may not be bundled with its own authorization server. See [Authorization Server Deployment](authorization.html#authorization-server-deployment) for details.
 
 
-
 #### API Requirements (Consumer)
 
 | D5.1 Req ID | D5.1 Normative Requirement | EHDS Basis | Actor | IG Section | Technical Spec |
