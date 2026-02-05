@@ -3,7 +3,7 @@
 
 <div markdown="1" class="stu-note">
 
-**This IG is under active development.** Feedback and issues are tracked on [GitHub Issues](https://github.com/euridice-org/eu-health-data-api/issues). This IG is not yet tracked on HL7 Jira. Please join our [weekly meetings](https://confluence.hl7.org/spaces/HEU/pages/345086021/EU+Health+Data+API+Edition+1) to participate in this development.
+**This IG is under active development.** Feedback and issues are tracked on [GitHub Issues](https://github.com/euridice-org/eu-health-data-api/issues). Please join our [weekly meetings](https://confluence.hl7.org/spaces/HEU/pages/345086021/EU+Health+Data+API+Edition+1) to participate in this development.
 
 </div>
 
@@ -27,6 +27,14 @@ The intended audiences of this Implementation Guide are:
 
 - **Architects of national infrastructures:** National eHealth agencies looking to understand how to use the capabilities of EHRs required by EHDS to meet the goals of EHDS in their Member States should refer to the [Implementation](implementation.html) for examples of how the EHR APIs can be used for the EHDS use cases.
 
+### Summary of Functional Requirements ("the API")
+
+- **[Capability Discovery](capability-discovery.html)** - Discover which priority categories a server supports
+- **[Authorization](authorization.html)** - SMART Backend Services, IUA-aligned
+- **[Patient Matching](patient-match.html)** - PDQm Patient Demographics Query
+- **[Document Exchange](document-exchange.html)** - MHD transactions (ITI-67, ITI-68, ITI-105)
+- **[Resource Access](resource-access.html)** - IPA resource query patterns
+
 ### Approach
 
 We define exchange patterns by inheriting and defining transactions, system actors, and associated capability statements from existing IHE and HL7 specifications:
@@ -37,7 +45,6 @@ We define exchange patterns by inheriting and defining transactions, system acto
 - [IHE PDQm](https://profiles.ihe.net/ITI/PDQm/index.html) - Defines how a client can perform patient lookup against a server.
 - [HL7 International Patient Access (IPA)](https://build.fhir.org/ig/HL7/fhir-ipa/) - Defines how an application can access FHIR information using SMART authorization and resource access. IPA is the primary reference for resource access.
 - [IHE QEDm](https://profiles.ihe.net/PCC/QEDm/index.html) - Defines how a client can query for existing FHIR resources from a FHIR server. Referenced where compatible with IPA.
-- [HL7 FHIR Release 4.0.1](http://www.hl7.org/FHIR/R4) - The base FHIR standard.
 
 We define composite actors that inherit and combine actors defined in these existing specifications. See [Actors and Transactions](actors.html) for detailed actor definitions, transactions, and actor grouping.
 
@@ -60,14 +67,20 @@ At a high level, the following actors are specified:
 
 These resource actors are initially scoped for search + read. See [Resource Access](resource-access.html) for detailed discussion and possible approaches for resource exchange patterns.
 
-## Summary of Functional Requirements ("the API")
+## Priority Categories
 
-- **[Capability Discovery](capability-discovery.html)** - Discover which priority categories a server supports
-- **[Authorization](authorization.html)** - SMART Backend Services, IUA-aligned
-- **[Patient Matching](patient-match.html)** - PDQm Patient Demographics Query
-- **[Document Exchange](document-exchange.html)** - MHD transactions (ITI-67, ITI-68, ITI-105)
-- **[Resource Access](resource-access.html)** - IPA resource query patterns
+EHDS defines priority categories of health data for interoperability. Each has a content profile defining the data model, maintained in separate Content IGs.
 
-## 6. Authors
+This API IG defines interoperability *behavior* - the transactions and exchange patterns that systems use to share data. It does not prescribe internal system architecture or design. Systems that choose to comply with EHDS interoperability requirements implement this behavior alongside one or more Content IGs.
+
+| Priority Category | Content IG | Exchange Pattern |
+|-------------------|------------|------------------|
+| Patient Summary | [HL7 Europe Patient Summary](https://build.fhir.org/ig/hl7-eu/eps/) | [Document Exchange (MHD)](document-exchange.html) |
+| Medical Test Results | [HL7 Europe Laboratory Report](https://hl7.eu/fhir/laboratory) | [Document Exchange (MHD)](document-exchange.html) |
+| Hospital Discharge Report | [HL7 Europe Hospital Discharge Report](https://hl7.eu/fhir/hdr/) | [Document Exchange (MHD)](document-exchange.html) |
+| Medical Imaging | [HL7 Europe Imaging Study/Report](https://build.fhir.org/ig/hl7-eu/imaging-r5/) / [Imaging Manifest](https://build.fhir.org/ig/hl7-eu/imaging-manifest-r5/) | [Document Exchange (MHD)](document-exchange.html) |
+| ePrescription / eDispensation | [HL7 Europe MPD](https://hl7.eu/fhir/mpd) | [IHE MPD](https://profiles.ihe.net/PHARM/MPD/) |
+
+## Authors
 
 {% include contributors.md %}
