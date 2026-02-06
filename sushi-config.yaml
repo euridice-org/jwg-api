@@ -7,7 +7,12 @@ id: hl7.fhir.eu.eu-health-data-api
 canonical: http://hl7.eu/fhir/eu-health-data-api
 name: EuHealthDataApi
 title: EU Health Data API
-# description: Example Implementation Guide for getting started with SUSHI
+description: >-
+  This Implementation Guide defines FHIR-based APIs for accessing and exchanging
+  health data in the European Health Data Space (EHDS). It composes existing IHE
+  and HL7 specifications — MHD for document exchange, SMART Backend Services for
+  authorization, PDQm for patient matching, and IPA for resource access — into a
+  unified conformance target for EHR systems across Europe.
 status: draft # draft | active | retired | unknown
 version: 0.1.0
 fhirVersion: 4.0.1 # https://www.hl7.org/fhir/valueset-FHIR-version.html

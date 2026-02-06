@@ -5,6 +5,8 @@ Authorization is required for all API transactions. This IG inherits [SMART Back
 
 We adopt SMART Backend Services as specified—including grant types, client authentication (`private_key_jwt`), and related JWT requirements—to align with globally recognized specifications and reduce implementation burden. As a profile on SMART, all underlying SMART requirements still apply; omitting a detail from this IG does not exempt implementations from SMART requirements.
 
+> **Note:** This IG uses IHE IUA actor definitions grouped with SMART Backend Services normative requirements. Where requirements differ, SMART Backend Services is authoritative.
+
 ### Scope: System-to-System Authorization
 
 This specification defines **system-to-system** authorization only:
@@ -12,6 +14,7 @@ This specification defines **system-to-system** authorization only:
 - No user-level authentication is required at the API level
 
 User-level authorization requirements are not in initial scope for this Implementation Guide.
+
 
 ### Authorization Actors
 

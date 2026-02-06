@@ -45,6 +45,15 @@ See [Regulatory Anchors](https://build.fhir.org/ig/euridice-org/eu-health-data-a
 
 ---
 
+## Approach
+
+| Decision | Approach |
+|----------|----------|
+| **Actor model** | 5 actors (Document Publisher, Document Access Provider, Document Consumer, Resource Access Provider, Resource Consumer) with 3 composite groupings |
+| **Authorization** | SMART Backend Services for system-to-system auth, with IHE IUA actor definitions |
+| **Resource access** | IPA (International Patient Access) as primary reference; QEDm referenced where compatible |
+| **Exchange Only** | This IG defines transport and exchange patterns only; clinical data models are maintained in separate Content IGs from HL7 EU|
+
 ## Page Structure
 
 ```
@@ -52,25 +61,32 @@ See [Regulatory Anchors](https://build.fhir.org/ig/euridice-org/eu-health-data-a
 │
 ├── Background
 │   ├── Regulatory Anchors
+│   │   └── EHDS Annex II - Essential Requirements
+│   ├── Actors and Transactions
+│   ├── Priority Categories
 │   ├── Member State Architectures
-│   └── Actors and Transactions
+│   ├── Change Log
+│   └── Open Issues
 │
 ├── Functional Requirements
 │   ├── Capability Discovery
 │   ├── Authorization
-│   ├── Patient Match
+│   ├── Patient Matching
 │   ├── Document Exchange
 │   └── Resource Access
 │
 ├── Implementation
 │   ├── Retrieve a European Patient Summary
-│   ├── Health Professional Portal
-│   ├── Health Data Portal
+│   ├── Health Professional Access Service
+│   ├── Health Data Access Service
 │   └── Cross-Border via NCP
 │
 ├── Artifacts
 │
-└── Change Log
+└── About
+    ├── Authors and Contributors
+    ├── Copyright
+    └── References
 ```
 
 ### Additional Pages (linked but not in navigation)

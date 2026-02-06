@@ -30,7 +30,7 @@ The intended audiences of this Implementation Guide are:
 ### Summary of Functional Requirements ("the API")
 
 - **[Capability Discovery](capability-discovery.html)** - Discover which priority categories a server supports
-- **[Authorization](authorization.html)** - SMART Backend Services, IUA-aligned
+- **[Authorization](authorization.html)** - SMART Backend Services (IUA actor model)
 - **[Patient Matching](patient-match.html)** - PDQm Patient Demographics Query
 - **[Document Exchange](document-exchange.html)** - MHD transactions (ITI-67, ITI-68, ITI-105)
 - **[Resource Access](resource-access.html)** - IPA resource query patterns
