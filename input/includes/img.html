@@ -2,7 +2,7 @@
 
 <div>
     <figure class="figure">
-      <img src="{{include.img}}" class="figure-img img-responsive img-rounded center-block" alt="{{include.img}}">
+      <img src="{{include.img}}" class="figure-img img-responsive img-rounded center-block" alt="{{include.alt | default: include.caption | default: include.img}}">
       <figcaption class="figure-caption"><strong>{{include.caption | default: ""}}</strong></figcaption>
     </figure>
     <p></p>

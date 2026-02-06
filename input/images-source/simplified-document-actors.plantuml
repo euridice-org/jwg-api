@@ -1,0 +1,68 @@
+@startuml simplified-document-actors
+skinparam svgDimensionStyle false
+skinparam AgentPadding 2
+skinparam AgentMargin 2
+skinparam Padding 2
+skinparam nodesep 5
+skinparam ranksep 10
+
+skinparam rectangle {
+    BackgroundColor White
+    BorderColor Black
+}
+
+rectangle "Document Publisher" as Source {
+    agent "Consistent Time - 🕐" as Src_CT
+    agent "ATNA Secure Node" as Src_ATNA
+    agent "IUA Authorization Client" as Src_IUAClient
+    agent "PDQm Patient Demographics Consumer" as Src_PDQm
+    agent "MHD Document Source" as Src_MHDSrc
+    agent " " as Src_Hidden #White;line:White
+
+    Src_CT -[hidden]down- Src_ATNA
+    Src_ATNA -[hidden]down- Src_IUAClient
+    Src_IUAClient -[hidden]down- Src_PDQm
+    Src_PDQm -[hidden]down- Src_MHDSrc
+    Src_MHDSrc -[hidden]down- Src_Hidden
+}
+
+rectangle "Document Access Provider" as Services {
+    agent "Consistent Time - 🕐" as S_CT
+    agent "ATNA Secure Node" as S_ATNA
+    agent "IUA Authorization Server\n(if internal)" as S_IUAAuth
+    agent "PDQm Patient Demographics Supplier" as S_PDQmSrc
+    agent "MHD Document Recipient\n(Submission Option)" as S_MHDRecip
+    agent "MHD Document Responder" as S_MHDResp
+
+    S_CT -[hidden]down- S_ATNA
+    S_ATNA -[hidden]down- S_IUAAuth
+    S_IUAAuth -[hidden]down- S_PDQmSrc
+    S_PDQmSrc -[hidden]down- S_MHDRecip
+    S_MHDRecip -[hidden]down- S_MHDResp
+}
+
+rectangle "Document Consumer" as Consumer {
+    agent "Consistent Time - 🕐" as C_CT
+    agent "ATNA Secure Node" as C_ATNA
+    agent "IUA Authorization Client" as C_IUAClient
+    agent "PDQm Patient Demographics Consumer" as C_PDQm
+    agent " " as C_Hidden #White;line:White
+    agent "MHD Document Consumer" as C_MHDCons
+
+    C_CT -[hidden]down- C_ATNA
+    C_ATNA -[hidden]down- C_IUAClient
+    C_IUAClient -[hidden]down- C_PDQm
+    C_PDQm -[hidden]down- C_Hidden
+    C_Hidden -[hidden]down- C_MHDCons
+}
+
+Src_ATNA -right-> S_ATNA : Secure Communication
+S_ATNA <-left- C_ATNA : Secure Communication
+Src_IUAClient -right-> S_IUAAuth : Authorization Request
+S_IUAAuth <-left- C_IUAClient : Authorization Request
+Src_PDQm -right-> S_PDQmSrc : Patient Id Match
+S_PDQmSrc <-left- C_PDQm : Patient Id Match
+Src_MHDSrc -right-> S_MHDRecip : Publish Documents
+S_MHDResp <-left- C_MHDCons : Query/Retrieve Documents
+
+@enduml

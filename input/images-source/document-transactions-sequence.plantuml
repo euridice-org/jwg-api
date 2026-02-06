@@ -1,0 +1,36 @@
+@startuml document-transactions-sequence
+skinparam svgDimensionStyle false
+
+participant "Document Publisher" as Publisher
+participant "Document Access Provider" as Provider
+participant "Document Consumer" as Consumer
+
+== Document Publisher Transactions ==
+
+Publisher -> Provider : ITI-19 ATNA Authenticate Node (TLS)
+Publisher -> Provider : ITI-71 IUA Get Authorization Token
+
+alt Patient Lookup (identifier known)
+    Publisher -> Provider : ITI-78 PDQm Query
+else Patient Lookup (demographics only)
+    Publisher -> Provider : ITI-119 PDQm $match
+end
+
+Publisher -> Provider : ITI-105 MHD Simplified Publish
+
+== Document Consumer Transactions ==
+
+Consumer -> Provider : ITI-19 ATNA Authenticate Node (TLS)
+Consumer -> Provider : ITI-71 IUA Get Authorization Token
+
+alt Patient Lookup (identifier known)
+    Consumer -> Provider : ITI-78 PDQm Query
+else Patient Lookup (demographics only)
+    Consumer -> Provider : ITI-119 PDQm $match
+end
+
+Consumer -> Provider : ITI-66 MHD Find Document Lists
+Consumer -> Provider : ITI-67 MHD Find Document References
+Consumer -> Provider : ITI-68 MHD Retrieve Document
+
+@enduml

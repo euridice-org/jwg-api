@@ -2,15 +2,15 @@
 
 ## Introduction
 
-This document explores the different API's that are relevant in the context of EHDS. The purpose of this document is to create a shared terminology and architecture related to those APIs, and provide initial options and background for elements related to these API's and allow linkage of EHDS requirements defined by XtEHR to the corresponding API. 
+This document explores the different APIs that are relevant in the context of EHDS. The purpose of this document is to create a shared terminology and architecture related to those APIs, and provide initial options and background for elements related to these APIs and allow linkage of EHDS requirements defined by XtEHR to the corresponding API. 
 EHDS overview
-The figure below shows an architectural view of the different API’s that are relevant in the context of EHDS.
+The figure below shows an architectural view of the different APIs that are relevant in the context of EHDS.
  
-The figure shows the flow of data within and between different member states. It identifies a of business actors and API’s relevant for EHDS. The API’s are presented in blue, the actors in black. 
+The figure shows the flow of data within and between different member states. It identifies a of business actors and APIs relevant for EHDS. The APIs are presented in blue, the actors in black. 
 
 <img src="./images/EHDS-overview.svg">
 
-The different business actors are:
+The different business actors (black boxes) are:
 
 * **EHR System**, means any system whereby the software, or a combination of the hardware and the software of that system, allows personal electronic health data that belong to the priority categories of personal electronic health data established under this Regulation to be stored, intermediated, exported, imported, converted, edited or viewed, and intended by the manufacturer to be used by healthcare providers when providing patient care or by patients when accessing their electronic health data; (EHDS Article 2 (2) k).
 * **Proxy Service**, implements the electronic health access service (EHDS Article 4 (2)) and allows natural persons or their legal representatives to access personal electronic health data.
@@ -19,13 +19,13 @@ The different business actors are:
 * **National Contact Point**, systems operated by member states that allow flow of electronic health data between member states utilizing MyHealth@EU.
 * **Healthcare Provider** means any natural or legal person or any other entity legally providing healthcare on the territory of a Member Staten (Directive 2011/24/EU, Article 3 (g)).
 
-These business actors are connected by networks. Access to these networks is governed by interfaces. The interfaces as defined in the document are:
+These business actors are connected by networks. Access to these networks is governed by interfaces (blue boxes in the figure). The interfaces as defined in the document are:
 
 * **Cross-border API**, the API/protocol as defined by MyHealth@EU that is used to communicate electronic health data between member states.
 * **National Infrastructure API**, the API/protocol defined by member states that is used to connect the National Contact Points with Healthcare Providers and Proxy Services.
 * **EHR System API**, the API that EHR systems have to implement in order to satisfy the requirements as specified in EHDS.
 * Wellness API, the API used by Wellness applications to communicate with an EHR system capable of receiving data from that Wellness Application.
-* **Patient Access API**, the API Patient Apps use to communicate with eh national infrastructure.
+* **Patient Access API**, the API Patient Apps use to communicate with the national infrastructure.
 
 ## API definitions
 
@@ -38,7 +38,7 @@ The definition of an interface can be conceptually described as consisting of tw
 1.	The protocols/API used to set up the communication
 2.	The data format that is used to communicate the content.
 
-For most interfaces in EHDS, this data format is the European Electronic Health Record exchange Format (EEHRxF) (EHDS Arcticle 15). These specifications are developed by HL7eu and IHEeu:
+For most interfaces in EHDS, this data format is the European Electronic Health Record exchange Format (EEHRxF) (EHDS Article 15). These specifications are developed by HL7eu and IHEeu:
 
 * European Patient Summary (  [HL7 Europe Patient Summary](https://build.fhir.org/ig/hl7-eu/eps/) )
 * Europe Medication Prescription and Dispense ([HL7 Europe Medication Prescription and Dispense](https://build.fhir.org/ig/hl7-eu/mpd/))
@@ -117,7 +117,8 @@ Initial technology choices for the EHR system API are:
 * [IHE-MHD](https://profiles.ihe.net/ITI/MHD/index.html) - Mobile access to Health Documents (MHD) for document exchange
 * FHIR bulk data access ([FHIR R5 async-bulk](https://hl7.org/fhir/R5/async-bulk.html) and [FHIR R4  Bulk Data IG](https://hl7.org/fhir/uv/bulkdata/)) for data export
 * Manual import of FHIR bulk data export files for import
-* [IHE-ATNA](https://wiki.ihe.net/index.php/Add_RESTful_Query_and_Feed_to_ATNA) for logging
+* [IHE-ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-9.html) as modified in [IHE-ATNA RESTful Feed and Query Supplement that adds FHIR AuditEvent support for both Feed and Query](https://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_Suppl_RESTful-ATNA.pdf) for logging
+* [IHE-BALP](https://profiles.ihe.net/ITI/BALP/index.html) - Basic Audit Log Patterns for audit log profiles for RESTful actions.
 
 ### Patient Access API
 

@@ -1,0 +1,93 @@
+# EU Health Data API — Implementation Guide
+
+## What This Is
+
+This FHIR Implementation Guide (IG) defines APIs for accessing and exchanging
+health data in the European Health Data Space (EHDS). It satisfies EHDS Article
+15 interoperability requirements placed on EHR systems by composing existing IHE
+and HL7 specifications into a unified conformance target.
+
+The IG is content-agnostic: it specifies transport and exchange patterns only.
+Clinical data models (patient summaries, lab reports, discharge reports, etc.)
+are maintained in separate Content IGs and referenced by priority category.
+
+## Actor Model
+
+Five actors organized into three groupings:
+
+Document Exchange:
+- Document Publisher — produces EEHRxF FHIR Documents, publishes to Access Providers
+- Document Access Provider — serves documents via query API (MHD)
+- Document Consumer — queries and retrieves documents
+
+Resource Exchange:
+- Resource Access Provider — provides query access to individual FHIR resources (IPA)
+- Resource Consumer — queries FHIR resources
+
+Three composite actors combine the above with authorization:
+- Producer composite (Publisher + IUA Authorization Client + PDQm Consumer)
+- Access Provider composite (Document Access Provider + Resource Access Provider + IUA Resource Server)
+- Consumer composite (Document Consumer + Resource Consumer + IUA Authorization Client + PDQm Consumer)
+
+## Key Transactions
+
+- ITI-67: Find Document References (MHD) — search for documents by patient, category, date
+- ITI-68: Retrieve Document (MHD) — retrieve a document by URL
+- ITI-105: Simplified Publish (MHD) — publish a single DocumentReference + document
+- ITI-78: Patient Demographics Query (PDQm) — look up patients by identifier or demographics
+- PCC-44: Query Existing Data (QEDm) — query individual FHIR resources (compatible with IPA)
+- ITI-71: Get Access Token (IUA/SMART) — obtain OAuth2 access token
+- ITI-72: Incorporate Access Token (IUA/SMART) — present token on API requests
+
+## Authorization
+
+System-to-system authorization using SMART Backend Services (client_credentials
+grant with private_key_jwt authentication). IHE IUA actor definitions are used
+for the authorization model (Authorization Server, Resource Server, Authorization
+Client), but SMART Backend Services is normative where requirements differ.
+
+User-level authorization (patient-mediated access, EU Digital Identity Wallet) is
+out of scope for this version.
+
+## Priority Categories
+
+EHDS defines six priority categories of health data. Each uses Document Exchange
+(MHD) as the exchange pattern, with content defined by separate Content IGs:
+
+1. Patient Summary — HL7 Europe Patient Summary (EPS)
+2. Medical Test Results — HL7 Europe Laboratory Report
+3. Hospital Discharge Report — HL7 Europe HDR
+4. Medical Imaging — HL7 Europe Imaging Study/Report + Imaging Manifest
+5. ePrescription / eDispensation — HL7 Europe MPD + IHE MPD
+6. (Resource access across categories via IPA)
+
+## Key Design Decisions
+
+- IPA over QEDm: International Patient Access (IPA) is the primary reference for
+  resource access. QEDm is referenced where compatible.
+- Content-agnostic: The API IG defines behavior (transactions, actors, exchange
+  patterns). It does not prescribe internal system architecture or data models.
+- XDS-compatible, not XDS-dependent: Systems can bridge to XDS/XCA environments
+  but are not required to implement XDS infrastructure.
+- SMART Backend Services for auth: Globally recognized, reduces implementation
+  burden vs. a Europe-specific authorization approach.
+- Actor options over actor proliferation: Document Submission is an option on the
+  Document Access Provider rather than a separate actor.
+
+## Specifications Referenced
+
+- IHE MHD (Mobile access to Health Documents) — https://profiles.ihe.net/ITI/MHD/
+- IHE PDQm (Patient Demographics Query for Mobile) — https://profiles.ihe.net/ITI/PDQm/
+- IHE QEDm (Query for Existing Data Mobile) — https://profiles.ihe.net/PCC/QEDm/
+- IHE IUA (Internet User Authorization) — https://profiles.ihe.net/ITI/IUA/
+- HL7 SMART App Launch / Backend Services — https://hl7.org/fhir/smart-app-launch/
+- HL7 International Patient Access (IPA) — https://hl7.org/fhir/uv/ipa/
+- FHIR R4.0.1 — https://hl7.org/fhir/R4/
+
+## Links
+
+- Built IG (ci-build): https://build.fhir.org/ig/euridice-org/eu-health-data-api/
+- GitHub: https://github.com/euridice-org/eu-health-data-api
+- Publisher: HL7 Europe / IHE Europe (EURIDICE joint working group)
+- FHIR version: R4.0.1
+- Status: Draft (0.1.0)

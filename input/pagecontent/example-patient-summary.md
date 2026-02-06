@@ -1,0 +1,161 @@
+This example walks through a complete workflow for accessing a Patient Summary document for a known patient.
+
+### Scenario
+
+A patient presents to a care provider, but his data is in another system. The current care provider is a **Document Consumer**, and the system with his data is a **Document Access Provider**.
+
+### Actors
+
+- **[Document Consumer](actors.html#document-consumer)** - The healthcare provider's system requesting the Patient Summary
+- **[Document Access Provider](actors.html#document-access-provider)** - The system holding the patient's health data
+
+### Prerequisites
+
+- Document Consumer has registered with Document Access Provider and obtained authorization credentials
+- Patient has a known identifier in the Document Access Provider system
+- Document Access Provider supports European Patient Summary priority category
+
+### Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant Consumer as Document Consumer
+    participant AuthZ as Authorization Server
+    participant Provider as Document Access Provider
+
+    rect rgb(240, 248, 255)
+    Note over Consumer,Provider: Authorization (IUA)
+    Consumer->>Provider: GET /metadata
+    Provider-->>Consumer: CapabilityStatement
+    Consumer->>AuthZ: POST /auth/token (JWT assertion)
+    AuthZ-->>Consumer: access_token
+    end
+
+    rect rgb(240, 255, 240)
+    Note over Consumer,Provider: Patient Lookup (PDQm ITI-78)
+    Consumer->>Provider: GET /Patient?identifier=...
+    Provider-->>Consumer: Patient Bundle
+    end
+
+    rect rgb(255, 248, 240)
+    Note over Consumer,Provider: Document Exchange (MHD ITI-67, ITI-68)
+    Consumer->>Provider: GET /DocumentReference?patient=...&type=60591-5
+    Provider-->>Consumer: DocumentReference Bundle
+    Consumer->>Provider: GET /Bundle/[id]
+    Provider-->>Consumer: Patient Summary (FHIR Document)
+    end
+```
+
+*Note: This diagram assumes the Authorization Server is grouped with the Document Access Provider. See [Issue 6: Authorization Server Deployment](open-issues.html#issue-6-authorization-server-deployment) for discussion of alternative deployments.*
+
+### Step-by-Step Flow
+
+#### Step 1: Discover Capabilities
+
+Document Consumer inspects the Document Access Provider's capabilities via [Capability Discovery](capability-discovery.html).
+
+```
+GET https://provider.example.org/fhir/metadata
+```
+
+The CapabilityStatement confirms support for IHE MHD document exchange, PDQm patient search, and European Patient Summary priority category.
+
+#### Step 2: Obtain Authorization Token
+
+Document Consumer requests an access token using SMART Backend Services ([Authorization](authorization.html)).
+
+```
+POST https://provider.example.org/auth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+&scope=system/Patient.read system/Patient.search system/DocumentReference.read system/DocumentReference.search system/Bundle.read
+&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+&client_assertion=[signed JWT]
+```
+
+#### Step 3: Identify the Patient
+
+Document Consumer searches for the patient using a known identifier ([Patient Match](patient-match.html)).
+
+```
+GET https://provider.example.org/fhir/Patient?identifier=urn:oid:2.16.840.1.113883.2.4.6.3|123456789
+Authorization: Bearer [access_token]
+```
+
+Response includes the Patient resource with `id=patient-123`.
+
+#### Step 4: Search for Patient Summary Document
+
+Document Consumer queries for Patient Summary documents using **IHE MHD ITI-67** (Find Document References) transaction ([Document Exchange](document-exchange.html)).
+
+```
+GET https://provider.example.org/fhir/DocumentReference?patient=patient-123&type=http://loinc.org|60591-5
+Authorization: Bearer [access_token]
+```
+
+Response Bundle contains DocumentReference resources for available Patient Summaries. A typical DocumentReference entry looks like:
+
+```json
+{
+  "resourceType": "DocumentReference",
+  "id": "docref-eps-123",
+  "status": "current",
+  "type": {
+    "coding": [{
+      "system": "http://loinc.org",
+      "code": "60591-5",
+      "display": "Patient summary Document"
+    }]
+  },
+  "category": [{
+    "coding": [{
+      "system": "urn:oid:1.3.6.1.4.1.19376.1.2.6.1",
+      "code": "SUMMARIES",
+      "display": "Summaries"
+    }]
+  }],
+  "subject": {
+    "reference": "Patient/patient-123"
+  },
+  "date": "2024-03-15T10:30:00Z",
+  "content": [{
+    "attachment": {
+      "contentType": "application/fhir+json",
+      "url": "Bundle/ips-bundle-456"
+    },
+    "format": {
+      "system": "http://ihe.net/fhir/ihe.formatcode.fhir/CodeSystem/formatcode",
+      "code": "urn:ihe:pcc:ips:2020",
+      "display": "International Patient Summary"
+    }
+  }]
+}
+```
+
+#### Step 5: Retrieve Document Content
+
+Document Consumer retrieves the document content using **IHE MHD ITI-68** (Retrieve Document) transaction. The URL is taken from `DocumentReference.content.attachment.url`.
+
+```
+GET https://provider.example.org/fhir/Bundle/ips-bundle-456
+Authorization: Bearer [access_token]
+```
+
+Response is the Patient Summary as a FHIR Document (Bundle of type `document`) in JSON format.
+
+> **Note:** Patient Summary (IPS) is a FHIR Document, so it is retrieved as a Bundle resource, not a Binary. See [Document Exchange - Document Content](document-exchange.html#document-content) for details.
+
+### Key Points
+
+- All resource access requires [authorization](authorization.html)
+- Patient identification precedes health data queries
+- DocumentReference contains metadata about documents
+- FHIR Documents (IPS, etc.) are retrieved as Bundle resources; non-FHIR documents (PDF) are retrieved as Binary resources
+- All transactions use standard FHIR RESTful interactions
+
+### Variations
+
+- If patient identifier is not known, use [Patient $match operation](patient-match.html)
+- If Document Access Provider supports [Resource Access](resource-access.html), Consumer could query for individual resources instead of documents
+- Multiple documents may be returned if patient has been seen multiple times
