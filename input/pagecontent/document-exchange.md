@@ -63,24 +63,34 @@ This IG follows the [IHE Document Sharing](https://profiles.ihe.net/ITI/HIE-Whit
 
 ##### Category Values (EHDS Priority Categories)
 
-The EHDS priority categories are defined by [Article 14 of the EHDS Regulation](https://eur-lex.europa.eu/eli/reg/2025/327/oj#d1e2289-1-1). We define codes specifically for EEHRxF that map directly to these regulatory categories.
+The EHDS priority categories are defined by [Article 14 of the EHDS Regulation](https://eur-lex.europa.eu/eli/reg/2025/327/oj#d1e2289-1-1). We define codes specifically for EEHRxF that map directly to these regulatory categories. The preference is that DocumentReference.category is populated with these EHDS priority categories, as this allows for consistent querying across different document types that fall under the same category. It is recognized that some documents, especially historic, may not have the EHDS priority category assigned, but may still have a well-defined category code populated. 
 
-See [EEHRxFDocumentPriorityCategoryCS](CodeSystem-eehrxf-document-priority-category-cs.html) for the complete list.
+See [EEHRxFDocumentPriorityCategoryCS](CodeSystem-eehrxf-document-priority-category-cs.html) for the complete list. These categories are provided as informative codes to guide linkage to clinical codes that are used and would be considered within that priority category. For example, a document with a `type` of `18842-5` (LOINC Hospital Discharge Report) would be considered in the `Discharge-Reports` priority category.
+
+We provide two methods to link between the priority category and clinical codes:
+
+A set of ValueSet [`EEHRxFDocumentTypeVS`](ValueSet-EEHRxFDocumentTypeVS.html) includes all clinical codes (LOINC) that are relevant to EHDS priority categories, with a `useContext` indicating the corresponding priority category.
+- `Patient-Summaries` codes are found in [EEHRxFDocumentTypePatientSummaryVS](ValueSet-EEHRxFDocumentTypePatientSummaryVS.html)
+- `Discharge-Reports` codes are found in [EEHRxFDocumentTypeDischargeReportVS](ValueSet-EEHRxFDocumentTypeDischargeReportVS.html)
+- `Laboratory-Reports` codes are found in [EEHRxFDocumentTypeLaboratoryReportVS](ValueSet-EEHRxFDocumentTypeLaboratoryReportVS.html)
+- `Medical-Imaging` codes are found in [EEHRxFDocumentTypeMedicalImagingVS](ValueSet-EEHRxFDocumentTypeMedicalImagingVS.html)
+
+A ConceptMap [EehrxfMhdDocumentReferenceCM](ConceptMap-EehrxfMhdDocumentReferenceCM.html) maps the same set of clinical codes to their corresponding priority category.
+
+The priority category of `Electronic-Prescriptions` and `Electronic-Dispensations` are not considered appropriate use-cases for documents, and thus have no associated document types.
 
 ##### Type Values (LOINC)
 
-| LOINC Code | Priority Category |
-|------------|-------------------|
-| `60591-5` | Patient Summary |
-| `18842-5` | Hospital Discharge Report |
-| `11502-2` | Lab Result |
-| `68604-8` | Diagnostic Imaging Report |
-
-See [EEHRxFDocumentTypeVS](ValueSet-eehrxf-document-type-vs.html) for the complete list.
+The `type` element can be the same as the `category` or can be more specific. 
+See [EEHRxFDocumentTypeVS](ValueSet-EEHRxFDocumentTypeVS.html) for the example list.
 
 #### Search Examples
 
-The examples below show queries using both `category` (EHDS priority category) and `type` (LOINC document type). Either can be used depending on your use case.
+The examples below show queries using both `category` and `type` (LOINC document type). 
+
+Searching by EHDS priority category is the preferred approach, as it allows for consistent retrieval of all relevant documents regardless of the specific clinical code used. However, searching by the list of codes mapped to the EHDS priority category may be more robust and productive.
+
+Searching by `type` (LOINC) may be necessary in cases where the EHDS priority category is not populated or when a more specific document type is required.
 
 ##### Patient Summary
 
@@ -92,6 +102,11 @@ GET [base]/DocumentReference?patient=Patient/123&type=http://loinc.org|60591-5&s
 By category (EHDS priority):
 ```
 GET [base]/DocumentReference?patient=Patient/123&category=http://hl7.eu/fhir/eu-health-data-api/CodeSystem/eehrxf-document-priority-category-cs|Patient-Summaries&status=current
+```
+
+By list of codes mapped to EHDS priority category:
+```
+GET [base]/DocumentReference?patient=Patient/123&category=http://loinc.org|18842-5&type=http://loinc.org|100719-4
 ```
 
 ##### Medical Test Results (Laboratory)

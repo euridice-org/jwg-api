@@ -10,3 +10,12 @@ MSG_DEPRECATED
 
 # using pinning when multiple are available
 PIN_VERSION
+
+# promoting the documentReference category codes and EHDS priority codes as Informative
+WARNING: StructureDefinition/EehrxfMhdDocumentReference: StructureDefinition.differential.element[1].binding: The definition for the element 'DocumentReference.type' binds to the value set 'http://hl7.eu/fhir/ValueSet/eehrxf-document-type-vs' which is experimental, but this structure is not labeled as experimental
+WARNING: StructureDefinition/EehrxfMhdDocumentReference: StructureDefinition.snapshot.element[22].binding: The definition for the element 'DocumentReference.type' binds to the value set 'http://hl7.eu/fhir/ValueSet/eehrxf-document-type-vs' which is experimental, but this structure is not labeled as experimental
+INFORMATION: ValueSet/EEHRxFDocumentTypeDischargeReportVS: ValueSet.useContext[0].value.ofType(CodeableConcept): Reference to draft CodeSystem http://hl7.eu/fhir/eu-health-data-api/CodeSystem/eehrxf-document-priority-category-cs|0.1.0
+INFORMATION: ValueSet/EEHRxFDocumentTypeLaboratoryReportVS: ValueSet.useContext[0].value.ofType(CodeableConcept): Reference to draft CodeSystem http://hl7.eu/fhir/eu-health-data-api/CodeSystem/eehrxf-document-priority-category-cs|0.1.0
+INFORMATION: ValueSet/EEHRxFDocumentTypeMedicalImagingVS: ValueSet.useContext[0].value.ofType(CodeableConcept): Reference to draft CodeSystem http://hl7.eu/fhir/eu-health-data-api/CodeSystem/eehrxf-document-priority-category-cs|0.1.0
+INFORMATION: ValueSet/EEHRxFDocumentTypePatientSummaryVS: ValueSet.useContext[0].value.ofType(CodeableConcept): Reference to draft CodeSystem http://hl7.eu/fhir/eu-health-data-api/CodeSystem/eehrxf-document-priority-category-cs|0.1.0
+
