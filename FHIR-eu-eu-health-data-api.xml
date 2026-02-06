@@ -13,9 +13,14 @@
 <artifact id="ValueSet/eehrxf-document-priority-category-vs" key="ValueSet-eehrxf-document-priority-category-vs" name="EEHRxF Document Priority Category ValueSet"/>
 <artifact id="ActorDefinition/EEHRxF-DocumentPublisher-Actor" key="ActorDefinition-EEHRxF-DocumentPublisher-Actor" name="EEHRxF Document Publisher"/>
 <artifact id="CapabilityStatement/EEHRxF-DocumentPublisher" key="CapabilityStatement-EEHRxF-DocumentPublisher" name="EEHRxF Document Publisher CapabilityStatement"/>
-<artifact id="ValueSet/eehrxf-document-type-vs" key="ValueSet-eehrxf-document-type-vs" name="EEHRxF Document Type ValueSet"/>
+<artifact id="ValueSet/EEHRxFDocumentTypeVS" key="ValueSet-EEHRxFDocumentTypeVS" name="EEHRxF Document Type ValueSet"/>
+<artifact id="ValueSet/EEHRxFDocumentTypeDischargeReportVS" key="ValueSet-EEHRxFDocumentTypeDischargeReportVS" name="EEHRxF Document Type ValueSet for Discharge Reports"/>
+<artifact id="ValueSet/EEHRxFDocumentTypeLaboratoryReportVS" key="ValueSet-EEHRxFDocumentTypeLaboratoryReportVS" name="EEHRxF Document Type ValueSet for Laboratory Reports"/>
+<artifact id="ValueSet/EEHRxFDocumentTypeMedicalImagingVS" key="ValueSet-EEHRxFDocumentTypeMedicalImagingVS" name="EEHRxF Document Type ValueSet for Medical Imaging"/>
+<artifact id="ValueSet/EEHRxFDocumentTypePatientSummaryVS" key="ValueSet-EEHRxFDocumentTypePatientSummaryVS" name="EEHRxF Document Type ValueSet for Patient Summaries"/>
 <artifact id="ActorDefinition/EEHRxF-DocumentPublisherAccessProvider-Actor" key="ActorDefinition-EEHRxF-DocumentPublisherAccessProvider-Actor" name="EEHRxF Grouped Document Publisher/Access Provider"/>
 <artifact id="CapabilityStatement/EEHRxF-DocumentPublisherAccessProvider" key="CapabilityStatement-EEHRxF-DocumentPublisherAccessProvider" name="EEHRxF Grouped Document Publisher/Access Provider CapabilityStatement"/>
+<artifact id="ConceptMap/EehrxfMhdDocumentReferenceCM" key="ConceptMap-EehrxfMhdDocumentReferenceCM" name="EEHRxF MHD DocumentReference ConceptMap"/>
 <artifact id="StructureDefinition/EehrxfMhdDocumentReference" key="StructureDefinition-EehrxfMhdDocumentReference" name="EEHRxF MHD DocumentReference Profile"/>
 <artifact id="ActorDefinition/EEHRxF-ResourceAccessProvider-Actor" key="ActorDefinition-EEHRxF-ResourceAccessProvider-Actor" name="EEHRxF Resource Access Provider"/>
 <artifact id="CapabilityStatement/EEHRxF-ResourceAccessProvider" key="CapabilityStatement-EEHRxF-ResourceAccessProvider" name="EEHRxF Resource Access Provider CapabilityStatement"/>

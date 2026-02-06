@@ -13,7 +13,7 @@ See [Document Exchange](document-exchange.html) for query examples.
 """
 * insert SetFmmAndStatusRule( 1, draft )
 * category from EEHRxFDocumentPriorityCategoryVS (preferred)
-* type from EEHRxFDocumentTypeVS (preferred)
+* type from http://hl7.eu/fhir/ValueSet/eehrxf-document-type-vs (preferred)
 * context.practiceSetting MS
 * context.practiceSetting ^short = "Clinical specialty (e.g., radiology, laboratory) - SHOULD be used for lab vs imaging differentiation"
 * subject 1..1
